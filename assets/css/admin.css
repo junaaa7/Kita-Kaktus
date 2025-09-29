@@ -1,0 +1,38 @@
+/* Admin area - Nuansa abu-abu profesional */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f0f0;
+  color: #222;
+  margin: 0;
+}
+
+.header {
+  background: #212121;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+nav a {
+  color: #bbb;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: #fff;
+}
+
+.dashboard {
+  display: flex;
+  padding: 20px;
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
