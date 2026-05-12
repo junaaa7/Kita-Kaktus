@@ -3,46 +3,48 @@
 @section('title', 'Detail Pesanan')
 
 @section('content')
-<div class="max-w-4xl mx-auto">
+<div class="max-w-4xl mx-auto" style="margin-bottom: 100px;">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Detail Pesanan</h1>
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Detail Pesanan</h1>
         <a href="{{ route('orders.history') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
             Kembali
         </a>
     </div>
     
-    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
         <div class="grid grid-cols-2 gap-4 mb-4">
             <div>
-                <p class="text-gray-600"><strong>No. Pesanan:</strong> {{ $order->order_number }}</p>
-                <p class="text-gray-600"><strong>Tanggal:</strong> {{ $order->created_at->format('d/m/Y H:i') }}</p>
-                <p class="text-gray-600"><strong>Metode Pembayaran:</strong> 
+                <p class="text-gray-600 dark:text-gray-400"><strong class="text-gray-700 dark:text-gray-300">No. Pesanan:</strong> <span class="text-gray-800 dark:text-gray-200">{{ $order->order_number }}</span></p>
+                <p class="text-gray-600 dark:text-gray-400"><strong class="text-gray-700 dark:text-gray-300">Tanggal:</strong> <span class="text-gray-800 dark:text-gray-200">{{ $order->created_at->format('d/m/Y H:i') }}</span></p>
+                <p class="text-gray-600 dark:text-gray-400"><strong class="text-gray-700 dark:text-gray-300">Metode Pembayaran:</strong> 
+                    <span class="text-gray-800 dark:text-gray-200">
                     @if($order->payment_method == 'bank_transfer') Transfer Bank
                     @elseif($order->payment_method == 'qris') QRIS
                     @else Bayar di Tempat
                     @endif
+                    </span>
                 </p>
-                <p class="text-gray-600"><strong>Status Pembayaran:</strong>
+                <p class="text-gray-600 dark:text-gray-400"><strong class="text-gray-700 dark:text-gray-300">Status Pembayaran:</strong>
                     @if($order->payment_status == 'pending')
-                        <span class="inline-block px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">Menunggu Pembayaran</span>
+                        <span class="inline-block px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Menunggu Pembayaran</span>
                     @elseif($order->payment_status == 'paid')
-                        <span class="inline-block px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">Sudah Dibayar</span>
+                        <span class="inline-block px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Sudah Dibayar</span>
                     @else
-                        <span class="inline-block px-2 py-1 text-xs rounded-full bg-red-100 text-red-800">Pembayaran Gagal</span>
+                        <span class="inline-block px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">Pembayaran Gagal</span>
                     @endif
                 </p>
             </div>
             <div>
-                <p class="text-gray-600"><strong>Telepon:</strong> {{ $order->phone }}</p>
-                <p class="text-gray-600"><strong>Alamat:</strong> {{ $order->shipping_address }}</p>
-                <p class="text-gray-600"><strong>Total:</strong> Rp {{ number_format($order->total_amount, 0, ',', '.') }}</p>
-                <p class="text-gray-600"><strong>Status Pesanan:</strong>
+                <p class="text-gray-600 dark:text-gray-400"><strong class="text-gray-700 dark:text-gray-300">Telepon:</strong> <span class="text-gray-800 dark:text-gray-200">{{ $order->phone }}</span></p>
+                <p class="text-gray-600 dark:text-gray-400"><strong class="text-gray-700 dark:text-gray-300">Alamat:</strong> <span class="text-gray-800 dark:text-gray-200">{{ $order->shipping_address }}</span></p>
+                <p class="text-gray-600 dark:text-gray-400"><strong class="text-gray-700 dark:text-gray-300">Total:</strong> <span class="text-green-600 dark:text-green-400 font-bold">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span></p>
+                <p class="text-gray-600 dark:text-gray-400"><strong class="text-gray-700 dark:text-gray-300">Status Pesanan:</strong>
                     <span class="inline-block px-2 py-1 text-xs rounded-full 
-                        @if($order->status == 'pending') bg-yellow-100 text-yellow-800
-                        @elseif($order->status == 'processed') bg-blue-100 text-blue-800
-                        @elseif($order->status == 'shipped') bg-purple-100 text-purple-800
-                        @elseif($order->status == 'delivered') bg-green-100 text-green-800
-                        @else bg-red-100 text-red-800
+                        @if($order->status == 'pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
+                        @elseif($order->status == 'processed') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                        @elseif($order->status == 'shipped') bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200
+                        @elseif($order->status == 'delivered') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                        @else bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
                         @endif">
                         @if($order->status == 'pending') Menunggu Konfirmasi
                         @elseif($order->status == 'processed') Diproses
@@ -55,37 +57,46 @@
             </div>
         </div>
 
-        <!-- Informasi Pembayaran -->
+        <!-- Informasi Pembayaran - White Mode: Putih dengan border, Dark Mode: Gelap -->
         @if($order->payment_status == 'pending' && $order->payment_method != 'cash')
-        <div class="border-t pt-4 mb-4">
-            <h3 class="font-bold text-gray-800 mb-3">Informasi Pembayaran</h3>
-            <div class="bg-yellow-50 p-4 rounded-lg">
+        <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mb-4">
+            <h3 class="font-bold text-gray-800 dark:text-white mb-3">Informasi Pembayaran</h3>
+            <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm">
                 @if($order->payment_method == 'bank_transfer')
-                    <p class="text-sm mb-2"><strong>Transfer ke rekening:</strong></p>
-                    <p class="text-sm">Bank BCA: 1234567890</p>
-                    <p class="text-sm">Bank Mandiri: 9876543210</p>
-                    <p class="text-sm">a.n Kita Kaktus</p>
-                    <p class="text-sm mt-2 text-red-600"><strong>Total yang harus ditransfer: Rp {{ number_format($order->total_amount, 0, ',', '.') }}</strong></p>
+                    <div class="space-y-2">
+                        <p class="text-sm text-gray-700 dark:text-gray-300 font-semibold mb-2">Transfer ke rekening:</p>
+                        <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Bank BCA: <span class="font-mono font-semibold text-gray-800 dark:text-gray-200">1234567890</span></p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Bank Mandiri: <span class="font-mono font-semibold text-gray-800 dark:text-gray-200">9876543210</span></p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">a.n <span class="font-semibold text-gray-800 dark:text-gray-200">Kita Kaktus</span></p>
+                        </div>
+                        <div class="mt-3 p-3 bg-red-50 dark:bg-red-900/30 rounded-lg border border-red-200 dark:border-red-800">
+                            <p class="text-sm text-red-600 dark:text-red-400 font-semibold">
+                                <i class="fas fa-info-circle mr-1"></i> 
+                                Total yang harus ditransfer: Rp {{ number_format($order->total_amount, 0, ',', '.') }}
+                            </p>
+                        </div>
+                    </div>
                 @elseif($order->payment_method == 'qris')
                     <div class="text-center">
-                        <p class="text-sm mb-2">Scan QR Code berikut untuk melakukan pembayaran:</p>
-                        <div class="bg-white p-4 inline-block rounded-lg">
-                            <i class="fas fa-qrcode text-8xl text-gray-800"></i>
-                            <p class="text-xs mt-2">QRIS Code</p>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 mb-2">Scan QR Code berikut untuk melakukan pembayaran:</p>
+                        <div class="bg-gray-50 dark:bg-gray-800 p-4 inline-block rounded-lg shadow-sm">
+                            <i class="fas fa-qrcode text-8xl text-gray-800 dark:text-white"></i>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">QRIS Code</p>
                         </div>
-                        <p class="text-sm mt-2 text-red-600"><strong>Total: Rp {{ number_format($order->total_amount, 0, ',', '.') }}</strong></p>
+                        <p class="text-sm mt-2 text-red-600 dark:text-red-400"><strong>Total: Rp {{ number_format($order->total_amount, 0, ',', '.') }}</strong></p>
                     </div>
                 @endif
                 
-                <form action="{{ route('upload.payment', $order) }}" method="POST" enctype="multipart/form-data" class="mt-4">
+                <form action="{{ route('upload.payment', $order) }}" method="POST" enctype="multipart/form-data" class="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
                     @csrf
                     <div class="mb-3">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Upload Bukti Pembayaran</label>
-                        <input type="file" name="payment_proof" accept="image/*" required class="w-full px-3 py-2 border border-gray-300 rounded-lg">
-                        <p class="text-xs text-gray-500 mt-1">Format: JPG, PNG. Max: 2MB</p>
+                        <label class="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">Upload Bukti Pembayaran</label>
+                        <input type="file" name="payment_proof" accept="image/*" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Format: JPG, PNG. Max: 2MB</p>
                     </div>
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                        <i class="fas fa-upload"></i> Upload Bukti Pembayaran
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition duration-200 shadow-sm">
+                        <i class="fas fa-upload mr-2"></i> Upload Bukti Pembayaran
                     </button>
                 </form>
             </div>
@@ -93,46 +104,46 @@
         @endif
 
         @if($order->payment_proof)
-        <div class="border-t pt-4 mb-4">
-            <h3 class="font-bold text-gray-800 mb-3">Bukti Pembayaran</h3>
-            <div class="bg-gray-50 p-4 rounded-lg">
-                <img src="{{ asset('storage/' . $order->payment_proof) }}" alt="Bukti Pembayaran" class="max-w-xs rounded-lg">
+        <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mb-4">
+            <h3 class="font-bold text-gray-800 dark:text-white mb-3">Bukti Pembayaran</h3>
+            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                <img src="{{ asset('storage/' . $order->payment_proof) }}" alt="Bukti Pembayaran" class="max-w-xs rounded-lg shadow-sm">
             </div>
         </div>
         @endif
     </div>
     
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
         <table class="min-w-full">
-            <thead class="bg-gray-50">
+            <thead class="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Produk</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Harga</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Quantity</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Subtotal</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Produk</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Harga</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Quantity</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Subtotal</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200">
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                 @foreach($order->items as $item)
                 <tr>
-                    <td class="px-6 py-4">{{ $item->product->name }}</td>
-                    <td class="px-6 py-4">Rp {{ number_format($item->price, 0, ',', '.') }}</td>
-                    <td class="px-6 py-4">{{ $item->quantity }}</td>
-                    <td class="px-6 py-4">Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</td>
+                    <td class="px-6 py-4 text-gray-800 dark:text-gray-200">{{ $item->product->name }}</td>
+                    <td class="px-6 py-4 text-gray-600 dark:text-gray-300">Rp {{ number_format($item->price, 0, ',', '.') }}</td>
+                    <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ $item->quantity }}</td>
+                    <td class="px-6 py-4 text-gray-800 dark:text-gray-200">Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</td>
                 </tr>
                 @endforeach
             </tbody>
-            <tfoot class="bg-gray-50">
+            <tfoot class="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                    <td colspan="3" class="px-6 py-4 text-right font-bold">Total:</td>
-                    <td class="px-6 py-4 font-bold">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</td>
+                    <td colspan="3" class="px-6 py-4 text-right font-bold text-gray-700 dark:text-gray-300">Total:</td>
+                    <td class="px-6 py-4 font-bold text-green-600 dark:text-green-400">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</td>
                 </tr>
             </tfoot>
         </table>
     </div>
     
     @if($order->status == 'delivered')
-    <div class="mt-4 p-4 bg-green-100 border-l-4 border-green-500 text-green-700">
+    <div class="mt-4 p-4 bg-green-100 dark:bg-green-900 border-l-4 border-green-500 text-green-700 dark:text-green-200 rounded-lg">
         <i class="fas fa-check-circle"></i> Pesanan telah selesai. Terima kasih telah berbelanja di Kita Kaktus!
     </div>
     @endif

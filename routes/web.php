@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -12,6 +13,9 @@ use App\Http\Controllers\Admin\OrderController;
 // Public routes (dapat diakses tanpa login)
 Route::get('/', [UserController::class, 'home'])->name('home');
 Route::get('/product/{product}', [UserController::class, 'productDetail'])->name('product.detail');
+
+// Collection routes (public)
+Route::get('/koleksi', [CollectionController::class, 'index'])->name('collection.index');
 
 // Guest routes (hanya untuk yang belum login)
 Route::middleware('guest')->group(function () {
