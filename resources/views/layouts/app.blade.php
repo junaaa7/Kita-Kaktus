@@ -9,6 +9,9 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
+    <!-- AOS CSS for scroll animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <!-- Vite CSS & JS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -126,13 +129,24 @@
     <footer class="bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 mt-12 border-t border-gray-200 dark:border-gray-700">
         <div class="max-w-7xl mx-auto px-4 py-8">
             <div class="text-center">
-                <p>&copy; 2026 Kita Kaktus.</p>
+                <p>&copy; 2024 Kita Kaktus. All rights reserved.</p>
                 <p class="text-sm mt-2">Toko Kaktus Online Terpercaya</p>
             </div>
         </div>
     </footer>
 
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
     <script>
+        // Initialize AOS for scroll animation
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100,
+            easing: 'ease-in-out'
+        });
+        
         // Admin menu toggle
         const adminMenuBtn = document.getElementById('adminMenuBtn');
         const adminMenu = document.getElementById('adminMenu');
@@ -162,6 +176,65 @@
                 profileMenu?.classList.add('hidden');
             }
         });
+        
+        // Dark mode management
+        const darkModeManager = {
+            init() {
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                    this.enableDarkMode();
+                } else {
+                    this.disableDarkMode();
+                }
+                this.updateToggleIcon();
+            },
+            
+            enableDarkMode() {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                this.updateToggleIcon();
+            },
+            
+            disableDarkMode() {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                this.updateToggleIcon();
+            },
+            
+            toggle() {
+                if (document.documentElement.classList.contains('dark')) {
+                    this.disableDarkMode();
+                } else {
+                    this.enableDarkMode();
+                }
+            },
+            
+            updateToggleIcon() {
+                const toggleIcon = document.getElementById('theme-toggle-icon');
+                if (toggleIcon) {
+                    if (document.documentElement.classList.contains('dark')) {
+                        toggleIcon.classList.remove('fa-moon');
+                        toggleIcon.classList.add('fa-sun');
+                    } else {
+                        toggleIcon.classList.remove('fa-sun');
+                        toggleIcon.classList.add('fa-moon');
+                    }
+                }
+            }
+        };
+        
+        // Initialize dark mode
+        darkModeManager.init();
+        
+        // Setup theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                darkModeManager.toggle();
+            });
+        }
     </script>
     
     @stack('scripts')
