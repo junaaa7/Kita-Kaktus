@@ -35,10 +35,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
     Route::put('/cart/update', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+    Route::delete('/cart/delete-selected', [CartController::class, 'deleteSelected'])->name('cart.delete.selected');
     
     // Checkout routes
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+    Route::post('/checkout-selected', [CheckoutController::class, 'processSelected'])->name('checkout.selected');
     Route::post('/upload-payment/{order}', [CheckoutController::class, 'uploadPaymentProof'])->name('upload.payment');
     
     // Order history

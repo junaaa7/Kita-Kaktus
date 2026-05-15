@@ -28,6 +28,7 @@ class UserController extends Controller
 
     public function orderDetail(Order $order)
     {
+        // Pastikan order milik user yang login
         if ($order->user_id !== auth()->id()) {
             abort(403);
         }

@@ -50,7 +50,10 @@
                             <a href="{{ route('cart.index') }}" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 relative">
                                 <i class="fas fa-shopping-cart text-xl"></i>
                                 @php
-                                    $cartCount = count(session()->get('cart', []));
+                                    $cartCount = 0;
+                                    if(auth()->check()) {
+                                        $cartCount = \App\Models\Cart::where('user_id', auth()->id())->sum('quantity');
+                                    }
                                 @endphp
                                 @if($cartCount > 0)
                                     <span class="absolute -top-2 -right-3 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5">
@@ -95,8 +98,8 @@
                         </a>
                         
                         <!-- Dark Mode Toggle Button for Guest -->
-                        <button id="theme-toggle" class="theme-toggle p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600">
-                            <i id="theme-toggle-icon" class="fas fa-moon"></i>
+                        <button id="theme-toggle-guest" class="theme-toggle p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600">
+                            <i id="theme-toggle-icon-guest" class="fas fa-moon"></i>
                         </button>
                         
                         <a href="{{ route('login') }}" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600">Login</a>
@@ -107,16 +110,30 @@
         </div>
     </nav>
 
-    <!-- Flash Messages -->
+    <!-- Flash Messages dengan Auto-Hide -->
     @if(session('success'))
-        <div class="bg-green-100 dark:bg-green-800 border-l-4 border-green-500 text-green-700 dark:text-green-200 p-4 mb-4 max-w-7xl mx-auto mt-4">
-            <i class="fas fa-check-circle"></i> {{ session('success') }}
+        <div id="flash-success" class="fixed top-20 right-4 z-50 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+            <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="ms-3 text-sm font-normal">{{ session('success') }}</div>
+            <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#flash-success" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     @endif
 
     @if(session('error'))
-        <div class="bg-red-100 dark:bg-red-800 border-l-4 border-red-500 text-red-700 dark:text-red-200 p-4 mb-4 max-w-7xl mx-auto mt-4">
-            <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+        <div id="flash-error" class="fixed top-20 right-4 z-50 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+            <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div class="ms-3 text-sm font-normal">{{ session('error') }}</div>
+            <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#flash-error" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     @endif
 
@@ -129,7 +146,7 @@
     <footer class="bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 mt-12 border-t border-gray-200 dark:border-gray-700">
         <div class="max-w-7xl mx-auto px-4 py-8">
             <div class="text-center">
-                <p>&copy; 2024 Kita Kaktus. All rights reserved.</p>
+                <p>&copy; 2026 Kita Kaktus.</p>
                 <p class="text-sm mt-2">Toko Kaktus Online Terpercaya</p>
             </div>
         </div>
@@ -146,6 +163,28 @@
             offset: 100,
             easing: 'ease-in-out'
         });
+        
+        // Auto-hide flash messages after 3 seconds
+        setTimeout(function() {
+            const successFlash = document.getElementById('flash-success');
+            const errorFlash = document.getElementById('flash-error');
+            
+            if (successFlash) {
+                successFlash.style.transition = 'opacity 0.5s';
+                successFlash.style.opacity = '0';
+                setTimeout(function() {
+                    successFlash.remove();
+                }, 500);
+            }
+            
+            if (errorFlash) {
+                errorFlash.style.transition = 'opacity 0.5s';
+                errorFlash.style.opacity = '0';
+                setTimeout(function() {
+                    errorFlash.remove();
+                }, 500);
+            }
+        }, 3000);
         
         // Admin menu toggle
         const adminMenuBtn = document.getElementById('adminMenuBtn');
@@ -189,18 +228,21 @@
                     this.disableDarkMode();
                 }
                 this.updateToggleIcon();
+                this.updateToggleIconGuest();
             },
             
             enableDarkMode() {
                 document.documentElement.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
                 this.updateToggleIcon();
+                this.updateToggleIconGuest();
             },
             
             disableDarkMode() {
                 document.documentElement.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
                 this.updateToggleIcon();
+                this.updateToggleIconGuest();
             },
             
             toggle() {
@@ -222,19 +264,73 @@
                         toggleIcon.classList.add('fa-moon');
                     }
                 }
+            },
+            
+            updateToggleIconGuest() {
+                const toggleIconGuest = document.getElementById('theme-toggle-icon-guest');
+                if (toggleIconGuest) {
+                    if (document.documentElement.classList.contains('dark')) {
+                        toggleIconGuest.classList.remove('fa-moon');
+                        toggleIconGuest.classList.add('fa-sun');
+                    } else {
+                        toggleIconGuest.classList.remove('fa-sun');
+                        toggleIconGuest.classList.add('fa-moon');
+                    }
+                }
             }
         };
         
         // Initialize dark mode
         darkModeManager.init();
         
-        // Setup theme toggle
+        // Setup theme toggle for logged in user
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
             themeToggle.addEventListener('click', () => {
                 darkModeManager.toggle();
             });
         }
+        
+        // Setup theme toggle for guest user
+        const themeToggleGuest = document.getElementById('theme-toggle-guest');
+        if (themeToggleGuest) {
+            themeToggleGuest.addEventListener('click', () => {
+                darkModeManager.toggle();
+            });
+        }
+        
+        // Fungsi untuk memperbaiki kedua tombol dark mode
+        function fixAllDarkModeButtons() {
+            const guestBtn = document.getElementById('theme-toggle-guest');
+            if (guestBtn) {
+                const newGuestBtn = guestBtn.cloneNode(true);
+                guestBtn.parentNode.replaceChild(newGuestBtn, guestBtn);
+                newGuestBtn.onclick = function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    darkModeManager.toggle();
+                    return false;
+                };
+            }
+            
+            const userBtn = document.getElementById('theme-toggle');
+            if (userBtn) {
+                const newUserBtn = userBtn.cloneNode(true);
+                userBtn.parentNode.replaceChild(newUserBtn, userBtn);
+                newUserBtn.onclick = function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    darkModeManager.toggle();
+                    return false;
+                };
+            }
+        }
+        
+        fixAllDarkModeButtons();
+        
+        setInterval(function() {
+            fixAllDarkModeButtons();
+        }, 500);
     </script>
     
     @stack('scripts')

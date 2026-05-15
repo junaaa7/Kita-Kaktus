@@ -57,86 +57,10 @@
     </div>
 </div>
 
-<!-- Best Seller Products -->
-<div class="mb-16" data-aos="fade-up">
-    <h2 class="text-3xl font-bold text-gray-800 dark:text-white text-center mb-4">🌵 Best Seller Kita Kaktus</h2>
-    <p class="text-gray-600 dark:text-gray-400 text-center mb-12 max-w-2xl mx-auto">Produk paling laris dan favorit customer kami</p>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="flip-left" data-aos-delay="100">
-            <div class="relative h-56 overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1480044965905-02098d419e4c?w=500" alt="Echinocactus Grusonii" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                <div class="absolute top-2 right-2 bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-bold">
-                    <i class="fas fa-star"></i> Best Seller
-                </div>
-            </div>
-            <div class="p-4 text-center">
-                <h3 class="font-bold text-lg text-gray-800 dark:text-white mb-1">Echinocactus Grusonii</h3>
-                <p class="text-green-600 font-bold text-xl">Rp 150.000</p>
-                <div class="flex justify-center text-yellow-500 my-2">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                </div>
-                <a href="{{ route('collection.index') }}" class="inline-block mt-2 text-green-600 hover:text-green-700 font-semibold">Lihat Produk →</a>
-            </div>
-        </div>
-        
-        <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="flip-left" data-aos-delay="200">
-            <div class="relative h-56 overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1459411552884-841db9b3a4a0?w=500" alt="Astrophytum Asterias" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                <div class="absolute top-2 right-2 bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-bold">
-                    <i class="fas fa-star"></i> Best Seller
-                </div>
-            </div>
-            <div class="p-4 text-center">
-                <h3 class="font-bold text-lg text-gray-800 dark:text-white mb-1">Astrophytum Asterias</h3>
-                <p class="text-green-600 font-bold text-xl">Rp 250.000</p>
-                <div class="flex justify-center text-yellow-500 my-2">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                </div>
-                <a href="{{ route('collection.index') }}" class="inline-block mt-2 text-green-600 hover:text-green-700 font-semibold">Lihat Produk →</a>
-            </div>
-        </div>
-        
-        <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="flip-left" data-aos-delay="300">
-            <div class="relative h-56 overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1467043153537-a4fba2cd39ef?w=500" alt="Mammillaria Elongata" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                <div class="absolute top-2 right-2 bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-bold">
-                    <i class="fas fa-star"></i> Best Seller
-                </div>
-            </div>
-            <div class="p-4 text-center">
-                <h3 class="font-bold text-lg text-gray-800 dark:text-white mb-1">Mammillaria Elongata</h3>
-                <p class="text-green-600 font-bold text-xl">Rp 75.000</p>
-                <div class="flex justify-center text-yellow-500 my-2">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                </div>
-                <a href="{{ route('collection.index') }}" class="inline-block mt-2 text-green-600 hover:text-green-700 font-semibold">Lihat Produk →</a>
-            </div>
-        </div>
-        
-        <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="flip-left" data-aos-delay="400">
-            <div class="relative h-56 overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1480044965905-02098d419e4c?w=500" alt="Opuntia Microdasys" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                <div class="absolute top-2 right-2 bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-bold">
-                    <i class="fas fa-star"></i> Best Seller
-                </div>
-            </div>
-            <div class="p-4 text-center">
-                <h3 class="font-bold text-lg text-gray-800 dark:text-white mb-1">Opuntia Microdasys</h3>
-                <p class="text-green-600 font-bold text-xl">Rp 120.000</p>
-                <div class="flex justify-center text-yellow-500 my-2">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                </div>
-                <a href="{{ route('collection.index') }}" class="inline-block mt-2 text-green-600 hover:text-green-700 font-semibold">Lihat Produk →</a>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Promosi Section - Keunggulan Toko -->
 <div class="mb-16" data-aos="fade-up">
     <h2 class="text-3xl font-bold text-gray-800 dark:text-white text-center mb-4">Kenapa Harus Kita Kaktus?</h2>
-    <p class="text-gray-600 dark:text-gray-400 text-center mb-12 max-w-2xl mx-auto">Kami menyediakan kaktus berkualitas dengan pelayanan terbaik</p>
+    <p class="text-gray-600 dark:text-gray-400 text-center mb-12 max-w-2xl mx-auto">Karena Kami menyediakan kaktus berkualitas dengan pelayanan terbaik</p>
     
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
@@ -153,7 +77,7 @@
         
         <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
             <div class="relative h-48 overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1459411552884-841db9b3a4a0?w=500" alt="Kaktus Sehat" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <img src="{{asset('storage/promosi/kaktus.png') }}" alt="Kaktus Sehat" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 <div class="absolute bottom-4 left-4 text-white"><i class="fas fa-seedling text-3xl"></i></div>
             </div>
@@ -177,7 +101,7 @@
         
         <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="400">
             <div class="relative h-48 overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1596526131083-a5e7361eded8?w=500" alt="Layanan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <img src="{{asset('storage/promosi/layanan.jpg') }}" alt="Layanan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 <div class="absolute bottom-4 left-4 text-white"><i class="fas fa-headset text-3xl"></i></div>
             </div>
@@ -217,20 +141,15 @@
                 Kami menyediakan puluhan jenis kaktus mulai dari bibit, media tanam, pot, topping tanaman. 
                 Seluruh tanaman kami rawat secara profesional, ditanam di media yang sehat dan dipilih dengan teliti sebelum dikirim.
             </p>
-            <div class="mt-6 flex items-center space-x-4" data-aos="fade-up" data-aos-delay="400">
-                <a href="https://wa.me/6281234567890" target="_blank" class="inline-flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition transform hover:scale-105 duration-300">
-                    <i class="fab fa-whatsapp text-xl"></i> <span>Chat WhatsApp</span>
-                </a>
-                <span class="text-gray-600 dark:text-gray-400">atau hubungi: <strong class="text-green-600">0812-3456-7890</strong></span>
-            </div>
+            
         </div>
     </div>
 </div>
 
 <!-- Testimoni Section -->
 <div class="mb-16" data-aos="fade-up">
-    <h2 class="text-3xl font-bold text-gray-800 dark:text-white text-center mb-4">Apa Kata Customer Kami?</h2>
-    <p class="text-gray-600 dark:text-gray-400 text-center mb-12">Lebih dari 1000+ customer puas dengan layanan kami</p>
+    <h2 class="text-3xl font-bold text-gray-800 dark:text-white text-center mb-4">Penilaian Produk</h2>
+    <p class="text-gray-600 dark:text-gray-400 text-center mb-12">Terimakasih Sudah Memberikan Ulasan</p>
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300" data-aos="zoom-in" data-aos-delay="100">

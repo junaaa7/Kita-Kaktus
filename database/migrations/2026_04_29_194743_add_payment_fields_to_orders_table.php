@@ -9,10 +9,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->enum('payment_method', ['bank_transfer', 'cash', 'qris'])->default('bank_transfer')->after('total_amount');
-            $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending')->after('payment_method');
-            $table->string('payment_proof')->nullable()->after('payment_status');
-            $table->timestamp('paid_at')->nullable()->after('payment_proof');
+            if (!Schema::hasColumn('orders', 'payment_method')) {
+                $table->enum('payment_method', ['bank_transfer', 'cash', 'qris'])->default('bank_transfer')->after('total_amount');
+            }
+            if (!Schema::hasColumn('orders', 'payment_status')) {
+                $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending')->after('payment_method');
+            }
+            if (!Schema::hasColumn('orders', 'payment_proof')) {
+                $table->string('payment_proof')->nullable()->after('payment_status');
+            }
+            if (!Schema::hasColumn('orders', 'paid_at')) {
+                $table->timestamp('paid_at')->nullable()->after('payment_proof');
+            }
         });
     }
 
