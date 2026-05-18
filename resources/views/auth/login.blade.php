@@ -76,13 +76,14 @@
             </div>
 
             <!-- Register Link -->
-            <div class="text-center mt-4">
-                <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Belum punya akun? 
-                    <a href="{{ route('register') }}" class="font-medium text-green-600 hover:text-green-500 transition-colors duration-200 hover:underline">
-                        Daftar Sekarang
-                        <i class="fas fa-arrow-right ml-1 text-xs"></i>
-                    </a>
+            <div class="text-center mt-4 relative z-10">
+                 <p class="text-sm text-gray-600 dark:text-gray-400">
+                        Belum punya akun? 
+                        <a href="{{ route('register') }}" 
+                         class="relative z-20 inline-flex items-center font-medium text-green-600 hover:text-green-500 transition-colors duration-200 hover:underline">
+                          Daftar Sekarang
+                             <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                      </a>
                 </p>
             </div>
 

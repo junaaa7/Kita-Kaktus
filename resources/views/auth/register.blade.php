@@ -110,10 +110,11 @@
             </div>
 
             <!-- Login Link -->
-            <div class="text-center mt-4">
+            <div class="text-center mt-4 relative z-10">
                 <p class="text-sm text-gray-600 dark:text-gray-400">
                     Sudah punya akun? 
-                    <a href="{{ route('login') }}" class="font-medium text-green-600 hover:text-green-500 transition-colors duration-200 hover:underline">
+                    <a href="{{ route('login') }}" 
+                        class="relative z-20 inline-flex items-center font-medium text-green-600 hover:text-green-500 transition-colors duration-200 hover:underline">
                         Login Sekarang
                         <i class="fas fa-arrow-right ml-1 text-xs"></i>
                     </a>

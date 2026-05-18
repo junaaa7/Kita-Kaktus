@@ -36,16 +36,22 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/cart/update', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
     Route::delete('/cart/delete-selected', [CartController::class, 'deleteSelected'])->name('cart.delete.selected');
+    Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
     
     // Checkout routes
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
-    Route::post('/checkout-selected', [CheckoutController::class, 'processSelected'])->name('checkout.selected');
-    Route::post('/upload-payment/{order}', [CheckoutController::class, 'uploadPaymentProof'])->name('upload.payment');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+Route::post('/checkout-selected', [CheckoutController::class, 'processSelected'])->name('checkout.selected');
+Route::get('/checkout-selected', [CheckoutController::class, 'indexSelected'])->name('checkout.selected.index');
+Route::post('/checkout-selected/process', [CheckoutController::class, 'processSelectedCheckout'])->name('checkout.selected.process');
+Route::post('/upload-payment/{order}', [CheckoutController::class, 'uploadPaymentProof'])->name('upload.payment');
     
     // Order history
     Route::get('/orders', [UserController::class, 'orderHistory'])->name('orders.history');
     Route::get('/orders/{order}', [UserController::class, 'orderDetail'])->name('orders.detail');
+    
+    // Rating route
+    Route::post('/orders/{order}/rating', [UserController::class, 'submitRating'])->name('orders.rating');
 });
 
 // Admin routes
@@ -58,6 +64,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.update-status');
     Route::post('/orders/{order}/confirm-payment', [OrderController::class, 'confirmPayment'])->name('orders.confirm-payment');
     Route::post('/orders/{order}/reject-payment', [OrderController::class, 'rejectPayment'])->name('orders.reject-payment');
+    Route::get('/ratings', [OrderController::class, 'ratings'])->name('ratings.index');
     
     Route::get('/', function() {
         return redirect()->route('admin.dashboard');

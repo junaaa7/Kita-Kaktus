@@ -3,7 +3,7 @@
 @section('title', 'Detail Pesanan')
 
 @section('content')
-<div class="max-w-4xl mx-auto" style="margin-bottom: 100px;">
+<div class="max-w-4xl mx-auto">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Detail Pesanan</h1>
         <a href="{{ route('orders.history') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
@@ -141,6 +141,156 @@
             </tfoot>
         </table>
     </div>
+    
+    <!-- Form Rating untuk produk yang sudah selesai -->
+@if($order->status == 'delivered')
+<div class="mt-8">
+    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">⭐ Berikan Rating & Review</h3>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+        Terima kasih telah berbelanja! Berikan penilaian Anda untuk produk yang telah dibeli.
+    </p>
+    
+    <div class="space-y-6">
+        @foreach($order->items as $item)
+            @php
+                $hasRated = \App\Models\Rating::where('user_id', auth()->id())
+                                ->where('product_id', $item->product_id)
+                                ->where('order_id', $order->id)
+                                ->exists();
+            @endphp
+            
+            @if(!$hasRated)
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
+                
+                <div class="w-full max-w-2xl mx-auto">
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
+                        @if($item->product->image)
+                            <img 
+                                src="{{ asset('storage/' . $item->product->image) }}" 
+                                alt="{{ $item->product->name }}" 
+                                class="w-full h-auto object-cover"
+                            >
+                        @else
+                            <div class="w-full h-64 flex items-center justify-center">
+                                <i class="fas fa-cactus text-6xl text-gray-400"></i>
+                            </div>
+                        @endif
+
+                        <div class="p-4">
+                            <h4 class="font-bold text-lg text-gray-800 dark:text-white">
+                                {{ $item->product->name }}
+                            </h4>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">
+                                Rp {{ number_format($item->price, 0, ',', '.') }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <form action="{{ route('orders.rating', $order) }}" method="POST" class="mt-4">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $item->product_id }}">
+
+                        <div class="space-y-3">
+                            <div>
+                                <span class="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                    Rating:
+                                </span>
+
+                                <div class="rating-stars flex space-x-2">
+                                    @for($i = 1; $i <= 5; $i++)
+                                        <button 
+                                            type="button" 
+                                            class="star-rating text-3xl text-gray-300 dark:text-gray-400 hover:text-yellow-400 transition"
+                                            data-value="{{ $i }}"
+                                        >
+                                            <i class="fas fa-star"></i>
+                                        </button>
+                                    @endfor
+                                </div>
+
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                    Klik bintang untuk memberikan rating
+                                </p>
+
+                                <input type="hidden" name="rating" class="rating-value" required>
+                            </div>
+
+                            <div>
+                                <textarea 
+                                    name="review" 
+                                    rows="3" 
+                                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-green-500 focus:border-green-500" 
+                                    placeholder="Tulis review Anda (opsional)"
+                                ></textarea>
+                            </div>
+
+                            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition text-sm">
+                                <i class="fas fa-paper-plane mr-2"></i> Kirim Rating
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            @else
+            <div class="bg-green-50 dark:bg-green-900/30 rounded-lg p-4 border border-green-200 dark:border-green-800">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-check-circle text-green-500 text-xl"></i>
+                    <div>
+                        <p class="text-green-700 dark:text-green-300 font-semibold">
+                            Terima kasih sudah memberikan rating!
+                        </p>
+                        <p class="text-sm text-green-600 dark:text-green-400">
+                            Anda telah memberikan penilaian untuk produk {{ $item->product->name }}.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            @endif
+        @endforeach
+    </div>
+</div>
+
+<style>
+    .rating-stars .star-rating {
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .rating-stars .star-rating:hover {
+        transform: scale(1.1);
+    }
+
+    .rating-stars .star-rating.active {
+        color: #facc15 !important;
+    }
+</style>
+
+<script>
+    document.querySelectorAll('.rating-stars').forEach(container => {
+        const stars = container.querySelectorAll('.star-rating');
+        const ratingInput = container.closest('form').querySelector('.rating-value');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const value = parseInt(this.getAttribute('data-value'));
+                ratingInput.value = value;
+
+                stars.forEach((s, index) => {
+                    if (index < value) {
+                        s.classList.add('active');
+                        s.classList.remove('text-gray-300', 'dark:text-gray-400');
+                        s.classList.add('text-yellow-400');
+                    } else {
+                        s.classList.remove('active', 'text-yellow-400');
+                        s.classList.add('text-gray-300', 'dark:text-gray-400');
+                    }
+                });
+            });
+        });
+    });
+</script>
+@endif
     
     @if($order->status == 'delivered')
     <div class="mt-4 p-4 bg-green-100 dark:bg-green-900 border-l-4 border-green-500 text-green-700 dark:text-green-200 rounded-lg">

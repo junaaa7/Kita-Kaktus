@@ -40,4 +40,9 @@ class Order extends Model
     {
         return $this->payment_status === 'paid';
     }
+    
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }

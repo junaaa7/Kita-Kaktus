@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Order;
+use App\Models\Rating;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,7 +17,7 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        $order->load('items.product');
+        $order->load('items.product', 'ratings');
         return view('admin.orders.show', compact('order'));
     }
 
@@ -48,5 +49,11 @@ class OrderController extends Controller
         ]);
 
         return redirect()->route('admin.orders.show', $order)->with('success', 'Pembayaran ditolak');
+    }
+    
+    public function ratings()
+    {
+        $ratings = Rating::with(['user', 'product', 'order'])->latest()->paginate(10);
+        return view('admin.ratings.index', compact('ratings'));
     }
 }

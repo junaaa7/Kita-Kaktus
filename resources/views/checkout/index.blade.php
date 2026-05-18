@@ -21,7 +21,7 @@
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
                 <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Informasi Pengiriman</h2>
                 
-                <form action="{{ route('checkout.process') }}" method="POST" id="checkoutForm">
+                <form action="{{ isset($isSelectedCheckout) && $isSelectedCheckout ? route('checkout.selected.process') : route('checkout.process') }}" method="POST" id="checkoutForm">
                     @csrf
                     
                     <div class="mb-4">
@@ -41,7 +41,6 @@
                                placeholder="Contoh: 081234567890"
                                oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">* Hanya boleh diisi dengan angka (10-15 digit)</p>
-                        <div id="phoneError" class="text-red-500 text-xs mt-1 hidden"></div>
                         @error('phone')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -77,7 +76,7 @@
                         @enderror
                     </div>
                     
-                    <button type="submit" id="submitBtn" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg transition font-semibold">
+                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg transition font-semibold">
                         Konfirmasi Pesanan
                     </button>
                 </form>
@@ -124,43 +123,7 @@
 </div>
 
 <script>
-    // Validasi real-time untuk nomor telepon
-    const phoneInput = document.getElementById('phone');
-    const phoneError = document.getElementById('phoneError');
-    const submitBtn = document.getElementById('submitBtn');
-    const form = document.getElementById('checkoutForm');
-    
-    phoneInput.addEventListener('input', function() {
-        // Hanya angka yang diperbolehkan
-        this.value = this.value.replace(/[^0-9]/g, '');
-        
-        // Validasi panjang digit
-        if (this.value.length > 0 && (this.value.length < 10 || this.value.length > 15)) {
-            phoneError.textContent = 'Nomor telepon harus terdiri dari 10-15 digit angka';
-            phoneError.classList.remove('hidden');
-            this.classList.add('border-red-500');
-            submitBtn.disabled = true;
-            submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
-        } else if (this.value.length > 0 && this.value.length >= 10 && this.value.length <= 15) {
-            phoneError.classList.add('hidden');
-            this.classList.remove('border-red-500');
-            this.classList.add('border-green-500');
-            submitBtn.disabled = false;
-            submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-        } else if (this.value.length === 0) {
-            phoneError.classList.add('hidden');
-            this.classList.remove('border-red-500', 'border-green-500');
-            submitBtn.disabled = false;
-            submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-        } else {
-            phoneError.classList.add('hidden');
-            this.classList.remove('border-red-500');
-            submitBtn.disabled = false;
-            submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-        }
-    });
-    
-    // Update informasi pembayaran saat metode pembayaran berubah
+    // Update payment info when payment method changes
     const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
     const paymentInfo = document.getElementById('paymentInfo');
     
@@ -176,14 +139,18 @@
         });
     });
     
-    // Validasi sebelum submit
+    // Phone number validation
+    const phoneInput = document.getElementById('phone');
+    const form = document.getElementById('checkoutForm');
+    
+    phoneInput.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    
     form.addEventListener('submit', function(e) {
         const phone = phoneInput.value;
         if (phone.length > 0 && (phone.length < 10 || phone.length > 15)) {
             e.preventDefault();
-            phoneError.textContent = 'Nomor telepon harus terdiri dari 10-15 digit angka';
-            phoneError.classList.remove('hidden');
-            phoneInput.classList.add('border-red-500');
             alert('Nomor telepon harus terdiri dari 10-15 digit angka!');
         }
     });

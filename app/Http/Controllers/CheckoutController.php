@@ -2,174 +2,232 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
-    /**
-     * Menampilkan halaman checkout
-     */
     public function index()
     {
-        // Cek apakah ada cart dari checkout terpilih
-        $cart = session()->get('checkout_cart', session()->get('cart', []));
-        
-        if (empty($cart)) {
-            return redirect()->route('home')->with('error', 'Keranjang belanja kosong');
+        $cartItems = Cart::with('product')
+            ->where('user_id', Auth::id())
+            ->get();
+
+        if ($cartItems->isEmpty()) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Keranjang masih kosong.');
         }
-        
+
+        $cart = [];
+
+        foreach ($cartItems as $item) {
+            $cart[$item->product_id] = [
+                'id' => $item->product_id,
+                'name' => $item->product->name,
+                'quantity' => $item->quantity,
+                'price' => $item->product->price,
+                'image' => $item->product->image,
+            ];
+        }
+
         $total = 0;
+
         foreach ($cart as $item) {
             $total += $item['price'] * $item['quantity'];
         }
-        
-        return view('checkout.index', compact('cart', 'total'));
+
+        $isSelectedCheckout = false;
+
+        return view('checkout.index', compact('cart', 'total', 'isSelectedCheckout'));
     }
 
-    /**
-     * Memproses checkout dari semua produk di keranjang
-     */
     public function process(Request $request)
     {
-        // Validasi input
         $request->validate([
             'shipping_address' => 'required|string|min:10',
-            'phone' => 'required|numeric|digits_between:10,15',
-            'payment_method' => 'required|in:bank_transfer,cash,qris'
-        ], [
-            'phone.required' => 'Nomor telepon wajib diisi.',
-            'phone.numeric' => 'Nomor telepon harus berupa angka.',
-            'phone.digits_between' => 'Nomor telepon harus terdiri dari 10-15 digit angka.',
-            'shipping_address.required' => 'Alamat pengiriman wajib diisi.',
-            'shipping_address.min' => 'Alamat pengiriman minimal 10 karakter.',
-            'payment_method.required' => 'Metode pembayaran wajib dipilih.',
+            'phone' => 'required|digits_between:10,15',
+            'payment_method' => 'required|string',
         ]);
 
-        // Ambil cart dari checkout terpilih atau cart biasa
-        $cart = session()->get('checkout_cart', session()->get('cart', []));
-        
-        if (empty($cart)) {
-            return redirect()->route('home')->with('error', 'Keranjang belanja kosong');
+        $cartItems = Cart::with('product')
+            ->where('user_id', Auth::id())
+            ->get();
+
+        if ($cartItems->isEmpty()) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Keranjang masih kosong.');
         }
 
-        // Hitung total
+        return $this->createOrder($request, $cartItems, false);
+    }
+
+    public function processSelected(Request $request)
+    {
+        $request->validate([
+            'selected_items' => 'required|array',
+            'selected_items.*' => 'required|integer',
+        ]);
+
+        session([
+            'selected_checkout_items' => $request->selected_items
+        ]);
+
+        return redirect()->route('checkout.selected.index');
+    }
+
+    public function indexSelected()
+    {
+        $selectedItems = session('selected_checkout_items');
+
+        if (!$selectedItems) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Pilih produk terlebih dahulu.');
+        }
+
+        $cartItems = Cart::with('product')
+            ->where('user_id', Auth::id())
+            ->whereIn('product_id', $selectedItems)
+            ->get();
+
+        if ($cartItems->isEmpty()) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Produk yang dipilih tidak ditemukan.');
+        }
+
+        $cart = [];
+
+        foreach ($cartItems as $item) {
+            $cart[$item->product_id] = [
+                'id' => $item->product_id,
+                'name' => $item->product->name,
+                'quantity' => $item->quantity,
+                'price' => $item->product->price,
+                'image' => $item->product->image,
+            ];
+        }
+
         $total = 0;
+
         foreach ($cart as $item) {
             $total += $item['price'] * $item['quantity'];
         }
 
-        // Simpan ke database
+        $isSelectedCheckout = true;
+
+        return view('checkout.index', compact('cart', 'total', 'isSelectedCheckout'));
+    }
+
+    public function processSelectedCheckout(Request $request)
+    {
+        $request->validate([
+            'shipping_address' => 'required|string|min:10',
+            'phone' => 'required|digits_between:10,15',
+            'payment_method' => 'required|string',
+        ]);
+
+        $selectedItems = session('selected_checkout_items');
+
+        if (!$selectedItems) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Pilih produk terlebih dahulu.');
+        }
+
+        $cartItems = Cart::with('product')
+            ->where('user_id', Auth::id())
+            ->whereIn('product_id', $selectedItems)
+            ->get();
+
+        if ($cartItems->isEmpty()) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Produk yang dipilih tidak ditemukan.');
+        }
+
+        return $this->createOrder($request, $cartItems, true);
+    }
+
+    private function createOrder(Request $request, $cartItems, $isSelectedCheckout = false)
+    {
         DB::beginTransaction();
+
         try {
+            $total = $cartItems->sum(function ($item) {
+                return $item->product->price * $item->quantity;
+            });
+
             $order = Order::create([
-                'user_id' => auth()->id(),
-                'order_number' => 'ORD-' . strtoupper(Str::random(6)) . time(),
-                'total_amount' => $total,
-                'status' => 'pending',
+                'order_number' => 'ORD-' . date('YmdHis') . '-' . Auth::id(),
+                'user_id' => Auth::id(),
                 'shipping_address' => $request->shipping_address,
                 'phone' => $request->phone,
                 'payment_method' => $request->payment_method,
-                'payment_status' => 'pending'
+                'total_amount' => $total,
+                'status' => 'pending',
+                'payment_status' => 'pending',
             ]);
 
-            // Simpan item pesanan
-            foreach ($cart as $id => $item) {
+            foreach ($cartItems as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
-                    'product_id' => $id,
-                    'quantity' => $item['quantity'],
-                    'price' => $item['price']
+                    'product_id' => $item->product_id,
+                    'quantity' => $item->quantity,
+                    'price' => $item->product->price,
                 ]);
-                
-                // Hapus item dari cart asli
-                $mainCart = session()->get('cart', []);
-                if (isset($mainCart[$id])) {
-                    unset($mainCart[$id]);
-                    session()->put('cart', $mainCart);
-                }
             }
 
-            // Hapus checkout cart sementara
-            session()->forget('checkout_cart');
-            
+            if ($isSelectedCheckout) {
+                Cart::where('user_id', Auth::id())
+                    ->whereIn('product_id', $cartItems->pluck('product_id'))
+                    ->delete();
+
+                session()->forget('selected_checkout_items');
+            } else {
+                Cart::where('user_id', Auth::id())->delete();
+            }
+
             DB::commit();
 
-            return redirect()->route('orders.history')->with('success', 'Pesanan berhasil dibuat! Silahkan lakukan pembayaran.');
-            
+            return redirect()->route('orders.detail', $order->id)
+                ->with('success', 'Pesanan berhasil dibuat.');
+
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('checkout.index')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+
+            return back()->with('error', 'Checkout gagal: ' . $e->getMessage());
         }
     }
 
-    /**
-     * Memproses checkout hanya untuk produk yang dipilih
-     */
-    public function processSelected(Request $request)
-    {
-        $selectedItems = $request->input('selected_items', []);
-        
-        if (empty($selectedItems)) {
-            return redirect()->route('cart.index')->with('error', 'Pilih produk yang ingin di-checkout terlebih dahulu!');
-        }
-        
-        $cart = session()->get('cart', []);
-        $selectedCart = [];
-        
-        foreach ($selectedItems as $itemId) {
-            if (isset($cart[$itemId])) {
-                $selectedCart[$itemId] = $cart[$itemId];
-            }
-        }
-        
-        if (empty($selectedCart)) {
-            return redirect()->route('cart.index')->with('error', 'Tidak ada produk yang dipilih!');
-        }
-        
-        // Simpan sementara ke session untuk checkout
-        session()->put('checkout_cart', $selectedCart);
-        
-        return redirect()->route('checkout.index');
-    }
-
-    /**
-     * Upload bukti pembayaran
-     */
     public function uploadPaymentProof(Request $request, Order $order)
-    {
-        // Pastikan order milik user yang login
-        if ($order->user_id !== auth()->id()) {
-            abort(403);
-        }
-
-        $request->validate([
-            'payment_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048'
-        ], [
-            'payment_proof.required' => 'Bukti pembayaran wajib diupload.',
-            'payment_proof.image' => 'File harus berupa gambar.',
-            'payment_proof.mimes' => 'Format gambar harus JPG, PNG, atau JPEG.',
-            'payment_proof.max' => 'Ukuran gambar maksimal 2MB.',
-        ]);
-
-        if ($request->hasFile('payment_proof')) {
-            // Hapus bukti lama jika ada
-            if ($order->payment_proof) {
-                Storage::disk('public')->delete($order->payment_proof);
-            }
-            
-            // Simpan bukti baru
-            $proofPath = $request->file('payment_proof')->store('payment_proofs', 'public');
-            $order->payment_proof = $proofPath;
-            $order->payment_status = 'paid';
-            $order->paid_at = now();
-            $order->save();
-        }
-
-        return redirect()->route('orders.detail', $order)->with('success', 'Bukti pembayaran berhasil diupload. Menunggu konfirmasi admin.');
+{
+    if ($order->user_id !== Auth::id()) {
+        abort(403);
     }
+
+    $request->validate([
+        'payment_proof' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
+
+    $path = $request->file('payment_proof')->store('payment-proofs', 'public');
+
+    $order->update([
+        'payment_proof' => $path,
+
+        // status pembayaran
+        'payment_status' => 'paid',
+
+        // status order
+        'status' => 'processed',
+
+        // waktu pembayaran
+        'paid_at' => now(),
+    ]);
+
+    return back()->with(
+        'success',
+        'Bukti pembayaran berhasil diupload. Pesanan sedang diproses.'
+    );
+}
 }

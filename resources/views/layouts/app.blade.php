@@ -39,6 +39,7 @@
                                     <a href="{{ route('admin.products.index') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><i class="fas fa-box mr-2"></i> Kelola Produk</a>
                                     <a href="{{ route('admin.categories.index') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><i class="fas fa-tags mr-2"></i> Kelola Kategori</a>
                                     <a href="{{ route('admin.orders.index') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><i class="fas fa-shopping-cart mr-2"></i> Kelola Pesanan</a>
+                                    <a href="{{ route('admin.ratings.index') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><i class="fas fa-star mr-2"></i> Kelola Rating</a>
                                 </div>
                             </div>
                         @else

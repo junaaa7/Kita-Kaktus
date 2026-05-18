@@ -102,18 +102,13 @@ class CartController extends Controller
     }
 
     /**
-     * Menghapus beberapa produk yang dipilih dari keranjang
+     * Menghapus semua produk dari keranjang
      */
-    public function deleteSelected(Request $request)
-    {
-        $selectedIds = json_decode($request->selected_ids, true);
-        
-        if (!empty($selectedIds)) {
-            Cart::where('user_id', auth()->id())
-               ->whereIn('product_id', $selectedIds)
-               ->delete();
-        }
-        
-        return redirect()->route('cart.index')->with('success', 'Produk terpilih berhasil dihapus');
-    }
+    public function clear()
+{
+    Cart::where('user_id', auth()->id())->delete();
+
+    return redirect()->route('cart.index')
+        ->with('success', 'Keranjang berhasil dikosongkan.');
+}
 }
