@@ -17,6 +17,7 @@ class GoogleController extends Controller
         Session::put('google_auth_type', 'login');
 
         return Socialite::driver('google')
+            ->redirectUrl(config('services.google.redirect'))
             ->with([
                 'prompt' => 'select_account',
             ])
@@ -28,6 +29,7 @@ class GoogleController extends Controller
         Session::put('google_auth_type', 'register');
 
         return Socialite::driver('google')
+            ->redirectUrl(config('services.google.redirect'))
             ->with([
                 'prompt' => 'select_account',
             ])
@@ -37,7 +39,9 @@ class GoogleController extends Controller
     public function handleGoogleCallback()
     {
         try {
-            $googleUser = Socialite::driver('google')->user();
+            $googleUser = Socialite::driver('google')
+                ->redirectUrl(config('services.google.redirect'))
+                ->user();
 
             $authType = Session::get('google_auth_type', 'login');
 
@@ -54,7 +58,7 @@ class GoogleController extends Controller
                     'email' => $googleUser->getEmail(),
                     'google_id' => $googleUser->getId(),
                     'avatar' => $googleUser->getAvatar(),
-                    'password' => Str::random(24),
+                    'password' => bcrypt(Str::random(24)),
                     'role' => 'user',
                 ]);
 
@@ -70,7 +74,7 @@ class GoogleController extends Controller
                     'email' => $googleUser->getEmail(),
                     'google_id' => $googleUser->getId(),
                     'avatar' => $googleUser->getAvatar(),
-                    'password' => Str::random(24),
+                    'password' => bcrypt(Str::random(24)),
                     'role' => 'user',
                 ]);
 
