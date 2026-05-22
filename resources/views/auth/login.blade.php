@@ -26,7 +26,7 @@
             </p>
         </div>
 
-        <form class="mt-8 space-y-5 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl transform transition-all duration-500 hover:scale-[1.02]" method="POST" action="{{ route('login') }}">
+        <form class="mt-8 space-y-5 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl transform transition-all duration-500 hover:scale-[1.02]" method="POST" action="{{ secure_url('/login') }}">
             @csrf
 
             @if (session('error'))
@@ -34,7 +34,7 @@
                     {{ session('error') }}
                 </div>
             @endif
-            
+
             <div class="space-y-4">
                 <div>
                     <div class="relative mt-1">
@@ -77,9 +77,9 @@
 
             <div class="relative flex items-center justify-center my-6">
                 <div class="absolute left-0 w-full border-t border-gray-300 dark:border-gray-600"></div>
-                    <span class="relative px-4 bg-white dark:bg-gray-800 text-sm text-gray-500 dark:text-gray-400 font-medium">
-                        ATAU
-                    </span>
+                <span class="relative px-4 bg-white dark:bg-gray-800 text-sm text-gray-500 dark:text-gray-400 font-medium">
+                    ATAU
+                </span>
             </div>
 
             <a href="{{ route('google.login') }}"

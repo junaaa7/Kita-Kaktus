@@ -61,8 +61,13 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 LOGIN :
 
-Admin : admin@kitakaktus.com
-        password123
+        Admin online
+Email: admin@gmail.com
+Password: admin123
 
+
+admin local 
+email: admin@kitakaktus.com
+        password123
 USER : user@kitakaktus.com
        password123
