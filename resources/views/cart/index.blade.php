@@ -97,7 +97,7 @@
                             <td colspan="4" class="px-6 py-4 text-right font-bold text-base text-gray-700 dark:text-gray-300">
                                 Total Terpilih:
                             </td>
-                            <td class="px-6 py-4 font-bold text-base text-green-600 dark:text-green-400" id="selectedTotal">
+                            <td class="px-6 py-4 font-bold text-base text-green-600 dark:text-green-400 whitespace-nowrap min-w-[120px]" id="selectedTotal">
                                 Rp 0
                             </td>
                             <td class="px-6 py-4"></td>
