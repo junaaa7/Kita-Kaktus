@@ -209,26 +209,26 @@ class CheckoutController extends Controller
     public function uploadPaymentProof(Request $request, Order $order)
     {
         $request->validate([
-        'payment_proof' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'payment_proof' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         if ($request->hasFile('payment_proof')) {
             $file = $request->file('payment_proof');
             $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-            $destinationPath = public_path('images/payment-proofs');
+            $destinationPath = public_path('uploads/payment-proofs');
 
-             if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0755, true);
-         }
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
 
-         $file->move($destinationPath, $filename);
+            $file->move($destinationPath, $filename);
 
             $order->update([
-            'payment_proof' => 'images/payment-proofs/' . $filename,
-            'payment_status' => 'paid',
-            'status' => 'processed',
-            'paid_at' => now(),
+                'payment_proof' => 'uploads/payment-proofs/' . $filename,
+                'payment_status' => 'paid',
+                'status' => 'processed',
+                'paid_at' => now(),
             ]);
         }
 

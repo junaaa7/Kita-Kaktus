@@ -100,7 +100,7 @@ class ProductController extends Controller
 
     private function uploadAndCompressImage($image)
     {
-        $destinationPath = public_path('images/products');
+        $destinationPath = public_path('uploads/products');
 
         if (!file_exists($destinationPath)) {
             mkdir($destinationPath, 0755, true);
@@ -121,7 +121,7 @@ class ProductController extends Controller
                             if ($src) {
                                 imagejpeg($src, $fullPath, 75);
                                 imagedestroy($src);
-                                return 'images/products/' . $fileName;
+                                return 'uploads/products/' . $fileName;
                             }
                             break;
 
@@ -132,7 +132,7 @@ class ProductController extends Controller
                                 imagesavealpha($src, true);
                                 imagepng($src, $fullPath, 8);
                                 imagedestroy($src);
-                                return 'images/products/' . $fileName;
+                                return 'uploads/products/' . $fileName;
                             }
                             break;
 
@@ -141,7 +141,7 @@ class ProductController extends Controller
                             if ($src) {
                                 imagewebp($src, $fullPath, 80);
                                 imagedestroy($src);
-                                return 'images/products/' . $fileName;
+                                return 'uploads/products/' . $fileName;
                             }
                             break;
                     }
@@ -150,12 +150,12 @@ class ProductController extends Controller
 
             $image->move($destinationPath, $fileName);
 
-            return 'images/products/' . $fileName;
+            return 'uploads/products/' . $fileName;
 
         } catch (\Exception $e) {
             $image->move($destinationPath, $fileName);
 
-            return 'images/products/' . $fileName;
+            return 'uploads/products/' . $fileName;
         }
     }
 }
