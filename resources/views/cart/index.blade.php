@@ -54,7 +54,7 @@
                             </td>
 
                             <td class="px-6 py-4 align-middle">
-                                <span class="text-gray-600 dark:text-gray-300">
+                                <span class="text-gray-600 dark:text-gray-300 whitespace-nowrap">
                                     Rp {{ number_format($item['price'], 0, ',', '.') }}
                                 </span>
                             </td>
@@ -72,7 +72,7 @@
                             </td>
 
                             <td class="px-6 py-4 align-middle">
-                                <span class="subtotal text-green-600 dark:text-green-400 font-semibold">
+                               <span class="subtotal text-green-600 dark:text-green-400 font-semibold whitespace-nowrap">
                                     Rp {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
                                 </span>
                             </td>
@@ -98,7 +98,7 @@
                                 Total Terpilih:
                             </td>
                             <td class="px-6 py-4 font-bold text-base text-green-600 dark:text-green-400" id="selectedTotal">
-                                Rp&nbsp;0
+                                 Rp 0
                             </td>
                             <td class="px-6 py-4"></td>
                         </tr>
@@ -148,7 +148,7 @@
     const checkoutForm = document.getElementById('checkoutForm');
 
     function formatRupiah(number) {
-        return 'Rp\u00A0' + number.toLocaleString('id-ID');
+        return 'Rp ' + number.toLocaleString('id-ID');
     }
 
     function updateSelectedTotal() {
