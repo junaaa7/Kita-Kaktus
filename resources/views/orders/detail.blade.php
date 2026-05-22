@@ -167,7 +167,7 @@
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
                         @if($item->product->image)
                             <img 
-                                src="{{ asset('storage/' . $item->product->image) }}" 
+                                src="{{ asset($item->product->image) }}" 
                                 alt="{{ $item->product->name }}" 
                                 class="w-full h-auto object-cover"
                             >
