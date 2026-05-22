@@ -88,11 +88,11 @@
                     </div>
                 @endif
                 
-                <form action="{{ route('upload.payment', $order) }}" method="POST" enctype="multipart/form-data" class="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
+                <form action="{{ secure_url('/upload-payment/' . $order->id) }}" method="POST" enctype="multipart/form-data" class="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
                     @csrf
                     <div class="mb-3">
                         <label class="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">Upload Bukti Pembayaran</label>
-                        <input type="file" name="payment_proof" accept="image/*" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <input type="file" name="payment_proof" accept="image/jpeg,image/png,image/jpg,image/webp" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Format: JPG, PNG. Max: 2MB</p>
                     </div>
                     <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition duration-200 shadow-sm">
@@ -107,7 +107,7 @@
         <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mb-4">
             <h3 class="font-bold text-gray-800 dark:text-white mb-3">Bukti Pembayaran</h3>
             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                <img src="{{ asset('storage/' . $order->payment_proof) }}" alt="Bukti Pembayaran" class="max-w-xs rounded-lg shadow-sm">
+                <img src="{{ asset($order->payment_proof) }}" alt="Bukti Pembayaran" class="max-w-xs rounded-lg shadow-sm">
             </div>
         </div>
         @endif

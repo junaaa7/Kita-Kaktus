@@ -46,7 +46,7 @@
         <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mb-4">
             <h3 class="font-bold text-gray-800 dark:text-white mb-3">Bukti Pembayaran</h3>
             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                <img src="{{ asset('storage/' . $order->payment_proof) }}" alt="Bukti Pembayaran" class="max-w-xs rounded-lg">
+                <img src="{{ asset($order->payment_proof) }}" alt="Bukti Pembayaran" class="max-w-xs rounded-lg">
                 
                 @if($order->payment_status == 'pending')
                 <div class="mt-4 flex space-x-3">

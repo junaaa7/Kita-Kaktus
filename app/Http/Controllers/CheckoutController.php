@@ -208,37 +208,30 @@ class CheckoutController extends Controller
 
     public function uploadPaymentProof(Request $request, Order $order)
     {
-        if ($order->user_id !== Auth::id()) {
-            abort(403);
+        $request->validate([
+        'payment_proof' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
+        if ($request->hasFile('payment_proof')) {
+            $file = $request->file('payment_proof');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            $destinationPath = public_path('images/payment-proofs');
+
+             if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+         }
+
+         $file->move($destinationPath, $filename);
+
+            $order->update([
+            'payment_proof' => 'images/payment-proofs/' . $filename,
+            'payment_status' => 'paid',
+            'status' => 'processed',
+            'paid_at' => now(),
+            ]);
         }
 
-        $request->validate([
-            'payment_proof' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
-
-        // Upload ke public/images/payment-proofs
-        $file = $request->file('payment_proof');
-
-        $filename = time() . '_' . $file->getClientOriginalName();
-
-        $file->move(public_path('images/payment-proofs'), $filename);
-
-        $order->update([
-            'payment_proof' => $filename,
-
-            // status pembayaran
-            'payment_status' => 'paid',
-
-            // status order
-            'status' => 'processed',
-
-            // waktu pembayaran
-            'paid_at' => now(),
-        ]);
-
-        return back()->with(
-            'success',
-            'Bukti pembayaran berhasil diupload. Pesanan sedang diproses.'
-        );
+        return back()->with('success', 'Bukti pembayaran berhasil diupload. Pesanan sedang diproses.');
     }
 }
