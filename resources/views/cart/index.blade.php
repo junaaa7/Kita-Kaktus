@@ -9,7 +9,7 @@
     @if(count($cart) > 0)
 
         {{-- FORM CHECKOUT TERSEMBUNYI --}}
-        <form id="checkoutForm" method="POST" action="{{ route('checkout.selected') }}">
+        <form id="checkoutForm" method="POST" action="{{ secure_url('/checkout-selected') }}">
             @csrf
         </form>
 
@@ -36,17 +36,13 @@
                         @foreach($cart as $id => $item)
                         <tr class="cart-item" id="cart-row-{{ $id }}">
                             <td class="px-6 py-4 align-middle">
-                                <input 
-                                    type="checkbox" 
-                                    value="{{ $id }}" 
-                                    class="item-checkbox rounded border-gray-300 text-green-600 focus:ring-green-500"
-                                >
+                                <input type="checkbox" value="{{ $id }}" class="item-checkbox rounded border-gray-300 text-green-600 focus:ring-green-500">
                             </td>
 
                             <td class="px-6 py-4">
                                 <div class="flex items-center space-x-3">
                                     @if(isset($item['image']) && $item['image'])
-                                        <img src="{{ asset('storage/' . $item['image']) }}" alt="{{ $item['name'] }}" class="w-12 h-12 object-cover rounded">
+                                        <img src="{{ asset($item['image']) }}" alt="{{ $item['name'] }}" class="w-12 h-12 object-cover rounded">
                                     @else
                                         <div class="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded flex items-center justify-center">
                                             <i class="fas fa-cactus text-gray-500 dark:text-gray-400"></i>
@@ -82,7 +78,7 @@
                             </td>
 
                             <td class="px-6 py-4 align-middle">
-                                <form action="{{ route('cart.remove') }}" method="POST" class="delete-form">
+                                <form action="{{ secure_url('/cart/remove') }}" method="POST" class="delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <input type="hidden" name="id" value="{{ $id }}">
@@ -113,7 +109,7 @@
         
         <div class="flex justify-between items-center">
             <div class="flex space-x-3">
-                <form action="{{ route('cart.clear') }}" method="POST" onsubmit="return confirm('Hapus semua produk dari keranjang?')">
+                <form action="{{ secure_url('/cart/clear') }}" method="POST" onsubmit="return confirm('Hapus semua produk dari keranjang?')">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition">
@@ -217,7 +213,7 @@
                 this.value = 1;
             }
 
-            fetch("{{ route('cart.update') }}", {
+            fetch("{{ secure_url('/cart/update') }}", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -261,26 +257,17 @@
 
             checkoutForm.querySelectorAll('input[name="selected_items[]"]').forEach(input => input.remove());
 
-            selectedItems.forEach(checkbox => {
+            selectedItems.forEach(item => {
                 const input = document.createElement('input');
                 input.type = 'hidden';
                 input.name = 'selected_items[]';
-                input.value = checkbox.value;
-
+                input.value = item.value;
                 checkoutForm.appendChild(input);
             });
 
             checkoutForm.submit();
         });
     }
-
-    document.querySelectorAll('.delete-form').forEach(form => {
-        form.addEventListener('submit', function(e) {
-            if (!confirm('Hapus produk ini dari keranjang?')) {
-                e.preventDefault();
-            }
-        });
-    });
 
     updateSelectedTotal();
 </script>
