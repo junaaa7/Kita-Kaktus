@@ -74,21 +74,3 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         return redirect()->route('admin.dashboard');
     });
 });
-
-
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-
-Route::get('/create-admin', function () {
-
-    User::updateOrCreate(
-        ['email' => 'admin@gmail.com'],
-        [
-            'name' => 'Admin',
-            'password' => Hash::make('admin123'),
-            'role' => 'admin',
-        ]
-    );
-
-    return 'Admin berhasil dibuat';
-});
