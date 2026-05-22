@@ -92,17 +92,19 @@
                         @endforeach
                     </tbody>
 
-                    <tfoot class="bg-gray-50 dark:bg-gray-700">
-                        <tr>
-                            <td class="px-6 py-4 text-right font-bold text-base text-gray-700 dark:text-gray-300 whitespace-nowrap">
-                                Total Terpilih:
-                            </td>
-                            <td class="px-6 py-4 font-bold text-base text-green-600 dark:text-green-400" id="selectedTotal">
-                                 Rp 0
-                            </td>
-                            <td class="px-6 py-4"></td>
-                        </tr>
-                    </tfoot>
+                    <tr class="border-t border-gray-700">
+                        <td colspan="6" class="px-6 py-4">
+                            <div class="flex justify-end items-center gap-3">
+                                <span class="font-bold text-white">
+                                    Total Terpilih:
+                                </span>
+
+                                <span class="font-bold text-base text-green-600 dark:text-green-400 whitespace-nowrap" id="selectedTotal">
+                                    Rp 0
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>
