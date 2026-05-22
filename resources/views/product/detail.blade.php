@@ -11,7 +11,7 @@
             <div class="p-6">
                 @if($product->image)
                     <img 
-                        src="{{ asset('images/products/' . $product->image) }}" 
+                        src="{{ asset($product->image) }}"
                         alt="{{ $product->name }}" 
                         class="w-full rounded-lg"
                     >

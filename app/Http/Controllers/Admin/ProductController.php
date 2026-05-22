@@ -30,7 +30,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120'
         ]);
 
         $product = new Product();
@@ -40,12 +40,11 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->stock = $request->stock;
         $product->category_id = $request->category_id;
-        
+
         if ($request->hasFile('image')) {
-            $imagePath = $this->uploadAndCompressImage($request->file('image'));
-            $product->image = $imagePath;
+            $product->image = $this->uploadAndCompressImage($request->file('image'));
         }
-        
+
         $product->save();
 
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil ditambahkan');
@@ -65,7 +64,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120'
         ]);
 
         $product->name = $request->name;
@@ -74,16 +73,15 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->stock = $request->stock;
         $product->category_id = $request->category_id;
-        
+
         if ($request->hasFile('image')) {
-            if ($product->image && file_exists(public_path('images/products/' . $product->image))) {
-                unlink(public_path('images/products/' . $product->image));
+            if ($product->image && file_exists(public_path($product->image))) {
+                unlink(public_path($product->image));
             }
 
-            $imagePath = $this->uploadAndCompressImage($request->file('image'));
-            $product->image = $imagePath;
+            $product->image = $this->uploadAndCompressImage($request->file('image'));
         }
-        
+
         $product->save();
 
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil diupdate');
@@ -91,29 +89,28 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        if ($product->image && file_exists(public_path('images/products/' . $product->image))) {
-            unlink(public_path('images/products/' . $product->image));
+        if ($product->image && file_exists(public_path($product->image))) {
+            unlink(public_path($product->image));
         }
 
         $product->delete();
-        
+
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil dihapus');
     }
 
-    /**
-     * Upload dan kompres gambar
-     */
     private function uploadAndCompressImage($image)
     {
+        $destinationPath = public_path('images/products');
+
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+
+        $extension = strtolower($image->getClientOriginalExtension());
+        $fileName = time() . '_' . Str::random(10) . '.' . $extension;
+        $fullPath = $destinationPath . '/' . $fileName;
+
         try {
-            $fileName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
-
-            $destinationPath = public_path('images/products');
-
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
-            }
-
             if (extension_loaded('gd')) {
                 $imgInfo = getimagesize($image->getRealPath());
 
@@ -122,9 +119,9 @@ class ProductController extends Controller
                         case IMAGETYPE_JPEG:
                             $src = imagecreatefromjpeg($image->getRealPath());
                             if ($src) {
-                                imagejpeg($src, $destinationPath . '/' . $fileName, 75);
+                                imagejpeg($src, $fullPath, 75);
                                 imagedestroy($src);
-                                return $fileName;
+                                return 'images/products/' . $fileName;
                             }
                             break;
 
@@ -133,9 +130,18 @@ class ProductController extends Controller
                             if ($src) {
                                 imagealphablending($src, true);
                                 imagesavealpha($src, true);
-                                imagepng($src, $destinationPath . '/' . $fileName, 8);
+                                imagepng($src, $fullPath, 8);
                                 imagedestroy($src);
-                                return $fileName;
+                                return 'images/products/' . $fileName;
+                            }
+                            break;
+
+                        case IMAGETYPE_WEBP:
+                            $src = imagecreatefromwebp($image->getRealPath());
+                            if ($src) {
+                                imagewebp($src, $fullPath, 80);
+                                imagedestroy($src);
+                                return 'images/products/' . $fileName;
                             }
                             break;
                     }
@@ -144,13 +150,12 @@ class ProductController extends Controller
 
             $image->move($destinationPath, $fileName);
 
-            return $fileName;
+            return 'images/products/' . $fileName;
 
         } catch (\Exception $e) {
-            $fileName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/products'), $fileName);
+            $image->move($destinationPath, $fileName);
 
-            return $fileName;
+            return 'images/products/' . $fileName;
         }
     }
 }

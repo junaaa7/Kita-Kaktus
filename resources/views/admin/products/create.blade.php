@@ -45,8 +45,8 @@
         
         <div class="mb-6">
             <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Gambar Produk</label>
-            <input type="file" name="image" accept="image/jpeg,image/png,image/jpg" 
-                   onchange="validateFileSize(this)" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+            <input type="file" name="image" accept="image/jpeg,image/png,image/jpg,image/webp" 
+                    onchange="validateFileSize(this)" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
             <div id="fileSizeError" class="text-red-500 text-xs mt-1 hidden"></div>
             <div id="fileInfo" class="text-gray-500 dark:text-gray-400 text-xs mt-1"></div>
             <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Format: JPG, PNG. Maksimal 5MB</p>

@@ -47,13 +47,13 @@
         <div class="mb-6">
             @if($product->image)
                 <div class="mb-2">
-                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-32 h-32 object-cover rounded">
-                    <p class="text-xs text-gray-500 mt-1">Gambar saat ini</p>
+                    <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="w-32 h-32 object-cover rounded">
+                     <p class="text-xs text-gray-500 mt-1">Gambar saat ini</p>
                 </div>
             @endif
             <label class="block text-gray-700 text-sm font-bold mb-2">Gambar Produk</label>
-            <input type="file" name="image" accept="image/jpeg,image/png,image/jpg" 
-                   onchange="validateFileSize(this)" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+            <input type="file" name="image" accept="image/jpeg,image/png,image/jpg,image/webp" 
+                    onchange="validateFileSize(this)" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
             <div id="fileSizeError" class="text-red-500 text-xs mt-1 hidden"></div>
             <div id="fileInfo" class="text-gray-500 text-xs mt-1"></div>
             <p class="text-xs text-gray-500 mt-1">Format: JPG, PNG. Maksimal 5MB. Kosongkan jika tidak ingin mengubah gambar</p>
