@@ -6,7 +6,7 @@
 <section class="relative overflow-hidden rounded-3xl mb-16 h-[600px] py-20 flex items-center">
 
     <div class="absolute inset-0">
-        <img src="{{ asset('storage/promosi/hero new 1.png') }}" alt="Hero Background" class="w-full h-full object-cover">
+        <img src="{{ asset('images/promosi/hero new 1.png') }}" alt="Hero Background" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-r from-green-900/80 to-green-800/60"></div>
     </div>
     
@@ -37,21 +37,21 @@
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500" data-aos="zoom-in" data-aos-delay="100">
-            <img src="{{ asset('storage/promosi/dasboard (2).jpg') }}" alt="Kebun Kaktus" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+            <img src="{{ asset('images/promosi/dasboard (2).jpg') }}" alt="Kebun Kaktus" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
                 <p class="text-white font-semibold">Kebun Kaktus Indah</p>
             </div>
         </div>
         
         <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500" data-aos="zoom-in" data-aos-delay="200">
-            <img src="{{ asset('storage/promosi/dasboard (2).jpg') }}" alt="Toko Kaktus" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+            <img src="{{ asset('images/promosi/dasboard (2).jpg') }}" alt="Toko Kaktus" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
                 <p class="text-white font-semibold">Toko Kaktus Modern</p>
             </div>
         </div>
         
         <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500" data-aos="zoom-in" data-aos-delay="300">
-            <img src="{{ asset('storage/promosi/dasboard (2).jpg') }}" alt="Koleksi Kaktus" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+            <img src="{{ asset('images/promosi/dasboard (2).jpg') }}" alt="Koleksi Kaktus" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
                 <p class="text-white font-semibold">Koleksi Lengkap Kaktus</p>
             </div>
@@ -67,7 +67,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
             <div class="relative h-48 overflow-hidden">
-                <img src="{{ asset('storage/promosi/pengiriman.png') }}" alt="Pengiriman" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <img src="{{ asset('images/promosi/pengiriman.png') }}" alt="Pengiriman" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 <div class="absolute bottom-4 left-4 text-white"><i class="fas fa-truck text-3xl"></i></div>
             </div>
@@ -79,7 +79,7 @@
         
         <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
             <div class="relative h-48 overflow-hidden">
-                <img src="{{asset('storage/promosi/kaktus.png') }}" alt="Kaktus Sehat" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <img src="{{asset('images/promosi/kaktus.png') }}" alt="Kaktus Sehat" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 <div class="absolute bottom-4 left-4 text-white"><i class="fas fa-seedling text-3xl"></i></div>
             </div>
@@ -91,7 +91,7 @@
         
         <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="300">
             <div class="relative h-48 overflow-hidden">
-                <img src="{{asset('storage/promosi/pembayaran.jpg') }}" alt="Pembayaran" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <img src="{{asset('images/promosi/pembayaran.jpg') }}" alt="Pembayaran" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 <div class="absolute bottom-4 left-4 text-white"><i class="fas fa-credit-card text-3xl"></i></div>
             </div>
@@ -103,7 +103,7 @@
         
         <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="400">
             <div class="relative h-48 overflow-hidden">
-                <img src="{{asset('storage/promosi/layanan.jpg') }}" alt="Layanan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <img src="{{asset('images/promosi/layanan.jpg') }}" alt="Layanan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 <div class="absolute bottom-4 left-4 text-white"><i class="fas fa-headset text-3xl"></i></div>
             </div>
@@ -125,7 +125,7 @@
     <div class="flex flex-col md:flex-row items-center gap-8">
         <div class="md:w-1/2" data-aos="zoom-in">
             <div class="relative rounded-xl overflow-hidden group">
-                <img src="{{ asset('storage/promosi/logo new.jpeg') }}" alt="Kebun Kaktus" class="w-full h-80 object-cover group-hover:scale-110 transition duration-500">
+                <img src="{{ asset('images/promosi/logo new.jpeg') }}" alt="Kebun Kaktus" class="w-full h-80 object-cover group-hover:scale-110 transition duration-500">
                 <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition duration-300"></div>
             </div>
         </div>

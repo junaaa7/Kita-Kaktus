@@ -7,7 +7,6 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -77,9 +76,10 @@ class ProductController extends Controller
         $product->category_id = $request->category_id;
         
         if ($request->hasFile('image')) {
-            if ($product->image) {
-                Storage::disk('public')->delete($product->image);
+            if ($product->image && file_exists(public_path('images/products/' . $product->image))) {
+                unlink(public_path('images/products/' . $product->image));
             }
+
             $imagePath = $this->uploadAndCompressImage($request->file('image'));
             $product->image = $imagePath;
         }
@@ -91,9 +91,10 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        if ($product->image) {
-            Storage::disk('public')->delete($product->image);
+        if ($product->image && file_exists(public_path('images/products/' . $product->image))) {
+            unlink(public_path('images/products/' . $product->image));
         }
+
         $product->delete();
         
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil dihapus');
@@ -105,50 +106,51 @@ class ProductController extends Controller
     private function uploadAndCompressImage($image)
     {
         try {
-            // Buat nama file unik
             $fileName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
-            $path = 'products/' . $fileName;
-            
-            // Cek apakah GD Library tersedia
+
+            $destinationPath = public_path('images/products');
+
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
             if (extension_loaded('gd')) {
-                // Baca file gambar
                 $imgInfo = getimagesize($image->getRealPath());
-                
-                if ($imgInfo === false) {
-                    // Jika bukan gambar valid, upload biasa
-                    return $image->store('products', 'public');
-                }
-                
-                // Buat resource gambar berdasarkan tipe
-                switch ($imgInfo[2]) {
-                    case IMAGETYPE_JPEG:
-                        $src = imagecreatefromjpeg($image->getRealPath());
-                        if ($src) {
-                            imagejpeg($src, $image->getRealPath(), 75);
-                            imagedestroy($src);
-                        }
-                        break;
-                    case IMAGETYPE_PNG:
-                        $src = imagecreatefrompng($image->getRealPath());
-                        if ($src) {
-                            imagealphablending($src, true);
-                            imagesavealpha($src, true);
-                            imagepng($src, $image->getRealPath(), 8);
-                            imagedestroy($src);
-                        }
-                        break;
-                    default:
-                        // Format tidak didukung, upload biasa
-                        return $image->store('products', 'public');
+
+                if ($imgInfo !== false) {
+                    switch ($imgInfo[2]) {
+                        case IMAGETYPE_JPEG:
+                            $src = imagecreatefromjpeg($image->getRealPath());
+                            if ($src) {
+                                imagejpeg($src, $destinationPath . '/' . $fileName, 75);
+                                imagedestroy($src);
+                                return $fileName;
+                            }
+                            break;
+
+                        case IMAGETYPE_PNG:
+                            $src = imagecreatefrompng($image->getRealPath());
+                            if ($src) {
+                                imagealphablending($src, true);
+                                imagesavealpha($src, true);
+                                imagepng($src, $destinationPath . '/' . $fileName, 8);
+                                imagedestroy($src);
+                                return $fileName;
+                            }
+                            break;
+                    }
                 }
             }
-            
-            // Upload file yang sudah dikompres
-            return $image->store('products', 'public');
-            
+
+            $image->move($destinationPath, $fileName);
+
+            return $fileName;
+
         } catch (\Exception $e) {
-            // Jika error, upload tanpa kompresi
-            return $image->store('products', 'public');
+            $fileName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/products'), $fileName);
+
+            return $fileName;
         }
     }
 }

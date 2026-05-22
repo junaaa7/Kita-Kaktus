@@ -154,6 +154,7 @@ class CheckoutController extends Controller
         DB::beginTransaction();
 
         try {
+
             $total = $cartItems->sum(function ($item) {
                 return $item->product->price * $item->quantity;
             });
@@ -170,6 +171,7 @@ class CheckoutController extends Controller
             ]);
 
             foreach ($cartItems as $item) {
+
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item->product_id,
@@ -179,12 +181,15 @@ class CheckoutController extends Controller
             }
 
             if ($isSelectedCheckout) {
+
                 Cart::where('user_id', Auth::id())
                     ->whereIn('product_id', $cartItems->pluck('product_id'))
                     ->delete();
 
                 session()->forget('selected_checkout_items');
+
             } else {
+
                 Cart::where('user_id', Auth::id())->delete();
             }
 
@@ -194,6 +199,7 @@ class CheckoutController extends Controller
                 ->with('success', 'Pesanan berhasil dibuat.');
 
         } catch (\Exception $e) {
+
             DB::rollBack();
 
             return back()->with('error', 'Checkout gagal: ' . $e->getMessage());
@@ -201,33 +207,38 @@ class CheckoutController extends Controller
     }
 
     public function uploadPaymentProof(Request $request, Order $order)
-{
-    if ($order->user_id !== Auth::id()) {
-        abort(403);
+    {
+        if ($order->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $request->validate([
+            'payment_proof' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        // Upload ke public/images/payment-proofs
+        $file = $request->file('payment_proof');
+
+        $filename = time() . '_' . $file->getClientOriginalName();
+
+        $file->move(public_path('images/payment-proofs'), $filename);
+
+        $order->update([
+            'payment_proof' => $filename,
+
+            // status pembayaran
+            'payment_status' => 'paid',
+
+            // status order
+            'status' => 'processed',
+
+            // waktu pembayaran
+            'paid_at' => now(),
+        ]);
+
+        return back()->with(
+            'success',
+            'Bukti pembayaran berhasil diupload. Pesanan sedang diproses.'
+        );
     }
-
-    $request->validate([
-        'payment_proof' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-    ]);
-
-    $path = $request->file('payment_proof')->store('payment-proofs', 'public');
-
-    $order->update([
-        'payment_proof' => $path,
-
-        // status pembayaran
-        'payment_status' => 'paid',
-
-        // status order
-        'status' => 'processed',
-
-        // waktu pembayaran
-        'paid_at' => now(),
-    ]);
-
-    return back()->with(
-        'success',
-        'Bukti pembayaran berhasil diupload. Pesanan sedang diproses.'
-    );
-}
 }
