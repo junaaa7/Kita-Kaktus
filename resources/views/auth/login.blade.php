@@ -4,7 +4,6 @@
 
 @section('content')
 <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-    <!-- Background Decoration -->
     <div class="absolute inset-0 -z-10">
         <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-green-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"></div>
         <div class="absolute top-10 left-10 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob dark:bg-green-900/30"></div>
@@ -13,11 +12,10 @@
     </div>
 
     <div class="max-w-md w-full space-y-8 animate-fade-in-up">
-        <!-- Logo Kita Kaktus -->
         <div class="text-center">
             <div class="animate-bounce-slow">
                 <div class="w-auto h-auto px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto shadow-lg">
-                    <span class="text-xl font-bold text-white">🌵 Kita Kaktus</span>
+                    <span class="text-xl font-bold text-white">Kita Kaktus</span>
                 </div>
             </div>
             <h2 class="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
@@ -28,12 +26,16 @@
             </p>
         </div>
 
-        <!-- Form Login -->
         <form class="mt-8 space-y-5 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl transform transition-all duration-500 hover:scale-[1.02]" method="POST" action="{{ route('login') }}">
             @csrf
+
+            @if (session('error'))
+                <div class="p-3 rounded-xl bg-red-100 text-red-700 text-sm">
+                    {{ session('error') }}
+                </div>
+            @endif
             
             <div class="space-y-4">
-                <!-- Email Field -->
                 <div>
                     <div class="relative mt-1">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -49,7 +51,6 @@
                     @enderror
                 </div>
 
-                <!-- Password Field -->
                 <div>
                     <div class="relative mt-1">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -65,9 +66,8 @@
                 </div>
             </div>
 
-            <!-- Submit Button - DITAMBAH margin-top mt-8 -->
             <div class="mt-8">
-                <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transform transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg">
+                <button type="submit" class="group relative w-full flex justify-center py-3 px-4 mb-6 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transform transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg">
                     <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                         <i class="fas fa-sign-in-alt text-green-300 group-hover:text-green-200 transition-colors duration-200"></i>
                     </span>
@@ -75,19 +75,34 @@
                 </button>
             </div>
 
-            <!-- Register Link -->
+            <div class="relative flex items-center justify-center my-6">
+                <div class="absolute left-0 w-full border-t border-gray-300 dark:border-gray-600"></div>
+                    <span class="relative px-4 bg-white dark:bg-gray-800 text-sm text-gray-500 dark:text-gray-400 font-medium">
+                        ATAU
+                    </span>
+            </div>
+
+            <a href="{{ route('google.login') }}"
+                style="position: relative; z-index: 99999; cursor: pointer; display: flex;"
+                class="mt-4 w-full flex items-center justify-center gap-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition shadow-sm">
+
+                 <img src="https://www.svgrepo.com/show/475656/google-color.svg"
+                 alt="Google"
+                 style="width: 22px !important; height: 22px !important; max-width: 22px !important;">
+                 <span class="font-medium text-sm">Login dengan Google</span>
+            </a>
+
             <div class="text-center mt-4 relative z-10">
-                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                        Belum punya akun? 
-                        <a href="{{ route('register') }}" 
-                         class="relative z-20 inline-flex items-center font-medium text-green-600 hover:text-green-500 transition-colors duration-200 hover:underline">
-                          Daftar Sekarang
-                             <i class="fas fa-arrow-right ml-1 text-xs"></i>
-                      </a>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Belum punya akun? 
+                    <a href="{{ route('register') }}" 
+                       class="relative z-20 inline-flex items-center font-medium text-green-600 hover:text-green-500 transition-colors duration-200 hover:underline">
+                        Daftar Sekarang
+                        <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                    </a>
                 </p>
             </div>
 
-            <!-- Demo Accounts -->
             <div class="mt-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
                 <p class="text-xs font-semibold text-gray-700 dark:text-gray-300 text-center mb-2">
                     <i class="fas fa-users mr-1"></i> Akun Demo
@@ -111,29 +126,15 @@
 
 <style>
 @keyframes fade-in-up {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes blob {
-    0% {
-        transform: translate(0px, 0px) scale(1);
-    }
-    33% {
-        transform: translate(30px, -50px) scale(1.1);
-    }
-    66% {
-        transform: translate(-20px, 20px) scale(0.9);
-    }
-    100% {
-        transform: translate(0px, 0px) scale(1);
-    }
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
 }
 
 @keyframes shake {
@@ -142,29 +143,12 @@
     75% { transform: translateX(5px); }
 }
 
-.animate-fade-in-up {
-    animation: fade-in-up 0.6s ease-out;
-}
-
-.animate-bounce-slow {
-    animation: bounce 2s infinite;
-}
-
-.animate-blob {
-    animation: blob 7s infinite;
-}
-
-.animation-delay-2000 {
-    animation-delay: 2s;
-}
-
-.animation-delay-4000 {
-    animation-delay: 4s;
-}
-
-.animate-shake {
-    animation: shake 0.3s ease-in-out;
-}
+.animate-fade-in-up { animation: fade-in-up 0.6s ease-out; }
+.animate-bounce-slow { animation: bounce 2s infinite; }
+.animate-blob { animation: blob 7s infinite; }
+.animation-delay-2000 { animation-delay: 2s; }
+.animation-delay-4000 { animation-delay: 4s; }
+.animate-shake { animation: shake 0.3s ease-in-out; }
 </style>
 
 @push('scripts')

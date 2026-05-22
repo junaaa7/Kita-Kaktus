@@ -22,7 +22,7 @@
             <div class="flex justify-between items-center py-4">
                 <div class="flex items-center">
                     <a href="{{ auth()->check() && auth()->user()->isAdmin() ? route('admin.dashboard') : route('home') }}" class="text-2xl font-bold text-gray-800 dark:text-white">
-                        🌵 Kita Kaktus
+                        Kita Kaktus
                     </a>
                 </div>
                 
@@ -112,6 +112,7 @@
     </nav>
 
     <!-- Flash Messages dengan Auto-Hide -->
+     <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900">
     @if(session('success'))
         <div id="flash-success" class="fixed top-20 right-4 z-50 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
             <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">

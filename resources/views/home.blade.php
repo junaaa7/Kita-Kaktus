@@ -3,30 +3,32 @@
 @section('title', 'Home - Kita Kaktus')
 
 @section('content')
-<!-- Hero Section dengan Animasi -->
-<div class="relative bg-gradient-to-r from-green-600 to-green-800 rounded-xl overflow-hidden mb-12" data-aos="fade-down">
-    <div class="absolute inset-0 opacity-10">
-        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 1px); background-size: 40px 40px;"></div>
+<section class="relative overflow-hidden rounded-3xl mb-16 h-[600px] py-20 flex items-center">
+
+    <div class="absolute inset-0">
+        <img src="{{ asset('storage/promosi/hero new 1.png') }}" alt="Hero Background" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-r from-green-900/80 to-green-800/60"></div>
     </div>
     
-    <div class="relative z-10 px-8 py-16 md:py-24 text-center text-white">
-        <div class="animate-bounce inline-block mb-4">
-            <i class="fas fa-cactus text-5xl md:text-6xl"></i>
-        </div>
-        <h1 class="text-4xl md:text-6xl font-bold mb-4">🌵 Kita Kaktus</h1>
-        <p class="text-xl md:text-2xl mb-8">Toko Kaktus Online Terpercaya | Kaktus Berkualitas Harga Terjangkau</p>
-        <div class="flex justify-center space-x-4 flex-wrap gap-4">
-            <a href="{{ route('collection.index') }}" class="inline-block bg-white text-green-600 px-8 py-3 rounded-lg hover:bg-gray-100 transition transform hover:scale-105 duration-300 font-semibold shadow-lg">
-                <i class="fas fa-store mr-2"></i> Lihat Koleksi
-            </a>
-            <a href="https://wa.me/6281234567890?text=Halo%20Kita%20Kaktus%2C%20saya%20ingin%20bertanya%20tentang%20produk%20kaktus" 
-               target="_blank" 
-               class="inline-block bg-green-700 text-white px-8 py-3 rounded-lg hover:bg-green-800 transition transform hover:scale-105 duration-300 font-semibold shadow-lg">
-                <i class="fab fa-whatsapp mr-2"></i> Hubungi Kami
-            </a>
-        </div>
+    <div class="absolute top-20 left-10 animate-float-slow">
+        <i class="fas fa-cactus text-4xl text-white/30"></i>
     </div>
-</div>
+    
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-4 text-center text-white">
+        <div class="inline-block mb-4 px-4 py-1 bg-white/20 rounded-full backdrop-blur-sm animate-fade-in-up">
+            <span class="text-sm">Welcome to Kita Kaktus</span>
+        </div>
+        
+        <h1 class="text-5xl md:text-7xl font-bold mb-6 animate-slide-down">
+            Temukan Kaktus
+            <span class="block text-yellow-300">Impian Anda</span>
+        </h1>
+        
+        <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto animate-slide-up opacity-90">
+            Koleksi kaktus terbaik dengan kualitas premium. Dapatkan tanaman hias yang unik untuk mempercantik rumah Anda.
+        </p>
+    </div>
+</section>
 
 <!-- Galeri Foto Tempat Kita Kaktus -->
 <div class="mb-16" data-aos="fade-up">
@@ -123,7 +125,7 @@
     <div class="flex flex-col md:flex-row items-center gap-8">
         <div class="md:w-1/2" data-aos="zoom-in">
             <div class="relative rounded-xl overflow-hidden group">
-                <img src="{{ asset('storage/promosi/logo.jpg') }}" alt="Kebun Kaktus" class="w-full h-80 object-cover group-hover:scale-110 transition duration-500">
+                <img src="{{ asset('storage/promosi/logo new.jpeg') }}" alt="Kebun Kaktus" class="w-full h-80 object-cover group-hover:scale-110 transition duration-500">
                 <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition duration-300"></div>
             </div>
         </div>
@@ -142,41 +144,6 @@
                 Seluruh tanaman kami rawat secara profesional, ditanam di media yang sehat dan dipilih dengan teliti sebelum dikirim.
             </p>
             
-        </div>
-    </div>
-</div>
-
-<!-- Testimoni Section -->
-<div class="mb-16" data-aos="fade-up">
-    <h2 class="text-3xl font-bold text-gray-800 dark:text-white text-center mb-4">Penilaian Produk</h2>
-    <p class="text-gray-600 dark:text-gray-400 text-center mb-12">Terimakasih Sudah Memberikan Ulasan</p>
-    
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300" data-aos="zoom-in" data-aos-delay="100">
-            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-user text-3xl text-green-600"></i>
-            </div>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">"Kaktusnya sehat dan bagus, pengiriman cepat. Recommended!"</p>
-            <h4 class="font-semibold text-gray-800 dark:text-white">- Budi Santoso</h4>
-            <div class="text-yellow-500 mt-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-        </div>
-        
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300" data-aos="zoom-in" data-aos-delay="200">
-            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-user text-3xl text-green-600"></i>
-            </div>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">"Koleksi kaktusnya lengkap, harga terjangkau. Puas sekali!"</p>
-            <h4 class="font-semibold text-gray-800 dark:text-white">- Siti Aminah</h4>
-            <div class="text-yellow-500 mt-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-        </div>
-        
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300" data-aos="zoom-in" data-aos-delay="300">
-            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-user text-3xl text-green-600"></i>
-            </div>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">"Pelayanan ramah, kaktus sampai dengan selamat. Top markotop!"</p>
-            <h4 class="font-semibold text-gray-800 dark:text-white">- Andi Wijaya</h4>
-            <div class="text-yellow-500 mt-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
         </div>
     </div>
 </div>
