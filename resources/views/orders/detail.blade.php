@@ -80,7 +80,7 @@
                 @elseif($order->payment_method == 'qris')
                     <div class="text-center">
                             <p class="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                             Scan QRIS berikut untuk melakukan pembayaran:
+                             Scan QRIS / Screenshot berikut untuk melakukan pembayaran:
                             </p>
 
                         <div class="bg-white dark:bg-gray-800 p-4 inline-block rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
