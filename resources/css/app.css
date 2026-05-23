@@ -113,17 +113,15 @@ body {
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease;
 }
 
-/* Fix autofill agar mengikuti theme */
+/* Fix autofill Chrome/Brave agar teks tetap terlihat */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: inherit !important;
-    box-shadow: none !important;
+    -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
     transition: background-color 9999s ease-in-out 0s !important;
 }
 
-/* Dark mode */
+/* Dark mode autofill */
 .dark input:-webkit-autofill,
 .dark input:-webkit-autofill:hover,
 .dark input:-webkit-autofill:focus {
@@ -131,10 +129,10 @@ input:-webkit-autofill:focus {
     caret-color: #f9fafb !important;
 }
 
-/* Light mode */
-html.light input:-webkit-autofill,
-html.light input:-webkit-autofill:hover,
-html.light input:-webkit-autofill:focus {
+/* Light mode autofill */
+html:not(.dark) input:-webkit-autofill,
+html:not(.dark) input:-webkit-autofill:hover,
+html:not(.dark) input:-webkit-autofill:focus {
     -webkit-text-fill-color: #111827 !important;
     caret-color: #111827 !important;
 }
