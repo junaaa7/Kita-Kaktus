@@ -132,7 +132,7 @@
                                     </div>
                                 </div>
                             </label>
-                            
+
                             <!-- COD -->
                             <label class="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
 
@@ -222,35 +222,34 @@
             </div>
 
             <!-- INFO PEMBAYARAN -->
-            <div class="mt-4 bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 p-4 rounded-lg">
+<div class="mt-4 bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 p-4 rounded-lg">
 
-                <p class="text-sm text-blue-700 dark:text-blue-300">
+    <p class="text-sm text-blue-700 dark:text-blue-300">
 
-                    <i class="fas fa-info-circle"></i>
+        <i class="fas fa-info-circle mr-1"></i>
 
-                    <span id="paymentInfo">
+        <span id="paymentInfo">
 
-                        @if(old('payment_method', 'bank_transfer') == 'bank_transfer')
+            @if(old('payment_method', 'bank_transfer') == 'bank_transfer')
 
-                            Silahkan Transfer ke Rekening <br>
-                            BCA 1234567890 a.n Kita Kaktus <br>
-                            Mandiri: 9876543210 a.n Kita Kaktus
+                Silahkan Transfer ke Rekening <br>
+                BCA 1234567890 a.n Kita Kaktus <br>
+                Mandiri: 9876543210 a.n Kita Kaktus
 
-                        @else
+            @elseif(old('payment_method') == 'qris')
 
-                            Bayar langsung saat barang diterima
+                Silahkan pilih QRIS, lalu scan QRIS pada halaman detail pesanan setelah checkout.
 
-                        @endif
+            @else
 
-                    </span>
+                Bayar langsung saat barang diterima
 
-                </p>
+            @endif
 
-            </div>
+        </span>
 
-        </div>
+    </p>
 
-    </div>
 </div>
 
 <!-- SCRIPT -->
@@ -260,29 +259,30 @@
     const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
     const paymentInfo = document.getElementById('paymentInfo');
 
-    const bankText = `
-        Silahkan Transfer ke Rekening <br>
-        BCA 1234567890 a.n Kita Kaktus <br>
-        Mandiri: 9876543210 a.n Kita Kaktus
-    `;
-
-    const codText = `
-        Bayar langsung saat barang diterima
-    `;
-
     paymentMethods.forEach(method => {
 
         method.addEventListener('change', function() {
 
             if (this.value === 'bank_transfer') {
 
-                paymentInfo.innerHTML = bankText;
+                paymentInfo.innerHTML = `
+                    Silahkan Transfer ke Rekening <br>
+                    BCA 1234567890 a.n Kita Kaktus <br>
+                    Mandiri: 9876543210 a.n Kita Kaktus
+                `;
 
-            } else if (this.value === 'cash') {
+            } else if (this.value === 'qris') {
 
-                paymentInfo.innerHTML = codText;
+                paymentInfo.innerHTML = `
+                    Silahkan pilih QRIS, lalu scan QRIS pada halaman detail pesanan setelah checkout.
+                `;
+
+            } else {
+
+                paymentInfo.innerHTML = `
+                    Bayar langsung saat barang diterima
+                `;
             }
-
         });
 
     });
