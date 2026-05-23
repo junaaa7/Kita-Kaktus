@@ -27,7 +27,12 @@
 
 <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
     <div class="absolute inset-0 -z-10">
-        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-green-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"></div>
+    <img src="{{ asset('images/promosi/kaktus.webp') }}" 
+         alt="Background Kita Kaktus" 
+         class="w-full h-full object-cover">
+
+    <div class="absolute inset-0 bg-white/70 dark:bg-black/70"></div>
+</div>
         <div class="absolute top-10 left-10 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob dark:bg-green-900/30"></div>
         <div class="absolute top-40 right-10 w-72 h-72 bg-yellow-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000 dark:bg-yellow-900/30"></div>
         <div class="absolute bottom-10 left-20 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000 dark:bg-green-800/30"></div>
