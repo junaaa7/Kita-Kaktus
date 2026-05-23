@@ -11,15 +11,25 @@ class UserController extends Controller
 {
     public function home()
     {
-        $products = Product::with('category')->latest()->paginate(12);
+        $products = Product::with('category')
+            ->where('stock', '>', 0)
+            ->latest()
+            ->paginate(12);
+
         return view('home', compact('products'));
     }
 
     public function productDetail(Product $product)
     {
+        if ($product->stock <= 0) {
+            return redirect()->route('collection.index')
+                ->with('error', 'Produk sedang habis.');
+        }
+
         $product->load('category', 'ratings');
         $averageRating = $product->averageRating();
         $ratingCount = $product->ratingCount();
+
         return view('product.detail', compact('product', 'averageRating', 'ratingCount'));
     }
 
@@ -51,7 +61,6 @@ class UserController extends Controller
             'product_id' => 'required|exists:products,id'
         ]);
         
-        // Cek apakah sudah pernah memberi rating untuk produk ini di order ini
         $existingRating = Rating::where('user_id', auth()->id())
                                 ->where('product_id', $request->product_id)
                                 ->where('order_id', $order->id)

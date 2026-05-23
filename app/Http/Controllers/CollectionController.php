@@ -10,7 +10,7 @@ class CollectionController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::with('category');
+        $query = Product::with('category')->where('stock', '>', 0);
         
         // Filter by category
         if ($request->has('category') && $request->category != '') {

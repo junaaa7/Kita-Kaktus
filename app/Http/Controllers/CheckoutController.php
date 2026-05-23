@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,13 +26,23 @@ class CheckoutController extends Controller
         $cart = [];
 
         foreach ($cartItems as $item) {
+            if (!$item->product || $item->product->stock <= 0) {
+                continue;
+            }
+
             $cart[$item->product_id] = [
                 'id' => $item->product_id,
                 'name' => $item->product->name,
                 'quantity' => $item->quantity,
                 'price' => $item->product->price,
                 'image' => $item->product->image,
+                'stock' => $item->product->stock,
             ];
+        }
+
+        if (empty($cart)) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Produk di keranjang sudah habis.');
         }
 
         $total = 0;
@@ -101,13 +112,23 @@ class CheckoutController extends Controller
         $cart = [];
 
         foreach ($cartItems as $item) {
+            if (!$item->product || $item->product->stock <= 0) {
+                continue;
+            }
+
             $cart[$item->product_id] = [
                 'id' => $item->product_id,
                 'name' => $item->product->name,
                 'quantity' => $item->quantity,
                 'price' => $item->product->price,
                 'image' => $item->product->image,
+                'stock' => $item->product->stock,
             ];
+        }
+
+        if (empty($cart)) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Produk yang dipilih sudah habis.');
         }
 
         $total = 0;
@@ -154,6 +175,19 @@ class CheckoutController extends Controller
         DB::beginTransaction();
 
         try {
+            foreach ($cartItems as $item) {
+                $product = Product::where('id', $item->product_id)->lockForUpdate()->first();
+
+                if (!$product || $product->stock <= 0) {
+                    DB::rollBack();
+                    return back()->with('error', 'Produk ' . ($item->product->name ?? '') . ' sudah habis.');
+                }
+
+                if ($item->quantity > $product->stock) {
+                    DB::rollBack();
+                    return back()->with('error', 'Stok produk ' . $product->name . ' hanya tersisa ' . $product->stock . '.');
+                }
+            }
 
             $total = $cartItems->sum(function ($item) {
                 return $item->product->price * $item->quantity;
@@ -171,25 +205,25 @@ class CheckoutController extends Controller
             ]);
 
             foreach ($cartItems as $item) {
+                $product = Product::where('id', $item->product_id)->lockForUpdate()->first();
 
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item->product_id,
                     'quantity' => $item->quantity,
-                    'price' => $item->product->price,
+                    'price' => $product->price,
                 ]);
+
+                $product->decrement('stock', $item->quantity);
             }
 
             if ($isSelectedCheckout) {
-
                 Cart::where('user_id', Auth::id())
                     ->whereIn('product_id', $cartItems->pluck('product_id'))
                     ->delete();
 
                 session()->forget('selected_checkout_items');
-
             } else {
-
                 Cart::where('user_id', Auth::id())->delete();
             }
 
@@ -199,7 +233,6 @@ class CheckoutController extends Controller
                 ->with('success', 'Pesanan berhasil dibuat.');
 
         } catch (\Exception $e) {
-
             DB::rollBack();
 
             return back()->with('error', 'Checkout gagal: ' . $e->getMessage());
