@@ -26,173 +26,279 @@
 </style>
 
 <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-    <div class="absolute inset-0 -z-10">
-        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-green-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"></div>
-        <div class="absolute top-10 right-10 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob dark:bg-green-900/30"></div>
-        <div class="absolute bottom-10 left-10 w-72 h-72 bg-yellow-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000 dark:bg-yellow-900/30"></div>
-        <div class="absolute top-40 left-1/3 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000 dark:bg-green-800/30"></div>
+
+    <!-- Background -->
+    <div class="absolute inset-0 -z-10 overflow-hidden">
+
+        <!-- Background Image -->
+        <img src="{{ asset('images/promosi/logo new.webp') }}"
+             alt="Background Kita Kaktus"
+             class="w-full h-full object-cover scale-110 blur-sm">
+
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black/65 dark:bg-black/75 backdrop-blur-[2px]"></div>
+
+        <!-- Glow Effect -->
+        <div class="absolute top-10 left-10 w-72 h-72 bg-green-500/20 rounded-full blur-3xl"></div>
+
+        <div class="absolute bottom-10 right-10 w-72 h-72 bg-yellow-500/20 rounded-full blur-3xl"></div>
     </div>
 
     <div class="max-w-md w-full space-y-8 animate-fade-in-up">
+
+        <!-- Header -->
         <div class="text-center">
             <div class="animate-bounce-slow">
                 <div class="w-auto h-auto px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto shadow-lg">
                     <span class="text-xl font-bold text-white">Kita Kaktus</span>
                 </div>
             </div>
-            <h2 class="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
+
+            <h2 class="mt-6 text-3xl font-extrabold text-white">
                 Daftar Akun Baru
             </h2>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+
+            <p class="mt-2 text-sm text-gray-200">
                 Bergabunglah dengan Kita Kaktus
             </p>
         </div>
 
-        <form class="mt-8 space-y-5 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl transform transition-all duration-500 hover:scale-[1.02]" method="POST" action="{{ route('register') }}">
+        <!-- Form -->
+        <form class="mt-8 space-y-5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-8 rounded-2xl shadow-2xl transform transition-all duration-500 hover:scale-[1.02]"
+              method="POST"
+              action="{{ secure_url('/register') }}">
+
             @csrf
 
-            @if (session('error'))
-                <div class="p-3 rounded-xl bg-red-100 text-red-700 text-sm">
-                    {{ session('error') }}
-                </div>
-            @endif
-            
-            <div class="space-y-4">
-                <div>
-                    <div class="relative mt-1">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fas fa-user text-gray-400 dark:text-gray-300"></i>
-                        </div>
-                        <input id="name" name="name" type="text" autocomplete="name" required 
-                               value="{{ old('name') }}"
-                               class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-3 py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200"
-                               placeholder="Nama Lengkap">
+            <!-- Name -->
+            <div>
+                <div class="relative mt-1">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-user text-gray-400 dark:text-gray-300"></i>
                     </div>
-                    @error('name')
-                        <p class="mt-1 text-sm text-red-600 dark:text-red-400 animate-shake">{{ $message }}</p>
-                    @enderror
+
+                    <input id="name"
+                           name="name"
+                           type="text"
+                           required
+                           value="{{ old('name') }}"
+                           class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-3 py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200"
+                           placeholder="Nama Lengkap">
                 </div>
 
-                <div>
-                    <div class="relative mt-1">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fas fa-envelope text-gray-400 dark:text-gray-300"></i>
-                        </div>
-                        <input id="email" name="email" type="email" autocomplete="email" required 
-                               value="{{ old('email') }}"
-                               class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-3 py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200"
-                               placeholder="Alamat Email">
+                @error('name')
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400 animate-shake">
+                        {{ $message }}
+                    </p>
+                @enderror
+            </div>
+
+            <!-- Email -->
+            <div>
+                <div class="relative mt-1">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-envelope text-gray-400 dark:text-gray-300"></i>
                     </div>
-                    @error('email')
-                        <p class="mt-1 text-sm text-red-600 dark:text-red-400 animate-shake">{{ $message }}</p>
-                    @enderror
+
+                    <input id="email"
+                           name="email"
+                           type="email"
+                           required
+                           value="{{ old('email') }}"
+                           class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-3 py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200"
+                           placeholder="Alamat Email">
                 </div>
 
-                <div>
-                    <div class="relative mt-1">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fas fa-lock text-gray-400 dark:text-gray-300"></i>
-                        </div>
-                        <input id="password" name="password" type="password" required 
-                               class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-10 py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200"
-                               placeholder="Password (min. 8 karakter)">
-                        <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                            <i id="eyeIcon" class="fas fa-eye text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"></i>
-                        </button>
+                @error('email')
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400 animate-shake">
+                        {{ $message }}
+                    </p>
+                @enderror
+            </div>
+
+            <!-- Password -->
+            <div>
+                <div class="relative mt-1">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-lock text-gray-400 dark:text-gray-300"></i>
                     </div>
-                    @error('password')
-                        <p class="mt-1 text-sm text-red-600 dark:text-red-400 animate-shake">{{ $message }}</p>
-                    @enderror
+
+                    <input id="password"
+                           name="password"
+                           type="password"
+                           required
+                           class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-10 py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200"
+                           placeholder="Password">
+
+                    <button type="button"
+                            id="togglePassword"
+                            class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                        <i id="eyeIcon"
+                           class="fas fa-eye text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"></i>
+                    </button>
                 </div>
 
-                <div>
-                    <div class="relative mt-1">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fas fa-check-circle text-gray-400 dark:text-gray-300"></i>
-                        </div>
-                        <input id="password_confirmation" name="password_confirmation" type="password" required 
-                               class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-10 py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200"
-                               placeholder="Konfirmasi Password">
-                        <button type="button" id="toggleConfirmPassword" class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                            <i id="eyeIconConfirm" class="fas fa-eye text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"></i>
-                        </button>
+                @error('password')
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400 animate-shake">
+                        {{ $message }}
+                    </p>
+                @enderror
+            </div>
+
+            <!-- Confirm Password -->
+            <div>
+                <div class="relative mt-1">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-check-circle text-gray-400 dark:text-gray-300"></i>
                     </div>
+
+                    <input id="password_confirmation"
+                           name="password_confirmation"
+                           type="password"
+                           required
+                           class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-10 py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200"
+                           placeholder="Konfirmasi Password">
+
+                    <button type="button"
+                            id="toggleConfirmPassword"
+                            class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                        <i id="eyeIconConfirm"
+                           class="fas fa-eye text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"></i>
+                    </button>
                 </div>
             </div>
 
+            <!-- Button -->
             <div class="mt-8">
-                <button type="submit" class="group relative w-full flex justify-center py-3 px-4 mb-6 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transform transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg">
+                <button type="submit"
+                        class="group relative w-full flex justify-center py-3 px-4 mb-6 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transform transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg">
+
                     <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                         <i class="fas fa-user-plus text-green-300 group-hover:text-green-200 transition-colors duration-200"></i>
                     </span>
+
                     Daftar Sekarang
                 </button>
             </div>
 
+            <!-- Divider -->
             <div class="relative flex items-center justify-center my-6">
                 <div class="absolute left-0 w-full border-t border-gray-300 dark:border-gray-600"></div>
-                    <span class="relative px-4 bg-white dark:bg-gray-800 text-sm text-gray-500 dark:text-gray-400 font-medium">
-                        ATAU
-                    </span>
+
+                <span class="relative px-4 bg-white/90 dark:bg-gray-800/90 text-sm text-gray-500 dark:text-gray-400 font-medium">
+                    ATAU
+                </span>
             </div>
 
-           <a href="{{ route('google.register') }}"
-                style="position: relative; z-index: 99999; cursor: pointer; display: flex;"
-                class="mt-4 w-full flex items-center justify-center gap-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition shadow-sm">
+            <!-- Google Register -->
+            <a href="{{ route('google.login') }}"
+               class="mt-4 w-full flex items-center justify-center gap-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition shadow-sm">
 
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg"
-                alt="Google"
-                style="width: 22px !important; height: 22px !important; max-width: 22px !important;">
-                <span class="font-medium text-sm">Daftar dengan Google</span>
+                     alt="Google"
+                     style="width: 22px !important; height: 22px !important; max-width: 22px !important;">
+
+                <span class="font-medium text-sm">
+                    Daftar dengan Google
+                </span>
             </a>
 
+            <!-- Login -->
             <div class="text-center mt-4 relative z-10">
-                <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Sudah punya akun? 
-                    <a href="{{ route('login') }}" 
-                       class="relative z-20 inline-flex items-center font-medium text-green-600 hover:text-green-500 transition-colors duration-200 hover:underline">
+                <p class="text-sm text-gray-300">
+                    Sudah punya akun?
+
+                    <a href="{{ route('login') }}"
+                       class="relative z-20 inline-flex items-center font-medium text-green-400 hover:text-green-300 transition-colors duration-200 hover:underline">
+
                         Login Sekarang
+
                         <i class="fas fa-arrow-right ml-1 text-xs"></i>
                     </a>
                 </p>
             </div>
+
         </form>
     </div>
 </div>
 
 <style>
 @keyframes fade-in-up {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes blob {
-    0% { transform: translate(0px, 0px) scale(1); }
-    33% { transform: translate(30px, -50px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.9); }
-    100% { transform: translate(0px, 0px) scale(1); }
+    0% {
+        transform: translate(0px, 0px) scale(1);
+    }
+
+    33% {
+        transform: translate(30px, -50px) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-20px, 20px) scale(0.9);
+    }
+
+    100% {
+        transform: translate(0px, 0px) scale(1);
+    }
 }
 
 @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
 }
 
-.animate-fade-in-up { animation: fade-in-up 0.6s ease-out; }
-.animate-bounce-slow { animation: bounce 2s infinite; }
-.animate-blob { animation: blob 7s infinite; }
-.animation-delay-2000 { animation-delay: 2s; }
-.animation-delay-4000 { animation-delay: 4s; }
-.animate-shake { animation: shake 0.3s ease-in-out; }
+.animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out;
+}
+
+.animate-bounce-slow {
+    animation: bounce 2s infinite;
+}
+
+.animate-blob {
+    animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+    animation-delay: 4s;
+}
+
+.animate-shake {
+    animation: shake 0.3s ease-in-out;
+}
 </style>
 
 @push('scripts')
 <script>
-    document.getElementById('togglePassword').addEventListener('click', function() {
+    // Password
+    document.getElementById('togglePassword').addEventListener('click', function () {
         const password = document.getElementById('password');
         const eyeIcon = document.getElementById('eyeIcon');
-        
+
         if (password.type === 'password') {
             password.type = 'text';
             eyeIcon.classList.remove('fa-eye');
@@ -203,11 +309,12 @@
             eyeIcon.classList.add('fa-eye');
         }
     });
-    
-    document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+
+    // Confirm Password
+    document.getElementById('toggleConfirmPassword').addEventListener('click', function () {
         const password = document.getElementById('password_confirmation');
         const eyeIcon = document.getElementById('eyeIconConfirm');
-        
+
         if (password.type === 'password') {
             password.type = 'text';
             eyeIcon.classList.remove('fa-eye');
