@@ -37,14 +37,14 @@
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500" data-aos="zoom-in" data-aos-delay="100">
-            <img src="{{ asset('images/promosi/dasboard (2).webp') }}" alt="Kebun Kaktus" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+            <img src="{{ asset('images/promosi/kebun kaktus.webp') }}" alt="Kebun Kaktus" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
                 <p class="text-white font-semibold">Kebun Kaktus Indah</p>
             </div>
         </div>
         
         <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500" data-aos="zoom-in" data-aos-delay="200">
-            <img src="{{ asset('images/promosi/dasboard (2).webp') }}" alt="Toko Kaktus" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+            <img src="{{ asset('images/promosi/dasboard (3).webp') }}" alt="Toko Kaktus" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
                 <p class="text-white font-semibold">Toko Kaktus Modern</p>
             </div>
