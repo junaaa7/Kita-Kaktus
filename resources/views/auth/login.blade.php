@@ -27,15 +27,15 @@
 
 <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
     <div class="absolute inset-0 -z-10">
-    <img src="{{ asset('images/promosi/kaktus.webp') }}" 
-         alt="Background Kita Kaktus" 
-         class="w-full h-full object-cover">
+        <img src="{{ asset('images/promosi/kaktus.webp') }}"
+             alt="Background Kita Kaktus"
+             class="w-full h-full object-cover">
 
-    <div class="absolute inset-0 bg-white/70 dark:bg-black/70"></div>
-</div>
-        <div class="absolute top-10 left-10 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob dark:bg-green-900/30"></div>
-        <div class="absolute top-40 right-10 w-72 h-72 bg-yellow-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000 dark:bg-yellow-900/30"></div>
-        <div class="absolute bottom-10 left-20 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000 dark:bg-green-800/30"></div>
+        <div class="absolute inset-0 bg-black/60 dark:bg-black/70"></div>
+
+        <div class="absolute top-10 left-10 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob dark:bg-green-900/30"></div>
+        <div class="absolute top-40 right-10 w-72 h-72 bg-yellow-200 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob animation-delay-2000 dark:bg-yellow-900/30"></div>
+        <div class="absolute bottom-10 left-20 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob animation-delay-4000 dark:bg-green-800/30"></div>
     </div>
 
     <div class="max-w-md w-full space-y-8 animate-fade-in-up">
@@ -45,15 +45,15 @@
                     <span class="text-xl font-bold text-white">Kita Kaktus</span>
                 </div>
             </div>
-            <h2 class="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
+            <h2 class="mt-6 text-3xl font-extrabold text-white">
                 Selamat Datang Kembali
             </h2>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            <p class="mt-2 text-sm text-gray-200">
                 Silahkan login untuk melanjutkan berbelanja
             </p>
         </div>
 
-        <form class="mt-8 space-y-5 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl transform transition-all duration-500 hover:scale-[1.02]" method="POST" action="{{ secure_url('/login') }}">
+        <form class="mt-8 space-y-5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-8 rounded-2xl shadow-2xl transform transition-all duration-500 hover:scale-[1.02]" method="POST" action="{{ secure_url('/login') }}">
             @csrf
 
             @if (session('error'))
@@ -104,7 +104,7 @@
 
             <div class="relative flex items-center justify-center my-6">
                 <div class="absolute left-0 w-full border-t border-gray-300 dark:border-gray-600"></div>
-                <span class="relative px-4 bg-white dark:bg-gray-800 text-sm text-gray-500 dark:text-gray-400 font-medium">
+                <span class="relative px-4 bg-white/90 dark:bg-gray-800/90 text-sm text-gray-500 dark:text-gray-400 font-medium">
                     ATAU
                 </span>
             </div>
@@ -130,7 +130,7 @@
                 </p>
             </div>
 
-            <div class="mt-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+            <div class="mt-6 p-4 bg-gray-50/90 dark:bg-gray-700/50 rounded-xl">
                 <p class="text-xs font-semibold text-gray-700 dark:text-gray-300 text-center mb-2">
                     <i class="fas fa-users mr-1"></i> Akun Demo
                 </p>
