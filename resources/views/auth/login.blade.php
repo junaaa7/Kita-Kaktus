@@ -29,7 +29,7 @@
     <div class="absolute inset-0 -z-10 overflow-hidden">
 
     <!-- Background Image -->
-    <img src="{{ asset('images/promosi/kaktus.webp') }}"
+    <img src="{{ asset('images/promosi/logo new.webp') }}"
          alt="Background Kita Kaktus"
          class="w-full h-full object-cover scale-110 blur-sm">
 
