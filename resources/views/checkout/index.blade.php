@@ -110,7 +110,29 @@
                                     </div>
                                 </div>
                             </label>
+                            
+                            <!-- QRIS -->
+                            <label class="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <input
+                                    type="radio"
+                                    name="payment_method"
+                                    value="qris"
+                                    {{ old('payment_method') == 'qris' ? 'checked' : '' }}
+                                    class="mr-3"
+                                >
 
+                                <div>
+                                    <div class="font-semibold text-gray-800 dark:text-white">
+                                        <i class="fas fa-qrcode mr-2 text-green-500"></i>
+                                        QRIS
+                                    </div>
+
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                                        Scan QRIS semua e-wallet dan mobile banking
+                                    </div>
+                                </div>
+                            </label>
+                            
                             <!-- COD -->
                             <label class="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
 

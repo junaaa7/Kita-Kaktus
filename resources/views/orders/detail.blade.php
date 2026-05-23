@@ -79,13 +79,26 @@
                     </div>
                 @elseif($order->payment_method == 'qris')
                     <div class="text-center">
-                        <p class="text-sm text-gray-700 dark:text-gray-300 mb-2">Scan QR Code berikut untuk melakukan pembayaran:</p>
-                        <div class="bg-gray-50 dark:bg-gray-800 p-4 inline-block rounded-lg shadow-sm">
-                            <i class="fas fa-qrcode text-8xl text-gray-800 dark:text-white"></i>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">QRIS Code</p>
+                            <p class="text-sm text-gray-700 dark:text-gray-300 mb-2">
+                             Scan QRIS berikut untuk melakukan pembayaran:
+                            </p>
+
+                        <div class="bg-white dark:bg-gray-800 p-4 inline-block rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                            <img 
+                                src="{{ asset('images/payment/qris.webp') }}" 
+                                alt="QRIS Kita Kaktus" 
+                                class="w-56 h-56 object-contain mx-auto rounded-lg"
+                            >
+
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                                    QRIS Kita Kaktus
+                                </p>
                         </div>
-                        <p class="text-sm mt-2 text-red-600 dark:text-red-400"><strong>Total: Rp {{ number_format($order->total_amount, 0, ',', '.') }}</strong></p>
-                    </div>
+
+                                 <p class="text-sm mt-2 text-red-600 dark:text-red-400">
+                                    <strong>Total: Rp {{ number_format($order->total_amount, 0, ',', '.') }}</strong>
+                                </p>
+                        </div>
                 @endif
                 
                 <form action="{{ secure_url('/upload-payment/' . $order->id) }}" method="POST" enctype="multipart/form-data" class="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
