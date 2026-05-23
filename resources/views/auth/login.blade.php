@@ -27,7 +27,7 @@
 
 <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
     <div class="absolute inset-0 -z-10">
-        <img src="{{ asset('images/promosi/kaktus.webp') }}"
+        <img src="{{ asset('images/promosi/logo new.webp') }}"
              alt="Background Kita Kaktus"
              class="w-full h-full object-cover">
 
