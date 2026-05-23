@@ -26,17 +26,21 @@
 </style>
 
 <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-    <div class="absolute inset-0 -z-10">
-        <img src="{{ asset('images/promosi/logo new.webp') }}"
-             alt="Background Kita Kaktus"
-             class="w-full h-full object-cover">
+    <div class="absolute inset-0 -z-10 overflow-hidden">
 
-        <div class="absolute inset-0 bg-black/60 dark:bg-black/70"></div>
+    <!-- Background Image -->
+    <img src="{{ asset('images/promosi/kaktus.webp') }}"
+         alt="Background Kita Kaktus"
+         class="w-full h-full object-cover scale-110 blur-sm">
 
-        <div class="absolute top-10 left-10 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob dark:bg-green-900/30"></div>
-        <div class="absolute top-40 right-10 w-72 h-72 bg-yellow-200 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob animation-delay-2000 dark:bg-yellow-900/30"></div>
-        <div class="absolute bottom-10 left-20 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob animation-delay-4000 dark:bg-green-800/30"></div>
-    </div>
+    <!-- Dark Overlay -->
+    <div class="absolute inset-0 bg-black/65 dark:bg-black/75 backdrop-blur-[2px]"></div>
+
+    <!-- Glow Effects -->
+    <div class="absolute top-10 left-10 w-72 h-72 bg-green-500/20 rounded-full blur-3xl"></div>
+
+    <div class="absolute bottom-10 right-10 w-72 h-72 bg-yellow-500/20 rounded-full blur-3xl"></div>
+</div>
 
     <div class="max-w-md w-full space-y-8 animate-fade-in-up">
         <div class="text-center">
