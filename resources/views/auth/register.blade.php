@@ -3,6 +3,28 @@
 @section('title', 'Register - Kita Kaktus')
 
 @section('content')
+<style>
+    /* Fix untuk auto-fill browser */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-background-clip: text;
+        transition: background-color 5000s ease-in-out 0s;
+        box-shadow: inset 0 0 20px 20px #ffffff !important;
+        -webkit-text-fill-color: #111827 !important;
+    }
+
+    /* Dark mode fix untuk auto-fill */
+    .dark input:-webkit-autofill,
+    .dark input:-webkit-autofill:hover,
+    .dark input:-webkit-autofill:focus,
+    .dark input:-webkit-autofill:active {
+        box-shadow: inset 0 0 20px 20px #374151 !important;
+        -webkit-text-fill-color: #f9fafb !important;
+    }
+</style>
+
 <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
     <div class="absolute inset-0 -z-10">
         <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-green-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"></div>
