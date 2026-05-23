@@ -121,22 +121,3 @@ body {
         border-color 0.3s ease,
         color 0.2s ease;
 }
-
-/* =========================
-   FIX AUTOFILL CHROME/BRAVE
-   Samakan background email/password
-   dengan input Nama Lengkap
-========================= */
-
-/* Default autofill */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
-    transition: background-color 9999s ease-in-out 0s !important;
-}
