@@ -158,7 +158,7 @@
         <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Ada yang ingin ditanyakan?</h3>
         <p class="text-green-100 mb-6">Hubungi kami melalui WhatsApp untuk konsultasi atau pemesanan khusus</p>
         <div class="flex justify-center space-x-4 flex-wrap gap-4">
-            <a href="https://wa.me/6281234567890?text=Halo%20Kita%20Kaktus%2C%20saya%20tertarik%20dengan%20produk%20kaktus%20Anda" 
+            <a href="https://wa.me/6287871797367?text=Halo%20Kita%20Kaktus%2C%20saya%20tertarik%20dengan%20produk%20kaktus%20Anda" 
                target="_blank" 
                class="inline-flex items-center space-x-2 bg-white text-green-600 px-8 py-3 rounded-lg hover:bg-gray-100 transition transform hover:scale-105 duration-300 font-semibold shadow-lg">
                 <i class="fab fa-whatsapp text-xl"></i> <span>Chat WhatsApp</span>
