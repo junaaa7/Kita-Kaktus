@@ -6,7 +6,7 @@
 <div class="max-w-7xl mx-auto">
     <!-- Header Section -->
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">🌵 Koleksi Kaktus</h1>
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">Koleksi Kaktus</h1>
         <p class="text-gray-600 dark:text-gray-400">Temukan berbagai koleksi kaktus terbaik dari Kita Kaktus</p>
     </div>
 

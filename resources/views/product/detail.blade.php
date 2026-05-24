@@ -125,7 +125,7 @@
         <p class="text-gray-600 dark:text-gray-400">
             Butuh bantuan? 
             <a 
-                href="https://wa.me/6281234567890" 
+                href="https://wa.me/6287871797367" 
                 target="_blank" 
                 class="text-green-600 font-semibold"
             >
