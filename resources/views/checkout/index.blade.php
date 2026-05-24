@@ -270,8 +270,7 @@
 
                 paymentInfo.innerHTML = `
                     Silahkan Transfer ke Rekening <br>
-                    BCA 1234567890 a.n Kita Kaktus <br>
-                    Mandiri: 9876543210 a.n Kita Kaktus
+                    BCA 6035057815 a.n EVI LUTFIANI DEWI <br>
                 `;
 
             } else if (this.value === 'qris') {
