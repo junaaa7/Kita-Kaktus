@@ -57,7 +57,7 @@
             </div>
         </div>
 
-        <!-- Informasi Pembayaran - White Mode: Putih dengan border, Dark Mode: Gelap -->
+        <!-- Informasi Pembayaran -->
         @if($order->payment_status == 'pending' && $order->payment_method != 'cash')
         <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mb-4">
             <h3 class="font-bold text-gray-800 dark:text-white mb-3 text-base sm:text-lg">Informasi Pembayaran</h3>
@@ -126,34 +126,64 @@
         @endif
     </div>
     
+    <!-- TABEL PRODUK - DIPERBAIKI RESPONSIVE -->
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-        <div class="overflow-x-auto">
+        <!-- Tampilan Desktop (Table) -->
+        <div class="hidden sm:block overflow-x-auto">
             <table class="min-w-full">
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
-                        <th class="px-3 sm:px-6 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-300 uppercase">Produk</th>
-                        <th class="px-3 sm:px-6 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-300 uppercase">Harga</th>
-                        <th class="px-3 sm:px-6 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-300 uppercase">Quantity</th>
-                        <th class="px-3 sm:px-6 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-300 uppercase">Subtotal</th>
+                        <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Produk</th>
+                        <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Harga</th>
+                        <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Jumlah</th>
+                        <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Subtotal</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                     @foreach($order->items as $item)
-                    <td>
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-gray-800 dark:text-gray-200 text-sm sm:text-base">{{ $item->product->name }}</td>
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-gray-600 dark:text-gray-300 text-sm sm:text-base">Rp {{ number_format($item->price, 0, ',', '.') }}</td>
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-gray-600 dark:text-gray-300 text-sm sm:text-base">{{ $item->quantity }}</td>
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-gray-800 dark:text-gray-200 text-sm sm:text-base">Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</td>
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                        <td class="px-4 md:px-6 py-3 md:py-4 text-gray-800 dark:text-gray-200 text-sm">{{ $item->product->name }}</td>
+                        <td class="px-4 md:px-6 py-3 md:py-4 text-gray-600 dark:text-gray-300 text-sm">Rp {{ number_format($item->price, 0, ',', '.') }}</td>
+                        <td class="px-4 md:px-6 py-3 md:py-4 text-gray-600 dark:text-gray-300 text-sm">{{ $item->quantity }}</td>
+                        <td class="px-4 md:px-6 py-3 md:py-4 text-gray-800 dark:text-gray-200 text-sm">Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</td>
                     </tr>
                     @endforeach
                 </tbody>
                 <tfoot class="bg-gray-50 dark:bg-gray-700">
-                    <tr>
-                        <td colspan="3" class="px-3 sm:px-6 py-3 sm:py-4 text-right font-bold text-gray-700 dark:text-gray-300 text-sm sm:text-base">Total:</td>
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 font-bold text-green-600 dark:text-green-400 text-sm sm:text-base">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</td>
+                    <tr class="border-t border-gray-200 dark:border-gray-700">
+                        <td colspan="3" class="px-4 md:px-6 py-3 md:py-4 text-right font-bold text-gray-700 dark:text-gray-300 text-sm">Total:</td>
+                        <td class="px-4 md:px-6 py-3 md:py-4 font-bold text-green-600 dark:text-green-400 text-sm">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</td>
                     </tr>
                 </tfoot>
             </table>
+        </div>
+        
+        <!-- Tampilan Mobile (Card) -->
+        <div class="block sm:hidden divide-y divide-gray-200 dark:divide-gray-700">
+            @foreach($order->items as $item)
+            <div class="p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                <div class="flex justify-between items-start mb-2">
+                    <h4 class="font-semibold text-gray-800 dark:text-white text-base">{{ $item->product->name }}</h4>
+                    <span class="text-green-600 dark:text-green-400 font-bold text-sm">Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-sm">
+                    <div>
+                        <span class="text-gray-500 dark:text-gray-400">Harga Satuan:</span>
+                        <p class="text-gray-800 dark:text-gray-200">Rp {{ number_format($item->price, 0, ',', '.') }}</p>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 dark:text-gray-400">Jumlah:</span>
+                        <p class="text-gray-800 dark:text-gray-200">{{ $item->quantity }}</p>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+            <div class="p-4 bg-gray-50 dark:bg-gray-700">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-gray-700 dark:text-gray-300">Total:</span>
+                    <span class="font-bold text-green-600 dark:text-green-400 text-lg">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span>
+                </div>
+            </div>
         </div>
     </div>
     
