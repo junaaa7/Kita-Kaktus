@@ -74,42 +74,55 @@
                 @csrf
                 @method('PUT')
                 <select name="status" class="px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg flex-1 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                    <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }} class="text-gray-900 dark:text-white">Pending</option>
-                    <option value="processed" {{ $order->status == 'processed' ? 'selected' : '' }} class="text-gray-900 dark:text-white">Diproses</option>
-                    <option value="shipped" {{ $order->status == 'shipped' ? 'selected' : '' }} class="text-gray-900 dark:text-white">Dikirim</option>
-                    <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }} class="text-gray-900 dark:text-white">Selesai</option>
-                    <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }} class="text-gray-900 dark:text-white">Dibatalkan</option>
+                    <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                    <option value="processed" {{ $order->status == 'processed' ? 'selected' : '' }}>Diproses</option>
+                    <option value="shipped" {{ $order->status == 'shipped' ? 'selected' : '' }}>Dikirim</option>
+                    <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }}>Selesai</option>
+                    <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Dibatalkan</option>
                 </select>
                 <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 text-sm sm:text-base">Update</button>
             </form>
         </div>
     </div>
     
+    <!-- TABEL PRODUK - DIPERBAIKI agar rapi -->
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
         <div class="overflow-x-auto">
             <table class="min-w-full">
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
-                        <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Produk</th>
-                        <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Harga</th>
-                        <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Quantity</th>
-                        <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Subtotal</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Produk</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Harga</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Jumlah</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Subtotal</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                     @foreach($order->items as $item)
-                    <tr>
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-gray-800 dark:text-white text-sm sm:text-base">{{ $item->product->name }}</td>
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-gray-600 dark:text-gray-300 text-sm sm:text-base">Rp {{ number_format($item->price, 0, ',', '.') }}</td>
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-gray-600 dark:text-gray-300 text-sm sm:text-base">{{ $item->quantity }}</td>
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-gray-800 dark:text-gray-200 text-sm sm:text-base">Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</td>
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                        <td class="px-4 py-3 text-gray-800 dark:text-white text-sm">
+                            {{ $item->product->name }}
+                        </td>
+                        <td class="px-4 py-3 text-gray-600 dark:text-gray-300 text-sm whitespace-nowrap">
+                            Rp {{ number_format($item->price, 0, ',', '.') }}
+                        </td>
+                        <td class="px-4 py-3 text-gray-600 dark:text-gray-300 text-sm whitespace-nowrap">
+                            {{ $item->quantity }}
+                        </td>
+                        <td class="px-4 py-3 text-green-600 dark:text-green-400 font-semibold text-sm whitespace-nowrap">
+                            Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
                 <tfoot class="bg-gray-50 dark:bg-gray-700">
-                    <tr>
-                        <td colspan="3" class="px-3 sm:px-6 py-3 sm:py-4 text-right font-bold text-gray-700 dark:text-gray-300 text-sm sm:text-base">Total:</td>
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 font-bold text-green-600 dark:text-green-400 text-sm sm:text-base">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</td>
+                    <tr class="border-t border-gray-200 dark:border-gray-700">
+                        <td colspan="3" class="px-4 py-3 text-right font-bold text-gray-700 dark:text-gray-300 text-sm">
+                            Total:
+                        </td>
+                        <td class="px-4 py-3 font-bold text-green-600 dark:text-green-400 text-sm whitespace-nowrap">
+                            Rp {{ number_format($order->total_amount, 0, ',', '.') }}
+                        </td>
                     </tr>
                 </tfoot>
             </table>
