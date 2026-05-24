@@ -12,7 +12,8 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('category')->orderBy('created_at', 'desc')->paginate(10);
+        // TAMBAHKAN ->onEachSide(2) untuk menampilkan nomor halaman di desktop
+        $products = Product::with('category')->orderBy('created_at', 'desc')->paginate(10)->onEachSide(2);
         return view('admin.products.index', compact('products'));
     }
 
