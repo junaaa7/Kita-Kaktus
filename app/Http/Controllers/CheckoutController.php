@@ -61,7 +61,7 @@ class CheckoutController extends Controller
         $request->validate([
             'shipping_address' => 'required|string|min:10',
             'phone' => 'required|digits_between:10,15',
-            'payment_method' => 'required|string',
+            'payment_method' => 'required|in:bank_transfer,qris',
         ]);
 
         $cartItems = Cart::with('product')
@@ -147,7 +147,7 @@ class CheckoutController extends Controller
         $request->validate([
             'shipping_address' => 'required|string|min:10',
             'phone' => 'required|digits_between:10,15',
-            'payment_method' => 'required|string',
+            'payment_method' => 'required|in:bank_transfer,qris',
         ]);
 
         $selectedItems = session('selected_checkout_items');

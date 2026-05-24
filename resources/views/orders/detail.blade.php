@@ -20,7 +20,6 @@
                     <span class="text-gray-800 dark:text-gray-200">
                     @if($order->payment_method == 'bank_transfer') Transfer Bank
                     @elseif($order->payment_method == 'qris') QRIS
-                    @else Bayar di Tempat
                     @endif
                     </span>
                 </p>
@@ -57,8 +56,8 @@
             </div>
         </div>
 
-        <!-- Informasi Pembayaran -->
-        @if($order->payment_status == 'pending' && $order->payment_method != 'cash')
+        <!-- Informasi Pembayaran - TANPA KONDISI CASH -->
+        @if($order->payment_status == 'pending')
         <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mb-4">
             <h3 class="font-bold text-gray-800 dark:text-white mb-3 text-base sm:text-lg">Informasi Pembayaran</h3>
             <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-3 sm:p-4 shadow-sm">

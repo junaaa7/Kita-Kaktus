@@ -21,7 +21,6 @@
                 <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1"><strong>Metode Pembayaran:</strong> 
                     @if($order->payment_method == 'bank_transfer') Transfer Bank
                     @elseif($order->payment_method == 'qris') QRIS
-                    @else Bayar di Tempat
                     @endif
                 </p>
                 <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1"><strong>Status Pembayaran:</strong>

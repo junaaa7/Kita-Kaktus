@@ -81,7 +81,7 @@
                         @enderror
                     </div>
 
-                    <!-- Metode Pembayaran -->
+                    <!-- Metode Pembayaran - TANPA COD -->
                     <div class="mb-6">
                         <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
                             Metode Pembayaran
@@ -129,28 +129,6 @@
 
                                     <div class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                                         Scan QRIS semua e-wallet dan mobile banking
-                                    </div>
-                                </div>
-                            </label>
-
-                            <!-- COD -->
-                            <label class="flex items-start sm:items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-
-                                <input
-                                    type="radio"
-                                    name="payment_method"
-                                    value="cash"
-                                    {{ old('payment_method') == 'cash' ? 'checked' : '' }}
-                                    class="mr-3 mt-1 sm:mt-0"
-                                >
-
-                                <div>
-                                    <div class="font-semibold text-gray-800 dark:text-white text-sm sm:text-base">
-                                        Bayar di Tempat
-                                    </div>
-
-                                    <div class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                                        Cash on Delivery
                                     </div>
                                 </div>
                             </label>
@@ -221,7 +199,7 @@
 
             </div>
 
-            <!-- INFO PEMBAYARAN -->
+            <!-- INFO PEMBAYARAN - TANPA COD -->
             <div class="mt-4 bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 p-3 sm:p-4 rounded-lg">
 
                 <p class="text-xs sm:text-sm text-blue-700 dark:text-blue-300">
@@ -235,13 +213,9 @@
                             Silahkan Transfer ke Rekening <br>
                             BCA 6035057815 a.n EVI LUTFIANI DEWI <br>
 
-                        @elseif(old('payment_method') == 'qris')
-
-                            Silahkan pilih QRIS, lalu scan QRIS pada halaman detail pesanan setelah checkout.
-
                         @else
 
-                            Bayar langsung saat barang diterima
+                            Silahkan pilih QRIS, lalu scan QRIS pada halaman detail pesanan setelah checkout.
 
                         @endif
 
@@ -258,7 +232,7 @@
 </div>
 
 <script>
-    // PAYMENT INFO
+    // PAYMENT INFO - TANPA COD
     const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
     const paymentInfo = document.getElementById('paymentInfo');
 
@@ -278,13 +252,8 @@
                 paymentInfo.innerHTML = `
                     Silahkan pilih QRIS, lalu scan QRIS pada halaman detail pesanan setelah checkout.
                 `;
-
-            } else {
-
-                paymentInfo.innerHTML = `
-                    Bayar langsung saat barang diterima
-                `;
             }
+
         });
 
     });

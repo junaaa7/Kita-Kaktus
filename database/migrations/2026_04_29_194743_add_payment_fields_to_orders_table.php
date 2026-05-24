@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             if (!Schema::hasColumn('orders', 'payment_method')) {
-                $table->enum('payment_method', ['bank_transfer', 'cash', 'qris'])->default('bank_transfer')->after('total_amount');
+                $table->enum('payment_method', ['bank_transfer', 'qris'])->default('bank_transfer')->after('total_amount');
             }
             if (!Schema::hasColumn('orders', 'payment_status')) {
                 $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending')->after('payment_method');
