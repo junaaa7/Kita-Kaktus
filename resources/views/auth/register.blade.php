@@ -23,9 +23,32 @@
         box-shadow: inset 0 0 20px 20px #374151 !important;
         -webkit-text-fill-color: #f9fafb !important;
     }
+
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+        .responsive-card {
+            padding: 1.5rem !important;
+        }
+        .responsive-title {
+            font-size: 1.5rem !important;
+        }
+        .responsive-logo {
+            padding: 0.5rem 1rem !important;
+            font-size: 0.875rem !important;
+        }
+        .responsive-input {
+            padding-top: 0.625rem !important;
+            padding-bottom: 0.625rem !important;
+            font-size: 0.875rem !important;
+        }
+        .responsive-button {
+            padding-top: 0.625rem !important;
+            padding-bottom: 0.625rem !important;
+        }
+    }
 </style>
 
-<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+<div class="min-h-screen flex items-center justify-center py-8 sm:py-12 px-3 sm:px-4 lg:px-8 relative overflow-hidden">
 
     <!-- Background -->
     <div class="absolute inset-0 -z-10 overflow-hidden">
@@ -39,32 +62,32 @@
         <div class="absolute inset-0 bg-black/65 dark:bg-black/75 backdrop-blur-[2px]"></div>
 
         <!-- Glow Effect -->
-        <div class="absolute top-10 left-10 w-72 h-72 bg-green-500/20 rounded-full blur-3xl"></div>
+        <div class="absolute top-10 left-10 w-48 sm:w-72 h-48 sm:h-72 bg-green-500/20 rounded-full blur-3xl"></div>
 
-        <div class="absolute bottom-10 right-10 w-72 h-72 bg-yellow-500/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-10 right-10 w-48 sm:w-72 h-48 sm:h-72 bg-yellow-500/20 rounded-full blur-3xl"></div>
     </div>
 
-    <div class="max-w-md w-full space-y-8 animate-fade-in-up">
+    <div class="w-full max-w-md space-y-6 sm:space-y-8 animate-fade-in-up px-2 sm:px-0">
 
         <!-- Header -->
         <div class="text-center">
             <div class="animate-bounce-slow">
-                <div class="w-auto h-auto px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto shadow-lg">
-                    <span class="text-xl font-bold text-white">Kita Kaktus</span>
+                <div class="w-auto h-auto px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto shadow-lg">
+                    <span class="text-sm sm:text-xl font-bold text-white responsive-logo">Kita Kaktus</span>
                 </div>
             </div>
 
-            <h2 class="mt-6 text-3xl font-extrabold text-white">
+            <h2 class="mt-4 sm:mt-6 text-2xl sm:text-3xl font-extrabold text-white responsive-title">
                 Daftar Akun Baru
             </h2>
 
-            <p class="mt-2 text-sm text-gray-200">
+            <p class="mt-1 sm:mt-2 text-xs sm:text-sm text-gray-200">
                 Bergabunglah dengan Kita Kaktus
             </p>
         </div>
 
         <!-- Form -->
-        <form class="mt-8 space-y-5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-8 rounded-2xl shadow-2xl transform transition-all duration-500 hover:scale-[1.02]"
+        <form class="mt-6 sm:mt-8 space-y-4 sm:space-y-5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-5 sm:p-8 rounded-2xl shadow-2xl transform transition-all duration-500 hover:scale-[1.02] responsive-card"
               method="POST"
               action="{{ secure_url('/register') }}">
 
@@ -74,7 +97,7 @@
             <div>
                 <div class="relative mt-1">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-user text-gray-400 dark:text-gray-300"></i>
+                        <i class="fas fa-user text-gray-400 dark:text-gray-300 text-sm sm:text-base"></i>
                     </div>
 
                     <input id="name"
@@ -82,12 +105,12 @@
                            type="text"
                            required
                            value="{{ old('name') }}"
-                           class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-3 py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200"
+                           class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-3 py-2.5 sm:py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200 text-sm sm:text-base responsive-input"
                            placeholder="Nama Lengkap">
                 </div>
 
                 @error('name')
-                    <p class="mt-1 text-sm text-red-600 dark:text-red-400 animate-shake">
+                    <p class="mt-1 text-xs sm:text-sm text-red-600 dark:text-red-400 animate-shake">
                         {{ $message }}
                     </p>
                 @enderror
@@ -97,7 +120,7 @@
             <div>
                 <div class="relative mt-1">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-envelope text-gray-400 dark:text-gray-300"></i>
+                        <i class="fas fa-envelope text-gray-400 dark:text-gray-300 text-sm sm:text-base"></i>
                     </div>
 
                     <input id="email"
@@ -105,12 +128,12 @@
                            type="email"
                            required
                            value="{{ old('email') }}"
-                           class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-3 py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200"
+                           class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-3 py-2.5 sm:py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200 text-sm sm:text-base responsive-input"
                            placeholder="Alamat Email">
                 </div>
 
                 @error('email')
-                    <p class="mt-1 text-sm text-red-600 dark:text-red-400 animate-shake">
+                    <p class="mt-1 text-xs sm:text-sm text-red-600 dark:text-red-400 animate-shake">
                         {{ $message }}
                     </p>
                 @enderror
@@ -120,26 +143,26 @@
             <div>
                 <div class="relative mt-1">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-lock text-gray-400 dark:text-gray-300"></i>
+                        <i class="fas fa-lock text-gray-400 dark:text-gray-300 text-sm sm:text-base"></i>
                     </div>
 
                     <input id="password"
                            name="password"
                            type="password"
                            required
-                           class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-10 py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200"
+                           class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-10 py-2.5 sm:py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200 text-sm sm:text-base responsive-input"
                            placeholder="Password">
 
                     <button type="button"
                             id="togglePassword"
                             class="absolute inset-y-0 right-0 pr-3 flex items-center">
                         <i id="eyeIcon"
-                           class="fas fa-eye text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"></i>
+                           class="fas fa-eye text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-sm sm:text-base"></i>
                     </button>
                 </div>
 
                 @error('password')
-                    <p class="mt-1 text-sm text-red-600 dark:text-red-400 animate-shake">
+                    <p class="mt-1 text-xs sm:text-sm text-red-600 dark:text-red-400 animate-shake">
                         {{ $message }}
                     </p>
                 @enderror
@@ -149,32 +172,32 @@
             <div>
                 <div class="relative mt-1">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-check-circle text-gray-400 dark:text-gray-300"></i>
+                        <i class="fas fa-check-circle text-gray-400 dark:text-gray-300 text-sm sm:text-base"></i>
                     </div>
 
                     <input id="password_confirmation"
                            name="password_confirmation"
                            type="password"
                            required
-                           class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-10 py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200"
+                           class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-10 py-2.5 sm:py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200 text-sm sm:text-base responsive-input"
                            placeholder="Konfirmasi Password">
 
                     <button type="button"
                             id="toggleConfirmPassword"
                             class="absolute inset-y-0 right-0 pr-3 flex items-center">
                         <i id="eyeIconConfirm"
-                           class="fas fa-eye text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"></i>
+                           class="fas fa-eye text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-sm sm:text-base"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Button -->
-            <div class="mt-8">
+            <div class="mt-6 sm:mt-8">
                 <button type="submit"
-                        class="group relative w-full flex justify-center py-3 px-4 mb-6 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transform transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg">
+                        class="group relative w-full flex justify-center py-2.5 sm:py-3 px-4 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transform transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg responsive-button">
 
                     <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                        <i class="fas fa-user-plus text-green-300 group-hover:text-green-200 transition-colors duration-200"></i>
+                        <i class="fas fa-user-plus text-green-300 group-hover:text-green-200 transition-colors duration-200 text-sm sm:text-base"></i>
                     </span>
 
                     Daftar Sekarang
@@ -182,34 +205,34 @@
             </div>
 
             <!-- Divider -->
-            <div class="relative flex items-center justify-center my-6">
+            <div class="relative flex items-center justify-center my-4 sm:my-6">
                 <div class="absolute left-0 w-full border-t border-gray-300 dark:border-gray-600"></div>
 
-                <span class="relative px-4 bg-white/90 dark:bg-gray-800/90 text-sm text-gray-500 dark:text-gray-400 font-medium">
+                <span class="relative px-3 sm:px-4 bg-white/90 dark:bg-gray-800/90 text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium">
                     ATAU
                 </span>
             </div>
 
             <!-- Google Register -->
             <a href="{{ route('google.login') }}"
-               class="mt-4 w-full flex items-center justify-center gap-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition shadow-sm">
+               class="mt-2 w-full flex items-center justify-center gap-2 sm:gap-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white py-2.5 sm:py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition shadow-sm text-sm sm:text-base">
 
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg"
                      alt="Google"
-                     style="width: 22px !important; height: 22px !important; max-width: 22px !important;">
+                     style="width: 18px !important; height: 18px !important; max-width: 18px !important;">
 
-                <span class="font-medium text-sm">
+                <span class="font-medium text-xs sm:text-sm">
                     Daftar dengan Google
                 </span>
             </a>
 
             <!-- Login -->
-            <div class="text-center mt-4 relative z-10">
-                <p class="text-sm text-gray-300">
+            <div class="text-center mt-3 sm:mt-4 relative z-10">
+                <p class="text-xs sm:text-sm text-gray-300">
                     Sudah punya akun?
 
                     <a href="{{ route('login') }}"
-                       class="relative z-20 inline-flex items-center font-medium text-green-400 hover:text-green-300 transition-colors duration-200 hover:underline">
+                       class="relative z-20 inline-flex items-center font-medium text-green-400 hover:text-green-300 transition-colors duration-200 hover:underline text-xs sm:text-sm">
 
                         Login Sekarang
 
@@ -289,6 +312,11 @@
 
 .animate-shake {
     animation: shake 0.3s ease-in-out;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
 </style>
 
