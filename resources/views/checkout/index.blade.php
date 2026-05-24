@@ -106,7 +106,7 @@
                                     </div>
 
                                     <div class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                                        BCA, Mandiri, BNI, BRI
+                                        BCA
                                     </div>
                                 </div>
                             </label>
@@ -233,8 +233,7 @@
                         @if(old('payment_method', 'bank_transfer') == 'bank_transfer')
 
                             Silahkan Transfer ke Rekening <br>
-                            BCA 1234567890 a.n Kita Kaktus <br>
-                            Mandiri: 9876543210 a.n Kita Kaktus
+                            BCA 6035057815 a.n EVI LUTFIANI DEWI <br>
 
                         @elseif(old('payment_method') == 'qris')
 
