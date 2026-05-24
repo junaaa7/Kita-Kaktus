@@ -128,7 +128,7 @@
                 </div>
             </div>
             
-            <!-- Mobile Menu (Hidden by default) -->
+            <!-- Mobile Menu (Hidden by default) - DENGAN TEKS DARK MODE -->
             <div id="mobileMenu" class="hidden md:hidden pb-4 border-t border-gray-200 dark:border-gray-700">
                 @auth
                     @if(auth()->user()->isAdmin())
@@ -138,10 +138,10 @@
                         <a href="{{ route('admin.orders.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola Pesanan</a>
                         <a href="{{ route('admin.ratings.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola Rating</a>
                         
-                        <!-- Dark Mode Toggle di Mobile Menu untuk Admin -->
+                        <!-- Dark Mode Toggle di Mobile Menu dengan Teks -->
                         <button id="theme-toggle-mobile" class="w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
                             <i id="theme-toggle-icon-mobile" class="fas fa-moon"></i>
-                            <span>Toggle Dark Mode</span>
+                            <span id="theme-toggle-text-mobile">Dark Mode</span>
                         </button>
                     @else
                         <a href="{{ route('home') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Home</a>
@@ -154,10 +154,10 @@
                         </a>
                         <a href="{{ route('orders.history') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Pesanan</a>
                         
-                        <!-- Dark Mode Toggle di Mobile Menu untuk User -->
+                        <!-- Dark Mode Toggle di Mobile Menu dengan Teks -->
                         <button id="theme-toggle-mobile" class="w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
                             <i id="theme-toggle-icon-mobile" class="fas fa-moon"></i>
-                            <span>Toggle Dark Mode</span>
+                            <span id="theme-toggle-text-mobile">Dark Mode</span>
                         </button>
                     @endif
                     
@@ -174,10 +174,10 @@
                     <a href="{{ route('home') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Home</a>
                     <a href="{{ route('collection.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Koleksi</a>
                     
-                    <!-- Dark Mode Toggle di Mobile Menu untuk Guest -->
+                    <!-- Dark Mode Toggle di Mobile Menu untuk Guest dengan Teks -->
                     <button id="theme-toggle-mobile-guest" class="w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
                         <i id="theme-toggle-icon-mobile-guest" class="fas fa-moon"></i>
-                        <span>Toggle Dark Mode</span>
+                        <span id="theme-toggle-text-mobile-guest">Dark Mode</span>
                     </button>
                     
                     <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
@@ -303,7 +303,7 @@
             }
         });
         
-        // ========== DARK MODE MANAGEMENT - FULLY RESPONSIVE ==========
+        // ========== DARK MODE MANAGEMENT - DENGAN TEKS ==========
         const darkModeManager = {
             init() {
                 const savedTheme = localStorage.getItem('theme');
@@ -314,19 +314,19 @@
                 } else {
                     this.disableDarkMode();
                 }
-                this.updateAllIcons();
+                this.updateAllIconsAndText();
             },
             
             enableDarkMode() {
                 document.documentElement.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
-                this.updateAllIcons();
+                this.updateAllIconsAndText();
             },
             
             disableDarkMode() {
                 document.documentElement.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
-                this.updateAllIcons();
+                this.updateAllIconsAndText();
             },
             
             toggle() {
@@ -337,10 +337,11 @@
                 }
             },
             
-            updateAllIcons() {
+            updateAllIconsAndText() {
                 const isDark = document.documentElement.classList.contains('dark');
-                const iconIds = ['theme-toggle-icon', 'theme-toggle-icon-guest', 'theme-toggle-icon-mobile', 'theme-toggle-icon-mobile-guest'];
                 
+                // Update icons
+                const iconIds = ['theme-toggle-icon', 'theme-toggle-icon-guest', 'theme-toggle-icon-mobile', 'theme-toggle-icon-mobile-guest'];
                 iconIds.forEach(id => {
                     const icon = document.getElementById(id);
                     if (icon) {
@@ -351,6 +352,16 @@
                             icon.classList.remove('fa-sun');
                             icon.classList.add('fa-moon');
                         }
+                    }
+                });
+                
+                // Update text for mobile buttons
+                const mobileTextId = isDark ? 'Light Mode' : 'Dark Mode';
+                const mobileTextSpans = ['theme-toggle-text-mobile', 'theme-toggle-text-mobile-guest'];
+                mobileTextSpans.forEach(id => {
+                    const textSpan = document.getElementById(id);
+                    if (textSpan) {
+                        textSpan.textContent = mobileTextId;
                     }
                 });
             },
