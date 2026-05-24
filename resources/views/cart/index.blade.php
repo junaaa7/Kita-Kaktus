@@ -208,7 +208,7 @@
                 </a>
 
                 <button type="button" id="checkoutSelectedBtn" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition">
-                    <i class="fas fa-credit-card mr-2"></i> Checkout Terpilih
+                    <i class="fas fa-credit-card mr-2"></i> Checkout
                 </button>
             </div>
         </div>
@@ -220,7 +220,7 @@
                     <i class="fas fa-store mr-2"></i> Lanjut Belanja
                 </a>
                 <button type="button" id="checkoutSelectedBtnMobile" class="bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg transition">
-                    <i class="fas fa-credit-card mr-2"></i> Checkout Terpilih
+                    <i class="fas fa-credit-card mr-2"></i> Checkout
                 </button>
             </div>
         </div>
