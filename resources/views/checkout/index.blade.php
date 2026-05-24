@@ -3,15 +3,15 @@
 @section('title', 'Checkout')
 
 @section('content')
-<div class="max-w-4xl mx-auto">
+<div class="max-w-4xl mx-auto px-3 sm:px-4">
     
-    <h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+    <h1 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-6">
         Checkout
     </h1>
 
     @if($errors->any())
-        <div class="bg-red-100 dark:bg-red-800 border-l-4 border-red-500 text-red-700 dark:text-red-200 p-4 mb-4 rounded-lg">
-            <ul class="list-disc list-inside">
+        <div class="bg-red-100 dark:bg-red-800 border-l-4 border-red-500 text-red-700 dark:text-red-200 p-3 sm:p-4 mb-4 rounded-lg">
+            <ul class="list-disc list-inside text-sm sm:text-base">
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
@@ -19,13 +19,13 @@
         </div>
     @endif
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="flex flex-col lg:grid lg:grid-cols-2 gap-6">
 
         <!-- FORM CHECKOUT -->
         <div>
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
 
-                <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">
+                <h2 class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-4">
                     Informasi Pengiriman
                 </h2>
 
@@ -47,7 +47,7 @@
                             id="shipping_address"
                             required
                             rows="3"
-                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500 @error('shipping_address') border-red-500 @enderror"
+                            class="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500 @error('shipping_address') border-red-500 @enderror"
                         >{{ old('shipping_address') }}</textarea>
 
                         @error('shipping_address')
@@ -69,7 +69,7 @@
                             required
                             placeholder="Contoh: 081234567890"
                             oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500 @error('phone') border-red-500 @enderror"
+                            class="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500 @error('phone') border-red-500 @enderror"
                         >
 
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
@@ -90,66 +90,66 @@
                         <div class="space-y-3">
 
                             <!-- Transfer Bank -->
-                            <label class="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <label class="flex items-start sm:items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition">
 
                                 <input
                                     type="radio"
                                     name="payment_method"
                                     value="bank_transfer"
                                     {{ old('payment_method', 'bank_transfer') == 'bank_transfer' ? 'checked' : '' }}
-                                    class="mr-3"
+                                    class="mr-3 mt-1 sm:mt-0"
                                 >
 
                                 <div>
-                                    <div class="font-semibold text-gray-800 dark:text-white">
+                                    <div class="font-semibold text-gray-800 dark:text-white text-sm sm:text-base">
                                         Transfer Bank
                                     </div>
 
-                                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                                    <div class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                                         BCA, Mandiri, BNI, BRI
                                     </div>
                                 </div>
                             </label>
                             
                             <!-- QRIS -->
-                            <label class="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <label class="flex items-start sm:items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition">
                                 <input
                                     type="radio"
                                     name="payment_method"
                                     value="qris"
                                     {{ old('payment_method') == 'qris' ? 'checked' : '' }}
-                                    class="mr-3"
+                                    class="mr-3 mt-1 sm:mt-0"
                                 >
 
                                 <div>
-                                    <div class="font-semibold text-gray-800 dark:text-white">
+                                    <div class="font-semibold text-gray-800 dark:text-white text-sm sm:text-base">
                                         <i class="fas fa-qrcode mr-2 text-green-500"></i>
                                         QRIS
                                     </div>
 
-                                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                                    <div class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                                         Scan QRIS semua e-wallet dan mobile banking
                                     </div>
                                 </div>
                             </label>
 
                             <!-- COD -->
-                            <label class="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <label class="flex items-start sm:items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition">
 
                                 <input
                                     type="radio"
                                     name="payment_method"
                                     value="cash"
                                     {{ old('payment_method') == 'cash' ? 'checked' : '' }}
-                                    class="mr-3"
+                                    class="mr-3 mt-1 sm:mt-0"
                                 >
 
                                 <div>
-                                    <div class="font-semibold text-gray-800 dark:text-white">
+                                    <div class="font-semibold text-gray-800 dark:text-white text-sm sm:text-base">
                                         Bayar di Tempat
                                     </div>
 
-                                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                                    <div class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                                         Cash on Delivery
                                     </div>
                                 </div>
@@ -165,7 +165,7 @@
                     <!-- Button -->
                     <button
                         type="submit"
-                        class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg transition font-semibold"
+                        class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg transition font-semibold text-sm sm:text-base"
                     >
                         Konfirmasi Pesanan
                     </button>
@@ -177,9 +177,9 @@
         <!-- RINGKASAN -->
         <div>
 
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
 
-                <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">
+                <h2 class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-4">
                     Ringkasan Pesanan
                 </h2>
 
@@ -187,7 +187,7 @@
 
                     @foreach($cart as $item)
 
-                        <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                        <div class="flex justify-between text-gray-600 dark:text-gray-400 text-sm sm:text-base">
 
                             <span>
                                 {{ $item['name'] }} x {{ $item['quantity'] }}
@@ -205,7 +205,7 @@
 
                 <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
 
-                    <div class="flex justify-between font-bold text-lg">
+                    <div class="flex justify-between font-bold text-base sm:text-lg">
 
                         <span class="text-gray-800 dark:text-white">
                             Total
@@ -222,39 +222,43 @@
             </div>
 
             <!-- INFO PEMBAYARAN -->
-<div class="mt-4 bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 p-4 rounded-lg">
+            <div class="mt-4 bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 p-3 sm:p-4 rounded-lg">
 
-    <p class="text-sm text-blue-700 dark:text-blue-300">
+                <p class="text-xs sm:text-sm text-blue-700 dark:text-blue-300">
 
-        <i class="fas fa-info-circle mr-1"></i>
+                    <i class="fas fa-info-circle mr-1"></i>
 
-        <span id="paymentInfo">
+                    <span id="paymentInfo">
 
-            @if(old('payment_method', 'bank_transfer') == 'bank_transfer')
+                        @if(old('payment_method', 'bank_transfer') == 'bank_transfer')
 
-                Silahkan Transfer ke Rekening <br>
-                BCA 1234567890 a.n Kita Kaktus <br>
-                Mandiri: 9876543210 a.n Kita Kaktus
+                            Silahkan Transfer ke Rekening <br>
+                            BCA 1234567890 a.n Kita Kaktus <br>
+                            Mandiri: 9876543210 a.n Kita Kaktus
 
-            @elseif(old('payment_method') == 'qris')
+                        @elseif(old('payment_method') == 'qris')
 
-                Silahkan pilih QRIS, lalu scan QRIS pada halaman detail pesanan setelah checkout.
+                            Silahkan pilih QRIS, lalu scan QRIS pada halaman detail pesanan setelah checkout.
 
-            @else
+                        @else
 
-                Bayar langsung saat barang diterima
+                            Bayar langsung saat barang diterima
 
-            @endif
+                        @endif
 
-        </span>
+                    </span>
 
-    </p>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
-<!-- SCRIPT -->
 <script>
-
     // PAYMENT INFO
     const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
     const paymentInfo = document.getElementById('paymentInfo');
@@ -312,5 +316,4 @@
     });
 
 </script>
-
 @endsection
