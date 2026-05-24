@@ -82,18 +82,21 @@
                             Scan QRIS / Screenshot berikut untuk melakukan pembayaran:
                         </p>
 
-                        <div class="bg-white dark:bg-gray-800 p-4 inline-block rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-                            <img 
-                                src="{{ asset('images/payment/qris kaktus.webp') }}" 
-                                alt="QRIS Kita Kaktus" 
-                                class="w-40 sm:w-56 h-40 sm:h-56 object-contain mx-auto rounded-lg"
-                            >
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                                QRIS Kita Kaktus
-                            </p>
+                        <!-- QRIS Container - Responsive dengan ukuran proporsional -->
+                        <div class="flex justify-center">
+                            <div class="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 inline-block">
+                                <img 
+                                    src="{{ asset('images/payment/qris kaktus.webp') }}" 
+                                    alt="QRIS Kita Kaktus" 
+                                    class="w-44 h-44 sm:w-56 sm:h-56 md:w-64 md:h-64 object-contain mx-auto rounded-lg"
+                                >
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
+                                    QRIS Kita Kaktus
+                                </p>
+                            </div>
                         </div>
 
-                        <p class="text-sm mt-2 text-red-600 dark:text-red-400">
+                        <p class="text-sm mt-3 text-red-600 dark:text-red-400">
                             <strong>Total: Rp {{ number_format($order->total_amount, 0, ',', '.') }}</strong>
                         </p>
                     </div>
