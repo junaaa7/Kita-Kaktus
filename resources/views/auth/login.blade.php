@@ -152,24 +152,6 @@
                     </a>
                 </p>
             </div>
-
-            <div class="mt-4 sm:mt-6 p-3 sm:p-4 bg-gray-50/90 dark:bg-gray-700/50 rounded-xl">
-                <p class="text-xs font-semibold text-gray-700 dark:text-gray-300 text-center mb-2">
-                    <i class="fas fa-users mr-1"></i> Akun Demo
-                </p>
-                <div class="space-y-1 text-xs text-gray-600 dark:text-gray-400">
-                    <div class="demo-account flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 sm:gap-2 p-2 rounded-lg transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-600">
-                        <span><i class="fas fa-user-shield mr-1 text-yellow-500"></i> Admin:</span>
-                        <span class="font-mono text-xs break-all">admin@kitakaktus.com</span>
-                        <span class="font-mono text-green-600 dark:text-green-400 text-xs">password123</span>
-                    </div>
-                    <div class="demo-account flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 sm:gap-2 p-2 rounded-lg transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-600">
-                        <span><i class="fas fa-user mr-1 text-blue-500"></i> User:</span>
-                        <span class="font-mono text-xs break-all">user@kitakaktus.com</span>
-                        <span class="font-mono text-green-600 dark:text-green-400 text-xs">password123</span>
-                    </div>
-                </div>
-            </div>
         </form>
     </div>
 </div>
