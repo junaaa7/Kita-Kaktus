@@ -137,6 +137,12 @@
                         <a href="{{ route('admin.categories.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola Kategori</a>
                         <a href="{{ route('admin.orders.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola Pesanan</a>
                         <a href="{{ route('admin.ratings.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola Rating</a>
+                        
+                        <!-- Dark Mode Toggle di Mobile Menu untuk Admin -->
+                        <button id="theme-toggle-mobile" class="w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
+                            <i id="theme-toggle-icon-mobile" class="fas fa-moon"></i>
+                            <span>Toggle Dark Mode</span>
+                        </button>
                     @else
                         <a href="{{ route('home') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Home</a>
                         <a href="{{ route('collection.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Koleksi</a>
@@ -147,6 +153,12 @@
                             @endif
                         </a>
                         <a href="{{ route('orders.history') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Pesanan</a>
+                        
+                        <!-- Dark Mode Toggle di Mobile Menu untuk User -->
+                        <button id="theme-toggle-mobile" class="w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
+                            <i id="theme-toggle-icon-mobile" class="fas fa-moon"></i>
+                            <span>Toggle Dark Mode</span>
+                        </button>
                     @endif
                     
                     <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
@@ -161,6 +173,13 @@
                 @else
                     <a href="{{ route('home') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Home</a>
                     <a href="{{ route('collection.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Koleksi</a>
+                    
+                    <!-- Dark Mode Toggle di Mobile Menu untuk Guest -->
+                    <button id="theme-toggle-mobile-guest" class="w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
+                        <i id="theme-toggle-icon-mobile-guest" class="fas fa-moon"></i>
+                        <span>Toggle Dark Mode</span>
+                    </button>
+                    
                     <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
                     <a href="{{ route('login') }}" class="block py-3 px-2 text-center bg-yellow-500 text-white rounded-lg mb-2">Login</a>
                     <a href="{{ route('register') }}" class="block py-3 px-2 text-center bg-green-600 text-white rounded-lg">Register</a>
@@ -284,7 +303,7 @@
             }
         });
         
-        // Dark mode management
+        // ========== DARK MODE MANAGEMENT - FULLY RESPONSIVE ==========
         const darkModeManager = {
             init() {
                 const savedTheme = localStorage.getItem('theme');
@@ -295,22 +314,19 @@
                 } else {
                     this.disableDarkMode();
                 }
-                this.updateToggleIcon();
-                this.updateToggleIconGuest();
+                this.updateAllIcons();
             },
             
             enableDarkMode() {
                 document.documentElement.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
-                this.updateToggleIcon();
-                this.updateToggleIconGuest();
+                this.updateAllIcons();
             },
             
             disableDarkMode() {
                 document.documentElement.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
-                this.updateToggleIcon();
-                this.updateToggleIconGuest();
+                this.updateAllIcons();
             },
             
             toggle() {
@@ -321,83 +337,66 @@
                 }
             },
             
-            updateToggleIcon() {
-                const toggleIcon = document.getElementById('theme-toggle-icon');
-                if (toggleIcon) {
-                    if (document.documentElement.classList.contains('dark')) {
-                        toggleIcon.classList.remove('fa-moon');
-                        toggleIcon.classList.add('fa-sun');
-                    } else {
-                        toggleIcon.classList.remove('fa-sun');
-                        toggleIcon.classList.add('fa-moon');
+            updateAllIcons() {
+                const isDark = document.documentElement.classList.contains('dark');
+                const iconIds = ['theme-toggle-icon', 'theme-toggle-icon-guest', 'theme-toggle-icon-mobile', 'theme-toggle-icon-mobile-guest'];
+                
+                iconIds.forEach(id => {
+                    const icon = document.getElementById(id);
+                    if (icon) {
+                        if (isDark) {
+                            icon.classList.remove('fa-moon');
+                            icon.classList.add('fa-sun');
+                        } else {
+                            icon.classList.remove('fa-sun');
+                            icon.classList.add('fa-moon');
+                        }
                     }
-                }
+                });
             },
             
-            updateToggleIconGuest() {
-                const toggleIconGuest = document.getElementById('theme-toggle-icon-guest');
-                if (toggleIconGuest) {
-                    if (document.documentElement.classList.contains('dark')) {
-                        toggleIconGuest.classList.remove('fa-moon');
-                        toggleIconGuest.classList.add('fa-sun');
-                    } else {
-                        toggleIconGuest.classList.remove('fa-sun');
-                        toggleIconGuest.classList.add('fa-moon');
+            fixButtons() {
+                // Desktop buttons
+                const desktopBtns = ['theme-toggle', 'theme-toggle-guest'];
+                desktopBtns.forEach(btnId => {
+                    const btn = document.getElementById(btnId);
+                    if (btn) {
+                        const newBtn = btn.cloneNode(true);
+                        btn.parentNode.replaceChild(newBtn, btn);
+                        newBtn.onclick = (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            this.toggle();
+                            return false;
+                        };
                     }
-                }
+                });
+                
+                // Mobile buttons
+                const mobileBtns = ['theme-toggle-mobile', 'theme-toggle-mobile-guest'];
+                mobileBtns.forEach(btnId => {
+                    const btn = document.getElementById(btnId);
+                    if (btn) {
+                        const newBtn = btn.cloneNode(true);
+                        btn.parentNode.replaceChild(newBtn, btn);
+                        newBtn.onclick = (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            this.toggle();
+                            return false;
+                        };
+                    }
+                });
             }
         };
         
         // Initialize dark mode
         darkModeManager.init();
+        darkModeManager.fixButtons();
         
-        // Setup theme toggle for logged in user
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                darkModeManager.toggle();
-            });
-        }
-        
-        // Setup theme toggle for guest user
-        const themeToggleGuest = document.getElementById('theme-toggle-guest');
-        if (themeToggleGuest) {
-            themeToggleGuest.addEventListener('click', () => {
-                darkModeManager.toggle();
-            });
-        }
-        
-        // Fungsi untuk memperbaiki kedua tombol dark mode
-        function fixAllDarkModeButtons() {
-            const guestBtn = document.getElementById('theme-toggle-guest');
-            if (guestBtn) {
-                const newGuestBtn = guestBtn.cloneNode(true);
-                guestBtn.parentNode.replaceChild(newGuestBtn, guestBtn);
-                newGuestBtn.onclick = function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    darkModeManager.toggle();
-                    return false;
-                };
-            }
-            
-            const userBtn = document.getElementById('theme-toggle');
-            if (userBtn) {
-                const newUserBtn = userBtn.cloneNode(true);
-                userBtn.parentNode.replaceChild(newUserBtn, userBtn);
-                newUserBtn.onclick = function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    darkModeManager.toggle();
-                    return false;
-                };
-            }
-        }
-        
-        fixAllDarkModeButtons();
-        
-        setInterval(function() {
-            fixAllDarkModeButtons();
+        // Re-fix buttons periodically to ensure they work after navigation
+        setInterval(() => {
+            darkModeManager.fixButtons();
         }, 500);
     </script>
     
