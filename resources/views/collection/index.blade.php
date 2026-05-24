@@ -129,7 +129,7 @@
 
     <!-- Pagination - Responsive -->
     <div class="mt-6 md:mt-8">
-        {{ $products->withQueryString()->links() }}
+        {{ $products->withQueryString()->links('pagination::tailwind') }}
     </div>
 </div>
 @endsection

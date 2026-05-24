@@ -215,6 +215,6 @@
 
 <!-- Pagination -->
 <div class="mt-4">
-    {{ $orders->links() }}
+    {{ $orders->links('pagination::tailwind') }}
 </div>
 @endsection
