@@ -66,9 +66,8 @@
                     <div class="space-y-2">
                         <p class="text-sm text-gray-700 dark:text-gray-300 font-semibold mb-2">Transfer ke rekening:</p>
                         <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
-                            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Bank BCA: <span class="font-mono font-semibold text-gray-800 dark:text-gray-200">1234567890</span></p>
-                            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Bank Mandiri: <span class="font-mono font-semibold text-gray-800 dark:text-gray-200">9876543210</span></p>
-                            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">a.n <span class="font-semibold text-gray-800 dark:text-gray-200">Kita Kaktus</span></p>
+                            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Bank BCA: <span class="font-mono font-semibold text-gray-800 dark:text-gray-200"> 6035057815</span></p>
+                            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">a.n <span class="font-semibold text-gray-800 dark:text-gray-200">EVI LUTFIANI DEWI</span></p>
                         </div>
                         <div class="mt-3 p-2 sm:p-3 bg-red-50 dark:bg-red-900/30 rounded-lg border border-red-200 dark:border-red-800">
                             <p class="text-xs sm:text-sm text-red-600 dark:text-red-400 font-semibold">
@@ -85,7 +84,7 @@
 
                         <div class="bg-white dark:bg-gray-800 p-4 inline-block rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                             <img 
-                                src="{{ asset('images/payment/qris.webp') }}" 
+                                src="{{ asset('images/payment/qris kaktus.webp') }}" 
                                 alt="QRIS Kita Kaktus" 
                                 class="w-40 sm:w-56 h-40 sm:h-56 object-contain mx-auto rounded-lg"
                             >
