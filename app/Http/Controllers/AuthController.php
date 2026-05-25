@@ -55,22 +55,28 @@ class AuthController extends Controller
     }
 
     public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:8|confirmed',
+    ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'user'
-        ]);
+    User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => 'user'
+    ]);
 
-        return redirect()->route('login')->with('success', 'Selamat! Akun Anda berhasil dibuat. Silahkan login dengan email dan password Anda.');
-    }
+    Auth::logout();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect()->route('login')
+        ->with('success', 'Selamat! Akun Anda berhasil dibuat. Silahkan login dengan email dan password Anda.');
+}
 
     public function logout(Request $request)
     {
