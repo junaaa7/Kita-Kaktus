@@ -14,11 +14,12 @@ class DashboardController extends Controller
         $totalProducts = Product::count();
         $totalOrders = Order::count();
         $totalUsers = User::where('role', 'user')->count();
+        $totalAdmins = User::where('role', 'admin')->count();
         $pendingOrders = Order::where('status', 'pending')->count();
         $recentOrders = Order::with('user')->latest()->take(5)->get();
         
         return view('admin.dashboard', compact(
-            'totalProducts', 'totalOrders', 'totalUsers', 
+            'totalProducts', 'totalOrders', 'totalUsers', 'totalAdmins',
             'pendingOrders', 'recentOrders'
         ));
     }

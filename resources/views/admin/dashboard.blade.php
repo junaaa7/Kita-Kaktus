@@ -9,7 +9,7 @@
 </div>
 
 <!-- Statistik Cards - Responsive Grid -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 mb-6 sm:mb-8">
     <a href="{{ route('admin.products.index') }}" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 hover:shadow-xl transition cursor-pointer block">
         <div class="flex items-center justify-between">
             <div>
@@ -32,15 +32,27 @@
         <div class="mt-3 sm:mt-4 text-blue-600 text-xs sm:text-sm">Kelola Pesanan →</div>
     </a>
     
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
+    <a href="{{ route('admin.users.index') }}" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 hover:shadow-xl transition cursor-pointer block">
         <div class="flex items-center justify-between">
             <div>
-                <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Total User</p>
+                <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Total Customer</p>
                 <p class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">{{ $totalUsers }}</p>
             </div>
             <i class="fas fa-users text-2xl sm:text-3xl text-purple-600"></i>
         </div>
-    </div>
+        <div class="mt-3 sm:mt-4 text-purple-600 text-xs sm:text-sm">Kelola User →</div>
+    </a>
+    
+    <a href="{{ route('admin.users.index', ['role' => 'admin']) }}" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 hover:shadow-xl transition cursor-pointer block">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Total Admin</p>
+                <p class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">{{ $totalAdmins }}</p>
+            </div>
+            <i class="fas fa-user-shield text-2xl sm:text-3xl text-yellow-600"></i>
+        </div>
+        <div class="mt-3 sm:mt-4 text-yellow-600 text-xs sm:text-sm">Kelola Admin →</div>
+    </a>
     
     <a href="{{ route('admin.orders.index') }}" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 hover:shadow-xl transition cursor-pointer block">
         <div class="flex items-center justify-between">
