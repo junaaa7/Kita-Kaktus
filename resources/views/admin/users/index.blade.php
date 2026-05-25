@@ -89,20 +89,30 @@
                     <td class="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-400">{{ $user->created_at->format('d/m/Y') }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm">
                         <div class="flex items-center gap-2">
-                            <a href="{{ route('admin.users.show', $user) }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400">
+                            <a href="{{ route('admin.users.show', $user) }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400" title="Detail">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a href="{{ route('admin.users.edit', $user) }}" class="text-green-600 hover:text-green-800 dark:text-green-400">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            @if($user->id !== auth()->id())
-                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus user {{ $user->name }}?')">
+                            @if($user->role == 'admin')
+                                <a href="{{ route('admin.users.edit', $user) }}" class="text-green-600 hover:text-green-800 dark:text-green-400" title="Edit Admin">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            @else
+                                <span class="text-gray-400 cursor-not-allowed" title="Tidak dapat mengedit customer">
+                                    <i class="fas fa-edit"></i>
+                                </span>
+                            @endif
+                            @if($user->id !== auth()->id() && $user->role == 'admin')
+                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus admin {{ $user->name }}?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-800 dark:text-red-400">
+                                    <button type="submit" class="text-red-600 hover:text-red-800 dark:text-red-400" title="Hapus Admin">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>
+                            @elseif($user->role == 'user')
+                                <span class="text-gray-400 cursor-not-allowed" title="Tidak dapat menghapus customer">
+                                    <i class="fas fa-trash-alt"></i>
+                                </span>
                             @endif
                         </div>
                     </td>

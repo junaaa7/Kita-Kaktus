@@ -62,17 +62,29 @@ class UserController extends Controller
 
     /**
      * Show the form for editing the specified user.
+     * Admin hanya bisa edit user dengan role admin, tidak bisa edit customer
      */
     public function edit(User $user)
     {
+        // Jika user yang akan diedit adalah customer, redirect ke halaman index
+        if ($user->role === 'user') {
+            return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat mengedit data customer. Hanya admin yang dapat diedit.');
+        }
+        
         return view('admin.users.edit', compact('user'));
     }
 
     /**
      * Update the specified user in storage.
+     * Admin hanya bisa update user dengan role admin, tidak bisa update customer
      */
     public function update(Request $request, User $user)
     {
+        // Jika user yang akan diupdate adalah customer, redirect ke halaman index
+        if ($user->role === 'user') {
+            return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat mengupdate data customer. Hanya admin yang dapat diupdate.');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
@@ -94,7 +106,7 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('admin.users.index')->with('success', 'User berhasil diupdate');
+        return redirect()->route('admin.users.index')->with('success', 'Admin berhasil diupdate');
     }
 
     /**
@@ -106,8 +118,13 @@ class UserController extends Controller
         if ($user->id === auth()->id()) {
             return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat menghapus akun sendiri');
         }
+        
+        // Cegah menghapus customer
+        if ($user->role === 'user') {
+            return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat menghapus akun customer');
+        }
 
         $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus');
+        return redirect()->route('admin.users.index')->with('success', 'Admin berhasil dihapus');
     }
 }
