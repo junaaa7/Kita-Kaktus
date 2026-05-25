@@ -89,9 +89,12 @@
                     <td class="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-400">{{ $user->created_at->format('d/m/Y') }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm">
                         <div class="flex items-center gap-2">
+                            <!-- Tombol Detail (semua bisa) -->
                             <a href="{{ route('admin.users.show', $user) }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400" title="Detail">
                                 <i class="fas fa-eye"></i>
                             </a>
+                            
+                            <!-- Tombol Edit (hanya untuk Admin) -->
                             @if($user->role == 'admin')
                                 <a href="{{ route('admin.users.edit', $user) }}" class="text-green-600 hover:text-green-800 dark:text-green-400" title="Edit Admin">
                                     <i class="fas fa-edit"></i>
@@ -101,16 +104,18 @@
                                     <i class="fas fa-edit"></i>
                                 </span>
                             @endif
-                            @if($user->id !== auth()->id() && $user->role == 'admin')
-                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus admin {{ $user->name }}?')">
+                            
+                            <!-- Tombol Hapus (bisa untuk semua, kecuali diri sendiri) -->
+                            @if($user->id !== auth()->id())
+                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus {{ $user->name }}?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-800 dark:text-red-400" title="Hapus Admin">
+                                    <button type="submit" class="text-red-600 hover:text-red-800 dark:text-red-400" title="Hapus User">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>
-                            @elseif($user->role == 'user')
-                                <span class="text-gray-400 cursor-not-allowed" title="Tidak dapat menghapus customer">
+                            @else
+                                <span class="text-gray-400 cursor-not-allowed" title="Tidak dapat menghapus akun sendiri">
                                     <i class="fas fa-trash-alt"></i>
                                 </span>
                             @endif

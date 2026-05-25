@@ -111,6 +111,7 @@ class UserController extends Controller
 
     /**
      * Remove the specified user from storage.
+     * Admin bisa menghapus customer, tetapi tidak bisa menghapus diri sendiri
      */
     public function destroy(User $user)
     {
@@ -118,13 +119,10 @@ class UserController extends Controller
         if ($user->id === auth()->id()) {
             return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat menghapus akun sendiri');
         }
-        
-        // Cegah menghapus customer
-        if ($user->role === 'user') {
-            return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat menghapus akun customer');
-        }
 
         $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'Admin berhasil dihapus');
+        
+        $roleText = $user->role === 'admin' ? 'Admin' : 'Customer';
+        return redirect()->route('admin.users.index')->with('success', $roleText . ' berhasil dihapus');
     }
 }
