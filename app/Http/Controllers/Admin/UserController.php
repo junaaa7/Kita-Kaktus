@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the users.
-     */
     public function index()
     {
         $users = User::orderBy('created_at', 'desc')->paginate(10);
@@ -22,19 +19,22 @@ class UserController extends Controller
         return view('admin.users.index', compact('users', 'totalUsers', 'totalAdmins', 'totalCustomers'));
     }
 
-    /**
-     * Show the form for creating a new user.
-     */
     public function create()
     {
+        // Hanya super admin yang bisa menambah user
+        if (!auth()->user()->isSuperAdmin()) {
+            return redirect()->route('admin.users.index')->with('error', 'Anda tidak memiliki izin untuk menambah user.');
+        }
         return view('admin.users.create');
     }
 
-    /**
-     * Store a newly created user in storage.
-     */
     public function store(Request $request)
     {
+        // Hanya super admin yang bisa menyimpan user baru
+        if (!auth()->user()->isSuperAdmin()) {
+            return redirect()->route('admin.users.index')->with('error', 'Anda tidak memiliki izin untuk menambah user.');
+        }
+        
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -47,42 +47,32 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
+            'is_super_admin' => false,
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified user.
-     */
     public function show(User $user)
     {
         return view('admin.users.show', compact('user'));
     }
 
-    /**
-     * Show the form for editing the specified user.
-     * Admin hanya bisa edit user dengan role admin, tidak bisa edit customer
-     */
     public function edit(User $user)
     {
-        // Jika user yang akan diedit adalah customer, redirect ke halaman index
-        if ($user->role === 'user') {
-            return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat mengedit data customer. Hanya admin yang dapat diedit.');
+        // Cek izin edit
+        if (!$this->canEditUser($user)) {
+            return redirect()->route('admin.users.index')->with('error', 'Anda tidak memiliki izin untuk mengedit user ini.');
         }
         
         return view('admin.users.edit', compact('user'));
     }
 
-    /**
-     * Update the specified user in storage.
-     * Admin hanya bisa update user dengan role admin, tidak bisa update customer
-     */
     public function update(Request $request, User $user)
     {
-        // Jika user yang akan diupdate adalah customer, redirect ke halaman index
-        if ($user->role === 'user') {
-            return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat mengupdate data customer. Hanya admin yang dapat diupdate.');
+        // Cek izin update
+        if (!$this->canEditUser($user)) {
+            return redirect()->route('admin.users.index')->with('error', 'Anda tidak memiliki izin untuk mengupdate user ini.');
         }
 
         $request->validate([
@@ -103,26 +93,79 @@ class UserController extends Controller
             ]);
             $data['password'] = Hash::make($request->password);
         }
-
+        
         $user->update($data);
 
-        return redirect()->route('admin.users.index')->with('success', 'Admin berhasil diupdate');
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil diupdate');
     }
 
-    /**
-     * Remove the specified user from storage.
-     * Admin bisa menghapus customer, tetapi tidak bisa menghapus diri sendiri
-     */
     public function destroy(User $user)
     {
-        // Cegah menghapus diri sendiri
-        if ($user->id === auth()->id()) {
-            return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat menghapus akun sendiri');
+        // Cek izin hapus
+        if (!$this->canDeleteUser($user)) {
+            return redirect()->route('admin.users.index')->with('error', 'Anda tidak memiliki izin untuk menghapus user ini.');
         }
 
         $user->delete();
         
         $roleText = $user->role === 'admin' ? 'Admin' : 'Customer';
         return redirect()->route('admin.users.index')->with('success', $roleText . ' berhasil dihapus');
+    }
+    
+    /**
+     * Cek apakah user saat ini bisa mengedit target user
+     */
+    private function canEditUser($targetUser)
+    {
+        $currentUser = auth()->user();
+        
+        // Super admin bisa mengedit semua (kecuali dirinya sendiri? biarkan saja)
+        if ($currentUser->isSuperAdmin()) {
+            return true;
+        }
+        
+        // Admin biasa tidak bisa mengedit super admin
+        if ($targetUser->isSuperAdmin()) {
+            return false;
+        }
+        
+        // Admin biasa tidak bisa mengedit customer
+        if ($targetUser->role === 'user') {
+            return false;
+        }
+        
+        // Admin biasa bisa mengedit admin biasa lainnya
+        return true;
+    }
+    
+    /**
+     * Cek apakah user saat ini bisa menghapus target user
+     */
+    private function canDeleteUser($targetUser)
+    {
+        $currentUser = auth()->user();
+        
+        // Tidak bisa menghapus diri sendiri
+        if ($currentUser->id === $targetUser->id) {
+            return false;
+        }
+        
+        // Super admin bisa menghapus semua (kecuali diri sendiri)
+        if ($currentUser->isSuperAdmin()) {
+            return true;
+        }
+        
+        // Admin biasa tidak bisa menghapus super admin
+        if ($targetUser->isSuperAdmin()) {
+            return false;
+        }
+        
+        // Admin biasa tidak bisa menghapus admin lain
+        if ($targetUser->role === 'admin') {
+            return false;
+        }
+        
+        // Admin biasa bisa menghapus customer
+        return $targetUser->role === 'user';
     }
 }

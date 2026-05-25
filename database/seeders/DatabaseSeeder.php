@@ -12,21 +12,32 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create admin user
-        User::create([
-            'name' => 'Admin Kita Kaktus',
-            'email' => 'admin@kitakaktus.com',
-            'password' => Hash::make('password123'),
-            'role' => 'admin'
-        ]);
+        // Panggil SuperAdminSeeder
+        $this->call(SuperAdminSeeder::class);
+        
+        // Buat admin biasa (optional)
+        $adminBiasa = User::where('email', 'adminbiasa@kitakaktus.com')->first();
+        if (!$adminBiasa) {
+            User::create([
+                'name' => 'Admin Biasa',
+                'email' => 'adminbiasa@kitakaktus.com',
+                'password' => Hash::make('password123'),
+                'role' => 'admin',
+                'is_super_admin' => false,
+            ]);
+        }
 
         // Create regular user
-        User::create([
-            'name' => 'User Biasa',
-            'email' => 'user@kitakaktus.com',
-            'password' => Hash::make('password123'),
-            'role' => 'user'
-        ]);
+        $user = User::where('email', 'user@kitakaktus.com')->first();
+        if (!$user) {
+            User::create([
+                'name' => 'User Biasa',
+                'email' => 'user@kitakaktus.com',
+                'password' => Hash::make('password123'),
+                'role' => 'user',
+                'is_super_admin' => false,
+            ]);
+        }
 
         // Create categories
         $categories = [
@@ -37,7 +48,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($categories as $category) {
-            Category::create($category);
+            Category::firstOrCreate(['slug' => $category['slug']], $category);
         }
 
         // Create sample products
@@ -81,7 +92,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($products as $product) {
-            Product::create($product);
+            Product::firstOrCreate(['slug' => $product['slug']], $product);
         }
     }
 }

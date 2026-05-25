@@ -15,8 +15,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'google_id',
-        'avatar',
+        'is_super_admin',
     ];
 
     protected $hidden = [
@@ -29,6 +28,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_super_admin' => 'boolean',
         ];
     }
 
@@ -40,5 +40,10 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->role === 'admin';
+    }
+    
+    public function isSuperAdmin()
+    {
+        return $this->is_super_admin === true;
     }
 }
