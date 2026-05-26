@@ -100,30 +100,30 @@
                                 <i class="fas fa-eye"></i>
                             </a>
 
-                            {{{-- Tombol Edit --}}
+                            {{-- Tombol Edit --}}
                             @if(auth()->user()->isSuperAdmin())
                                 {{-- Admin utama hanya bisa edit dirinya sendiri dan admin baru --}}
-                            @if(auth()->id() === $user->id || ($user->role === 'admin' && !$user->isSuperAdmin()))
-                                <a href="{{ route('admin.users.edit', $user) }}" class="text-green-600 hover:text-green-800 dark:text-green-400" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                            @else
-                                <span class="text-gray-400 cursor-not-allowed" title="Tidak dapat mengedit customer">
-                                    <i class="fas fa-edit"></i>
-                                </span>
+                                @if(auth()->id() === $user->id || ($user->role === 'admin' && !$user->isSuperAdmin()))
+                                    <a href="{{ route('admin.users.edit', $user) }}" class="text-green-600 hover:text-green-800 dark:text-green-400" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @else
+                                    <span class="text-gray-400 cursor-not-allowed" title="Tidak dapat mengedit customer">
+                                        <i class="fas fa-edit"></i>
+                                    </span>
                                 @endif
                             @else
-                            {{-- Admin baru hanya bisa edit dirinya sendiri --}}
-                            @if(auth()->id() === $user->id)
-                                <a href="{{ route('admin.users.edit', $user) }}" class="text-green-600 hover:text-green-800 dark:text-green-400" title="Edit Akun Saya">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                            @else
-                                <span class="text-gray-400 cursor-not-allowed" title="Tidak dapat mengedit">
-                                    <i class="fas fa-edit"></i>
-                                </span>
+                                {{-- Admin baru hanya bisa edit dirinya sendiri --}}
+                                @if(auth()->id() === $user->id)
+                                    <a href="{{ route('admin.users.edit', $user) }}" class="text-green-600 hover:text-green-800 dark:text-green-400" title="Edit Akun Saya">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @else
+                                    <span class="text-gray-400 cursor-not-allowed" title="Tidak dapat mengedit">
+                                        <i class="fas fa-edit"></i>
+                                    </span>
+                                @endif
                             @endif
-                        @endif
 
                             {{-- Tombol Hapus --}}
                             @if(auth()->user()->isSuperAdmin())

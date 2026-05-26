@@ -60,29 +60,20 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $currentUser = auth()->user();
-        $isCustomer = in_array($user->role, ['user', 'customer']);
 
         if ($currentUser->isSuperAdmin()) {
-            if (
-                $currentUser->id === $user->id ||
-                ($user->role === 'admin' && !$user->isSuperAdmin()) ||
-                $isCustomer
-            ) {
+            if ($currentUser->id === $user->id || ($user->role === 'admin' && !$user->isSuperAdmin())) {
                 return view('admin.users.edit', compact('user'));
             }
 
-            return redirect()->route('admin.users.index')->with('error', 'Admin utama hanya dapat mengedit dirinya sendiri, admin baru, dan customer.');
+            return redirect()->route('admin.users.index')->with('error', 'Admin utama hanya dapat mengedit dirinya sendiri dan admin baru.');
         }
 
         if ($user->isSuperAdmin()) {
             return redirect()->route('admin.users.index')->with('error', 'Admin baru tidak memiliki izin untuk mengedit Admin Utama.');
         }
 
-        if ($user->role === 'admin' && !$user->isSuperAdmin() && $currentUser->id !== $user->id) {
-            return redirect()->route('admin.users.index')->with('error', 'Admin baru tidak memiliki izin untuk mengedit admin lain.');
-        }
-
-        if ($currentUser->id === $user->id || $isCustomer) {
+        if ($currentUser->id === $user->id) {
             return view('admin.users.edit', compact('user'));
         }
 
@@ -92,29 +83,20 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $currentUser = auth()->user();
-        $isCustomer = in_array($user->role, ['user', 'customer']);
 
         if ($currentUser->isSuperAdmin()) {
-            if (
-                $currentUser->id === $user->id ||
-                ($user->role === 'admin' && !$user->isSuperAdmin()) ||
-                $isCustomer
-            ) {
+            if ($currentUser->id === $user->id || ($user->role === 'admin' && !$user->isSuperAdmin())) {
                 return $this->performUpdate($request, $user);
             }
 
-            return redirect()->route('admin.users.index')->with('error', 'Admin utama hanya dapat mengupdate dirinya sendiri, admin baru, dan customer.');
+            return redirect()->route('admin.users.index')->with('error', 'Admin utama hanya dapat mengupdate dirinya sendiri dan admin baru.');
         }
 
         if ($user->isSuperAdmin()) {
             return redirect()->route('admin.users.index')->with('error', 'Admin baru tidak memiliki izin untuk mengupdate Admin Utama.');
         }
 
-        if ($user->role === 'admin' && !$user->isSuperAdmin() && $currentUser->id !== $user->id) {
-            return redirect()->route('admin.users.index')->with('error', 'Admin baru tidak memiliki izin untuk mengupdate admin lain.');
-        }
-
-        if ($currentUser->id === $user->id || $isCustomer) {
+        if ($currentUser->id === $user->id) {
             return $this->performUpdate($request, $user);
         }
 
