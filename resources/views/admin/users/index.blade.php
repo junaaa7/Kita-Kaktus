@@ -92,56 +92,62 @@
                         @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-400">{{ $user->created_at->format('d/m/Y') }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                   <td class="px-6 py-4 whitespace-nowrap text-sm">
                         <div class="flex items-center gap-2">
-                            <!-- Tombol Detail -->
-                            <a href="{{ route('admin.users.show', $user) }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400" title="Detail">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            
-                            <!-- Tombol Edit -->
-                            @if(auth()->user()->isSuperAdmin())
-                                <a href="{{ route('admin.users.edit', $user) }}" class="text-green-600 hover:text-green-800 dark:text-green-400" title="Edit">
-                                    <i class="fas fa-edit"></i>
+
+                            {{-- Semua admin boleh lihat detail --}}
+                                 <a href="{{ route('admin.users.show', $user) }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400" title="Detail">
+                                    <i class="fas fa-eye"></i>
                                 </a>
-                            @elseif($user->role == 'admin' && !$user->isSuperAdmin() && auth()->user()->id !== $user->id)
-                                <a href="{{ route('admin.users.edit', $user) }}" class="text-green-600 hover:text-green-800 dark:text-green-400" title="Edit Admin">
-                                    <i class="fas fa-edit"></i>
+
+                                {{-- Tombol Edit --}}
+                                    @if(auth()->user()->isSuperAdmin())
+                                    {{-- Admin utama boleh edit dirinya sendiri dan admin baru --}}
+                            @if(auth()->id() === $user->id || $user->isAdminBaru())
+                            <a href="{{ route('admin.users.edit', $user) }}" class="text-green-600 hover:text-green-800 dark:text-green-400" title="Edit">
+                                 <i class="fas fa-edit"></i>
+                             </a>
+                            @else
+                            <span class="text-gray-400 cursor-not-allowed" title="Tidak dapat mengedit">
+                                 <i class="fas fa-edit"></i>
+                            </span>
+                            @endif
+                             @else
+                            {{-- Admin baru hanya boleh edit dirinya sendiri, tidak bisa edit admin utama --}}
+                            @if(auth()->id() === $user->id)
+                                 <a href="{{ route('admin.users.edit', $user) }}" class="text-green-600 hover:text-green-800 dark:text-green-400" title="Edit Akun Saya">
+                                        <i class="fas fa-edit"></i>
                                 </a>
                             @else
-                                <span class="text-gray-400 cursor-not-allowed" title="Tidak dapat mengedit">
-                                    <i class="fas fa-edit"></i>
-                                </span>
+                            <span class="text-gray-400 cursor-not-allowed" title="Tidak dapat mengedit">
+                                 <i class="fas fa-edit"></i>
+                            </span>
                             @endif
-                            
-                            <!-- Tombol Hapus -->
-                            @if($user->id !== auth()->id())
-                                @if(auth()->user()->isSuperAdmin())
-                                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus {{ $user->name }}?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-800 dark:text-red-400" title="Hapus">
+                         @endif
+
+                            {{-- Tombol Hapus --}}
+                         @if(auth()->user()->isSuperAdmin())
+                            {{-- Admin utama boleh hapus admin baru, tapi tidak boleh hapus dirinya sendiri/admin utama --}}
+                             @if($user->isAdminBaru())
+                             <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus admin {{ $user->name }}?')">
+                                     @csrf
+                                 @method('DELETE')
+                                 <button type="submit" class="text-red-600 hover:text-red-800 dark:text-red-400" title="Hapus Admin Baru">
                                             <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-                                @elseif($user->role == 'user')
-                                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus customer {{ $user->name }}?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-800 dark:text-red-400" title="Hapus Customer">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-                                @else
-                                    <span class="text-gray-400 cursor-not-allowed" title="Tidak dapat menghapus admin lain">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </span>
-                                @endif
-                            @else
-                                <span class="text-gray-400 cursor-not-allowed" title="Tidak dapat menghapus akun sendiri">
-                                    <i class="fas fa-trash-alt"></i>
-                                </span>
+                                 </button>
+                         </form>
+                          @else
+                            <span class="text-gray-400 cursor-not-allowed" title="Tidak dapat menghapus">
+                                <i class="fas fa-trash-alt"></i>
+                            </span>
+                         @endif
+                         @else
+                         {{-- Admin baru tidak bisa hapus admin utama --}}
+                            <span class="text-gray-400 cursor-not-allowed" title="Tidak dapat menghapus">
+                                <i class="fas fa-trash-alt"></i>
+                            </span>
                             @endif
+
                         </div>
                     </td>
                 </tr>

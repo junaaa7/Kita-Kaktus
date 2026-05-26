@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the users.
-     */
     public function index()
     {
         $users = User::orderBy('created_at', 'desc')->paginate(10);
@@ -22,22 +19,15 @@ class UserController extends Controller
         return view('admin.users.index', compact('users', 'totalUsers', 'totalAdmins', 'totalCustomers'));
     }
 
-    /**
-     * Show the form for creating a new user.
-     * Hanya Super Admin yang bisa menambah user
-     */
     public function create()
     {
         if (!auth()->user()->isSuperAdmin()) {
             return redirect()->route('admin.users.index')->with('error', 'Anda tidak memiliki izin untuk menambah user.');
         }
+
         return view('admin.users.create');
     }
 
-    /**
-     * Store a newly created user in storage.
-     * Hanya Super Admin yang bisa menyimpan user baru
-     */
     public function store(Request $request)
     {
         if (!auth()->user()->isSuperAdmin()) {
@@ -62,68 +52,65 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified user.
-     */
     public function show(User $user)
     {
         return view('admin.users.show', compact('user'));
     }
 
-    /**
-     * Show the form for editing the specified user.
-     */
     public function edit(User $user)
     {
         $currentUser = auth()->user();
-        
-        // Super Admin bisa mengedit semua user (termasuk dirinya sendiri)
+
+        // Admin Utama / Super Admin:
+        // Bisa edit dirinya sendiri dan admin baru
         if ($currentUser->isSuperAdmin()) {
+            if ($currentUser->id === $user->id || ($user->role === 'admin' && !$user->isSuperAdmin())) {
+                return view('admin.users.edit', compact('user'));
+            }
+
+            return redirect()->route('admin.users.index')->with('error', 'Admin utama hanya dapat mengedit dirinya sendiri dan admin baru.');
+        }
+
+        // Admin baru tidak bisa edit Admin Utama
+        if ($user->isSuperAdmin()) {
+            return redirect()->route('admin.users.index')->with('error', 'Admin baru tidak memiliki izin untuk mengedit Admin Utama.');
+        }
+
+        // Admin baru hanya bisa edit dirinya sendiri
+        if ($currentUser->id === $user->id) {
             return view('admin.users.edit', compact('user'));
         }
-        
-        // Admin biasa tidak bisa mengedit Super Admin
-        if ($user->isSuperAdmin()) {
-            return redirect()->route('admin.users.index')->with('error', 'Anda tidak memiliki izin untuk mengedit Super Admin.');
-        }
-        
-        // Admin biasa tidak bisa mengedit customer
-        if ($user->role === 'user') {
-            return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat mengedit data customer.');
-        }
-        
-        // Admin biasa bisa mengedit admin biasa lainnya
-        return view('admin.users.edit', compact('user'));
+
+        return redirect()->route('admin.users.index')->with('error', 'Anda hanya dapat mengedit akun sendiri.');
     }
 
-    /**
-     * Update the specified user in storage.
-     */
     public function update(Request $request, User $user)
     {
         $currentUser = auth()->user();
-        
-        // Super Admin bisa mengupdate semua user
+
+        // Admin Utama / Super Admin:
+        // Bisa update dirinya sendiri dan admin baru
         if ($currentUser->isSuperAdmin()) {
+            if ($currentUser->id === $user->id || ($user->role === 'admin' && !$user->isSuperAdmin())) {
+                return $this->performUpdate($request, $user);
+            }
+
+            return redirect()->route('admin.users.index')->with('error', 'Admin utama hanya dapat mengupdate dirinya sendiri dan admin baru.');
+        }
+
+        // Admin baru tidak bisa update Admin Utama
+        if ($user->isSuperAdmin()) {
+            return redirect()->route('admin.users.index')->with('error', 'Admin baru tidak memiliki izin untuk mengupdate Admin Utama.');
+        }
+
+        // Admin baru hanya bisa update dirinya sendiri
+        if ($currentUser->id === $user->id) {
             return $this->performUpdate($request, $user);
         }
-        
-        // Admin biasa tidak bisa mengupdate Super Admin
-        if ($user->isSuperAdmin()) {
-            return redirect()->route('admin.users.index')->with('error', 'Anda tidak memiliki izin untuk mengupdate Super Admin.');
-        }
-        
-        // Admin biasa tidak bisa mengupdate customer
-        if ($user->role === 'user') {
-            return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat mengupdate data customer.');
-        }
-        
-        return $this->performUpdate($request, $user);
+
+        return redirect()->route('admin.users.index')->with('error', 'Anda hanya dapat mengupdate akun sendiri.');
     }
     
-    /**
-     * Perform the actual update
-     */
     private function performUpdate(Request $request, User $user)
     {
         $request->validate([
@@ -140,15 +127,20 @@ class UserController extends Controller
             $request->validate([
                 'password' => 'string|min:8|confirmed',
             ]);
+
             $data['password'] = Hash::make($request->password);
         }
         
         // Hanya Super Admin yang bisa mengubah role
+        // Tapi Super Admin tidak boleh menurunkan role dirinya sendiri
         if (auth()->user()->isSuperAdmin() && $request->has('role')) {
             $request->validate([
                 'role' => 'required|in:admin,user',
             ]);
-            $data['role'] = $request->role;
+
+            if (auth()->id() !== $user->id) {
+                $data['role'] = $request->role;
+            }
         }
         
         $user->update($data);
@@ -156,9 +148,6 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'User berhasil diupdate');
     }
 
-    /**
-     * Remove the specified user from storage.
-     */
     public function destroy(User $user)
     {
         $currentUser = auth()->user();
@@ -168,25 +157,19 @@ class UserController extends Controller
             return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat menghapus akun sendiri');
         }
         
-        // Super Admin bisa menghapus semua (kecuali diri sendiri)
-        if ($currentUser->isSuperAdmin()) {
-            $roleText = $user->role === 'admin' ? 'Admin' : 'Customer';
+        // Hanya Admin Utama / Super Admin yang boleh menghapus
+        if (!$currentUser->isSuperAdmin()) {
+            return redirect()->route('admin.users.index')->with('error', 'Admin baru tidak memiliki izin untuk menghapus user.');
+        }
+
+        // Admin Utama hanya boleh hapus admin baru
+        if ($user->role === 'admin' && !$user->isSuperAdmin()) {
             $user->delete();
-            return redirect()->route('admin.users.index')->with('success', $roleText . ' berhasil dihapus');
+
+            return redirect()->route('admin.users.index')->with('success', 'Admin baru berhasil dihapus');
         }
-        
-        // Admin biasa tidak bisa menghapus Super Admin
-        if ($user->isSuperAdmin()) {
-            return redirect()->route('admin.users.index')->with('error', 'Anda tidak memiliki izin untuk menghapus Super Admin.');
-        }
-        
-        // Admin biasa tidak bisa menghapus admin lain
-        if ($user->role === 'admin') {
-            return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat menghapus admin lain.');
-        }
-        
-        // Admin biasa bisa menghapus customer
-        $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'Customer berhasil dihapus');
+
+        // Admin Utama tidak boleh hapus Admin Utama / Customer
+        return redirect()->route('admin.users.index')->with('error', 'Admin utama hanya dapat menghapus admin baru.');
     }
 }

@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return $this->is_super_admin === true;
     }
+
+    public function isAdminBaru()
+    {
+        return $this->role === 'admin' && !$this->isSuperAdmin();
+    }
 }
