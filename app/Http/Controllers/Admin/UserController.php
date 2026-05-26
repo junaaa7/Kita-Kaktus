@@ -61,54 +61,62 @@ class UserController extends Controller
     {
         $currentUser = auth()->user();
 
-        // Admin Utama / Super Admin:
-        // Bisa edit dirinya sendiri dan admin baru
         if ($currentUser->isSuperAdmin()) {
-            if ($currentUser->id === $user->id || ($user->role === 'admin' && !$user->isSuperAdmin())) {
+            if (
+                $currentUser->id === $user->id ||
+                ($user->role === 'admin' && !$user->isSuperAdmin()) ||
+                $user->role === 'user'
+            ) {
                 return view('admin.users.edit', compact('user'));
             }
 
-            return redirect()->route('admin.users.index')->with('error', 'Admin utama hanya dapat mengedit dirinya sendiri dan admin baru.');
+            return redirect()->route('admin.users.index')->with('error', 'Admin utama hanya dapat mengedit dirinya sendiri, admin baru, dan customer.');
         }
 
-        // Admin baru tidak bisa edit Admin Utama
         if ($user->isSuperAdmin()) {
             return redirect()->route('admin.users.index')->with('error', 'Admin baru tidak memiliki izin untuk mengedit Admin Utama.');
         }
 
-        // Admin baru hanya bisa edit dirinya sendiri
-        if ($currentUser->id === $user->id) {
+        if ($user->role === 'admin' && !$user->isSuperAdmin() && $currentUser->id !== $user->id) {
+            return redirect()->route('admin.users.index')->with('error', 'Admin baru tidak memiliki izin untuk mengedit admin lain.');
+        }
+
+        if ($currentUser->id === $user->id || $user->role === 'user') {
             return view('admin.users.edit', compact('user'));
         }
 
-        return redirect()->route('admin.users.index')->with('error', 'Anda hanya dapat mengedit akun sendiri.');
+        return redirect()->route('admin.users.index')->with('error', 'Anda tidak memiliki izin untuk mengedit akun ini.');
     }
 
     public function update(Request $request, User $user)
     {
         $currentUser = auth()->user();
 
-        // Admin Utama / Super Admin:
-        // Bisa update dirinya sendiri dan admin baru
         if ($currentUser->isSuperAdmin()) {
-            if ($currentUser->id === $user->id || ($user->role === 'admin' && !$user->isSuperAdmin())) {
+            if (
+                $currentUser->id === $user->id ||
+                ($user->role === 'admin' && !$user->isSuperAdmin()) ||
+                $user->role === 'user'
+            ) {
                 return $this->performUpdate($request, $user);
             }
 
-            return redirect()->route('admin.users.index')->with('error', 'Admin utama hanya dapat mengupdate dirinya sendiri dan admin baru.');
+            return redirect()->route('admin.users.index')->with('error', 'Admin utama hanya dapat mengupdate dirinya sendiri, admin baru, dan customer.');
         }
 
-        // Admin baru tidak bisa update Admin Utama
         if ($user->isSuperAdmin()) {
             return redirect()->route('admin.users.index')->with('error', 'Admin baru tidak memiliki izin untuk mengupdate Admin Utama.');
         }
 
-        // Admin baru hanya bisa update dirinya sendiri
-        if ($currentUser->id === $user->id) {
+        if ($user->role === 'admin' && !$user->isSuperAdmin() && $currentUser->id !== $user->id) {
+            return redirect()->route('admin.users.index')->with('error', 'Admin baru tidak memiliki izin untuk mengupdate admin lain.');
+        }
+
+        if ($currentUser->id === $user->id || $user->role === 'user') {
             return $this->performUpdate($request, $user);
         }
 
-        return redirect()->route('admin.users.index')->with('error', 'Anda hanya dapat mengupdate akun sendiri.');
+        return redirect()->route('admin.users.index')->with('error', 'Anda tidak memiliki izin untuk mengupdate akun ini.');
     }
     
     private function performUpdate(Request $request, User $user)
@@ -131,8 +139,6 @@ class UserController extends Controller
             $data['password'] = Hash::make($request->password);
         }
         
-        // Hanya Super Admin yang bisa mengubah role
-        // Tapi Super Admin tidak boleh menurunkan role dirinya sendiri
         if (auth()->user()->isSuperAdmin() && $request->has('role')) {
             $request->validate([
                 'role' => 'required|in:admin,user',
@@ -152,24 +158,40 @@ class UserController extends Controller
     {
         $currentUser = auth()->user();
         
-        // Tidak bisa menghapus diri sendiri
         if ($currentUser->id === $user->id) {
             return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat menghapus akun sendiri');
         }
-        
-        // Hanya Admin Utama / Super Admin yang boleh menghapus
-        if (!$currentUser->isSuperAdmin()) {
-            return redirect()->route('admin.users.index')->with('error', 'Admin baru tidak memiliki izin untuk menghapus user.');
+
+        if ($user->isSuperAdmin()) {
+            return redirect()->route('admin.users.index')->with('error', 'Admin utama tidak dapat dihapus.');
         }
 
-        // Admin Utama hanya boleh hapus admin baru
-        if ($user->role === 'admin' && !$user->isSuperAdmin()) {
-            $user->delete();
+        if ($currentUser->isSuperAdmin()) {
+            if ($user->role === 'admin' && !$user->isSuperAdmin()) {
+                $user->delete();
 
-            return redirect()->route('admin.users.index')->with('success', 'Admin baru berhasil dihapus');
+                return redirect()->route('admin.users.index')->with('success', 'Admin baru berhasil dihapus');
+            }
+
+            if ($user->role === 'user') {
+                $user->delete();
+
+                return redirect()->route('admin.users.index')->with('success', 'Customer berhasil dihapus');
+            }
+
+            return redirect()->route('admin.users.index')->with('error', 'User tidak dapat dihapus.');
         }
 
-        // Admin Utama tidak boleh hapus Admin Utama / Customer
-        return redirect()->route('admin.users.index')->with('error', 'Admin utama hanya dapat menghapus admin baru.');
+        if ($currentUser->isAdmin() && !$currentUser->isSuperAdmin()) {
+            if ($user->role === 'user') {
+                $user->delete();
+
+                return redirect()->route('admin.users.index')->with('success', 'Customer berhasil dihapus');
+            }
+
+            return redirect()->route('admin.users.index')->with('error', 'Admin baru hanya dapat menghapus customer.');
+        }
+
+        return redirect()->route('admin.users.index')->with('error', 'Anda tidak memiliki izin untuk menghapus user.');
     }
 }
