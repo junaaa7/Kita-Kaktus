@@ -150,7 +150,7 @@
                     <td colspan="6" class="px-6 py-12 text-center">
                         <i class="fas fa-users text-5xl text-gray-400 mb-3"></i>
                         <p class="text-gray-500 dark:text-gray-400">Belum ada user terdaftar</p>
-                    <tr>
+                    </td>
                 </tr>
                 @endforelse
             </tbody>

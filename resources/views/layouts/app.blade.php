@@ -265,7 +265,6 @@
                     successFlash.remove();
                 }, 500);
             }
-            
             if (errorFlash) {
                 errorFlash.style.transition = 'opacity 0.5s';
                 errorFlash.style.opacity = '0';
