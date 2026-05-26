@@ -12,9 +12,9 @@ class UserController extends Controller
     public function index()
     {
         $users = User::orderBy('created_at', 'desc')->paginate(10);
-        $totalUsers = User::where('role', 'user')->count();
+        $totalUsers = User::whereIn('role', ['user', 'customer'])->count();
         $totalAdmins = User::where('role', 'admin')->count();
-        $totalCustomers = User::where('role', 'user')->count();
+        $totalCustomers = User::whereIn('role', ['user', 'customer'])->count();
         
         return view('admin.users.index', compact('users', 'totalUsers', 'totalAdmins', 'totalCustomers'));
     }
@@ -38,7 +38,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:admin,user',
+            'role' => 'required|in:admin,user,customer',
         ]);
 
         User::create([
@@ -60,12 +60,13 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $currentUser = auth()->user();
+        $isCustomer = in_array($user->role, ['user', 'customer']);
 
         if ($currentUser->isSuperAdmin()) {
             if (
                 $currentUser->id === $user->id ||
                 ($user->role === 'admin' && !$user->isSuperAdmin()) ||
-                $user->role === 'user'
+                $isCustomer
             ) {
                 return view('admin.users.edit', compact('user'));
             }
@@ -81,7 +82,7 @@ class UserController extends Controller
             return redirect()->route('admin.users.index')->with('error', 'Admin baru tidak memiliki izin untuk mengedit admin lain.');
         }
 
-        if ($currentUser->id === $user->id || $user->role === 'user') {
+        if ($currentUser->id === $user->id || $isCustomer) {
             return view('admin.users.edit', compact('user'));
         }
 
@@ -91,12 +92,13 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $currentUser = auth()->user();
+        $isCustomer = in_array($user->role, ['user', 'customer']);
 
         if ($currentUser->isSuperAdmin()) {
             if (
                 $currentUser->id === $user->id ||
                 ($user->role === 'admin' && !$user->isSuperAdmin()) ||
-                $user->role === 'user'
+                $isCustomer
             ) {
                 return $this->performUpdate($request, $user);
             }
@@ -112,7 +114,7 @@ class UserController extends Controller
             return redirect()->route('admin.users.index')->with('error', 'Admin baru tidak memiliki izin untuk mengupdate admin lain.');
         }
 
-        if ($currentUser->id === $user->id || $user->role === 'user') {
+        if ($currentUser->id === $user->id || $isCustomer) {
             return $this->performUpdate($request, $user);
         }
 
@@ -141,7 +143,7 @@ class UserController extends Controller
         
         if (auth()->user()->isSuperAdmin() && $request->has('role')) {
             $request->validate([
-                'role' => 'required|in:admin,user',
+                'role' => 'required|in:admin,user,customer',
             ]);
 
             if (auth()->id() !== $user->id) {
@@ -157,6 +159,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $currentUser = auth()->user();
+        $isCustomer = in_array($user->role, ['user', 'customer']);
         
         if ($currentUser->id === $user->id) {
             return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat menghapus akun sendiri');
@@ -173,7 +176,7 @@ class UserController extends Controller
                 return redirect()->route('admin.users.index')->with('success', 'Admin baru berhasil dihapus');
             }
 
-            if ($user->role === 'user') {
+            if ($isCustomer) {
                 $user->delete();
 
                 return redirect()->route('admin.users.index')->with('success', 'Customer berhasil dihapus');
@@ -183,7 +186,7 @@ class UserController extends Controller
         }
 
         if ($currentUser->isAdmin() && !$currentUser->isSuperAdmin()) {
-            if ($user->role === 'user') {
+            if ($isCustomer) {
                 $user->delete();
 
                 return redirect()->route('admin.users.index')->with('success', 'Customer berhasil dihapus');
