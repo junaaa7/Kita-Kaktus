@@ -19,13 +19,15 @@
         </div>
     @endif
 
-    <div class="flex flex-col lg:grid lg:grid-cols-2 gap-6">
-
-        <!-- FORM CHECKOUT -->
-        <div>
+    <!-- Mobile: Ringkasan di atas, Form di bawah -->
+    <div class="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-6">
+        
+        <!-- FORM CHECKOUT (DITARUH BAWAH DI MOBILE) -->
+        <div class="lg:order-2">
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
 
-                <h2 class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-4">
+                <h2 class="text-base sm:text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center">
+                    <i class="fas fa-truck text-green-500 mr-2 text-sm"></i>
                     Informasi Pengiriman
                 </h2>
 
@@ -36,13 +38,13 @@
                 >
                     @csrf
 
-                    <!-- ========== TAMBAHAN: PILIH ALAMAT TERSIMPAN ========== -->
+                    <!-- ========== PILIH ALAMAT TERSIMPAN ========== -->
                     @if(isset($addresses) && $addresses->count() > 0)
                     <div class="mb-4">
-                        <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
+                        <label class="block text-gray-700 dark:text-gray-300 text-xs sm:text-sm font-bold mb-1">
                             Pilih Alamat Tersimpan
                         </label>
-                        <select id="selectAddress" class="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                        <select id="selectAddress" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
                             <option value="">-- Pilih Alamat --</option>
                             @foreach($addresses as $addr)
                                 <option value="{{ $addr->id }}" 
@@ -50,25 +52,26 @@
                                         data-phone="{{ $addr->phone }}"
                                         data-address="{{ $addr->address }}"
                                         {{ $addr->is_default ? 'selected' : '' }}>
-                                    {{ $addr->label }} - {{ $addr->recipient_name }} ({{ $addr->phone }})
+                                    {{ $addr->label }} - {{ $addr->recipient_name }}
                                     @if($addr->is_default) [Utama] @endif
                                 </option>
                             @endforeach
                         </select>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            Pilih alamat yang sudah tersimpan, atau isi manual di bawah
+                            <i class="fas fa-info-circle mr-1"></i> Pilih alamat yang sudah tersimpan
                         </p>
                     </div>
                     @endif
 
-                    <!-- ========== TAMBAHAN: NAMA PENERIMA ========== -->
+                    <!-- ========== NAMA PENERIMA ========== -->
                     <div class="mb-4">
-                        <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
+                        <label class="block text-gray-700 dark:text-gray-300 text-xs sm:text-sm font-bold mb-1">
                             Nama Penerima
                         </label>
                         <input type="text" name="recipient_name" id="recipient_name" 
                                value="{{ old('recipient_name', isset($defaultAddress) ? $defaultAddress->recipient_name : '') }}"
-                               class="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                               placeholder="Masukkan nama lengkap penerima"
+                               class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
                             * Nama lengkap penerima paket
                         </p>
@@ -76,7 +79,7 @@
 
                     <!-- Alamat -->
                     <div class="mb-4">
-                        <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
+                        <label class="block text-gray-700 dark:text-gray-300 text-xs sm:text-sm font-bold mb-1">
                             Alamat Lengkap
                         </label>
 
@@ -85,7 +88,8 @@
                             id="shipping_address"
                             required
                             rows="3"
-                            class="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500 @error('shipping_address') border-red-500 @enderror"
+                            placeholder="Jalan, RT/RW, Kelurahan, Kecamatan, Kota"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500 @error('shipping_address') border-red-500 @enderror"
                         >{{ old('shipping_address', isset($defaultAddress) ? $defaultAddress->address : '') }}</textarea>
 
                         @error('shipping_address')
@@ -95,7 +99,7 @@
 
                     <!-- Nomor Telepon -->
                     <div class="mb-4">
-                        <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
+                        <label class="block text-gray-700 dark:text-gray-300 text-xs sm:text-sm font-bold mb-1">
                             Nomor Telepon
                         </label>
 
@@ -107,11 +111,11 @@
                             required
                             placeholder="Contoh: 081234567890"
                             oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                            class="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500 @error('phone') border-red-500 @enderror"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500 @error('phone') border-red-500 @enderror"
                         >
 
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            * Hanya boleh diisi dengan angka (10-15 digit)
+                            * 10-15 digit angka
                         </p>
 
                         @error('phone')
@@ -119,58 +123,48 @@
                         @enderror
                     </div>
 
-                    <!-- Metode Pembayaran - TANPA COD -->
+                    <!-- Metode Pembayaran - GRID 2 KOLOM UNTUK MOBILE -->
                     <div class="mb-6">
-                        <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
+                        <label class="block text-gray-700 dark:text-gray-300 text-xs sm:text-sm font-bold mb-2">
                             Metode Pembayaran
                         </label>
 
-                        <div class="space-y-3">
-
+                        <div class="grid grid-cols-2 gap-3">
                             <!-- Transfer Bank -->
-                            <label class="flex items-start sm:items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-
+                            <label class="flex flex-col items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition text-center">
                                 <input
                                     type="radio"
                                     name="payment_method"
                                     value="bank_transfer"
                                     {{ old('payment_method', 'bank_transfer') == 'bank_transfer' ? 'checked' : '' }}
-                                    class="mr-3 mt-1 sm:mt-0"
+                                    class="mb-2"
                                 >
-
-                                <div>
-                                    <div class="font-semibold text-gray-800 dark:text-white text-sm sm:text-base">
-                                        Transfer Bank
-                                    </div>
-
-                                    <div class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                                        BCA
-                                    </div>
+                                <i class="fas fa-university text-xl text-green-500 mb-1"></i>
+                                <div class="font-semibold text-gray-800 dark:text-white text-xs sm:text-sm">
+                                    Transfer Bank
+                                </div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">
+                                    BCA
                                 </div>
                             </label>
                             
                             <!-- QRIS -->
-                            <label class="flex items-start sm:items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                            <label class="flex flex-col items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition text-center">
                                 <input
                                     type="radio"
                                     name="payment_method"
                                     value="qris"
                                     {{ old('payment_method') == 'qris' ? 'checked' : '' }}
-                                    class="mr-3 mt-1 sm:mt-0"
+                                    class="mb-2"
                                 >
-
-                                <div>
-                                    <div class="font-semibold text-gray-800 dark:text-white text-sm sm:text-base">
-                                        <i class="fas fa-qrcode mr-2 text-green-500"></i>
-                                        QRIS
-                                    </div>
-
-                                    <div class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                                        Scan QRIS semua e-wallet dan mobile banking
-                                    </div>
+                                <i class="fas fa-qrcode text-xl text-green-500 mb-1"></i>
+                                <div class="font-semibold text-gray-800 dark:text-white text-xs sm:text-sm">
+                                    QRIS
+                                </div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">
+                                    Scan QRIS
                                 </div>
                             </label>
-
                         </div>
 
                         @error('payment_method')
@@ -181,8 +175,9 @@
                     <!-- Button -->
                     <button
                         type="submit"
-                        class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg transition font-semibold text-sm sm:text-base"
+                        class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg transition font-semibold text-sm flex items-center justify-center gap-2"
                     >
+                        <i class="fas fa-check-circle"></i>
                         Konfirmasi Pesanan
                     </button>
 
@@ -190,57 +185,43 @@
             </div>
         </div>
 
-        <!-- RINGKASAN -->
-        <div>
+        <!-- RINGKASAN (DITARUH ATAS DI MOBILE) -->
+        <div class="lg:order-1">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 sticky lg:top-20">
 
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
-
-                <h2 class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-4">
+                <h2 class="text-base sm:text-lg font-bold text-gray-800 dark:text-white mb-3 flex items-center">
+                    <i class="fas fa-shopping-bag text-green-500 mr-2 text-sm"></i>
                     Ringkasan Pesanan
                 </h2>
 
-                <div class="space-y-3 mb-4">
-
+                <div class="space-y-2 mb-3 max-h-60 overflow-y-auto">
                     @foreach($cart as $item)
-
-                        <div class="flex justify-between text-gray-600 dark:text-gray-400 text-sm sm:text-base">
-
-                            <span>
-                                {{ $item['name'] }} x {{ $item['quantity'] }}
+                        <div class="flex justify-between text-gray-600 dark:text-gray-400 text-xs sm:text-sm py-1">
+                            <span class="flex-1 pr-2">
+                                {{ Str::limit($item['name'], 30) }} x {{ $item['quantity'] }}
                             </span>
-
-                            <span>
+                            <span class="font-semibold whitespace-nowrap">
                                 Rp {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
                             </span>
-
                         </div>
-
                     @endforeach
-
                 </div>
 
-                <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
-
-                    <div class="flex justify-between font-bold text-base sm:text-lg">
-
-                        <span class="text-gray-800 dark:text-white">
-                            Total
-                        </span>
-
-                        <span class="text-green-600 dark:text-green-400">
+                <div class="border-t border-gray-200 dark:border-gray-700 pt-3 mt-1">
+                    <div class="flex justify-between font-bold text-sm sm:text-base">
+                        <span class="text-gray-800 dark:text-white">Total</span>
+                        <span class="text-green-600 dark:text-green-400 text-base sm:text-lg">
                             Rp {{ number_format($total, 0, ',', '.') }}
                         </span>
-
                     </div>
-
                 </div>
 
             </div>
 
-            <!-- INFO PEMBAYARAN - TANPA COD -->
-            <div class="mt-4 bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 p-3 sm:p-4 rounded-lg">
+            <!-- INFO PEMBAYARAN -->
+            <div class="mt-4 bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 p-3 rounded-lg">
 
-                <p class="text-xs sm:text-sm text-blue-700 dark:text-blue-300">
+                <p class="text-xs text-blue-700 dark:text-blue-300">
 
                     <i class="fas fa-info-circle mr-1"></i>
 
@@ -248,12 +229,11 @@
 
                         @if(old('payment_method', 'bank_transfer') == 'bank_transfer')
 
-                            Silahkan Transfer ke Rekening <br>
-                            BCA 6035057815 a.n EVI LUTFIANI DEWI <br>
+                            Transfer ke Rekening BCA 6035057815 a.n EVI LUTFIANI DEWI
 
                         @else
 
-                            Silahkan pilih QRIS, lalu scan QRIS pada halaman detail pesanan setelah checkout.
+                            Scan QRIS pada halaman detail pesanan setelah checkout
 
                         @endif
 
@@ -270,7 +250,7 @@
 </div>
 
 <script>
-    // ========== TAMBAHAN: AUTO FILL DARI ALAMAT TERSIMPAN ==========
+    // ========== AUTO FILL DARI ALAMAT TERSIMPAN ==========
     const addressSelect = document.getElementById('selectAddress');
     const recipientNameInput = document.getElementById('recipient_name');
     const phoneInput = document.getElementById('phone');
@@ -297,16 +277,11 @@
 
             if (this.value === 'bank_transfer') {
 
-                paymentInfo.innerHTML = `
-                    Silahkan Transfer ke Rekening <br>
-                    BCA 6035057815 a.n EVI LUTFIANI DEWI <br>
-                `;
+                paymentInfo.innerHTML = 'Transfer ke Rekening BCA 6035057815 a.n EVI LUTFIANI DEWI';
 
             } else if (this.value === 'qris') {
 
-                paymentInfo.innerHTML = `
-                    Silahkan pilih QRIS, lalu scan QRIS pada halaman detail pesanan setelah checkout.
-                `;
+                paymentInfo.innerHTML = 'Scan QRIS pada halaman detail pesanan setelah checkout';
             }
 
         });
@@ -317,25 +292,21 @@
     const phoneInputField = document.getElementById('phone');
     const form = document.getElementById('checkoutForm');
 
-    phoneInputField.addEventListener('input', function() {
+    if (phoneInputField) {
+        phoneInputField.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    }
 
-        this.value = this.value.replace(/[^0-9]/g, '');
-
-    });
-
-    form.addEventListener('submit', function(e) {
-
-        const phone = phoneInputField.value;
-
-        if (phone.length > 0 && (phone.length < 10 || phone.length > 15)) {
-
-            e.preventDefault();
-
-            alert('Nomor telepon harus terdiri dari 10-15 digit angka!');
-
-        }
-
-    });
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const phone = phoneInputField ? phoneInputField.value : '';
+            if (phone.length > 0 && (phone.length < 10 || phone.length > 15)) {
+                e.preventDefault();
+                alert('Nomor telepon harus terdiri dari 10-15 digit angka!');
+            }
+        });
+    }
 
 </script>
 @endsection
