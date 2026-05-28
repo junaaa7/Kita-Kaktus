@@ -10,7 +10,18 @@ class Address extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'label', 'recipient_name', 'phone', 'address', 'city', 'postal_code', 'is_default'
+        'user_id',
+        'label',
+        'recipient_name',
+        'phone',
+        'address',
+        'city',
+        'postal_code',
+        'is_default',
+    ];
+
+    protected $casts = [
+        'is_default' => 'boolean',
     ];
 
     public function user()
