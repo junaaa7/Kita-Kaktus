@@ -60,7 +60,10 @@ Route::middleware(['auth'])->group(function () {
     
     // ========== PROFILE ROUTES (TAMBAHAN) ==========
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::put('/profile/update-address', [ProfileController::class, 'updateAddress'])->name('profile.update.address');
+    Route::post('/profile/address/add', [ProfileController::class, 'addAddress'])->name('profile.address.add');
+    Route::put('/profile/address/{address}', [ProfileController::class, 'updateAddress'])->name('profile.address.update');
+    Route::delete('/profile/address/{address}', [ProfileController::class, 'deleteAddress'])->name('profile.address.delete');
+    Route::put('/profile/address/{address}/set-default', [ProfileController::class, 'setDefaultAddress'])->name('profile.address.set-default');
     Route::put('/profile/update-profile', [ProfileController::class, 'updateProfile'])->name('profile.update.profile');
     Route::put('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update.password');
 });

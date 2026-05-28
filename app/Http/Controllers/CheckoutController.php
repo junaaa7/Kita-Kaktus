@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -52,8 +53,17 @@ class CheckoutController extends Controller
         }
 
         $isSelectedCheckout = false;
+        
+        // ========== TAMBAHAN: Ambil alamat user ==========
+        $addresses = Address::where('user_id', Auth::id())
+            ->orderBy('is_default', 'desc')
+            ->get();
+        
+        $defaultAddress = Address::where('user_id', Auth::id())
+            ->where('is_default', true)
+            ->first();
 
-        return view('checkout.index', compact('cart', 'total', 'isSelectedCheckout'));
+        return view('checkout.index', compact('cart', 'total', 'isSelectedCheckout', 'addresses', 'defaultAddress'));
     }
 
     public function process(Request $request)
@@ -138,8 +148,17 @@ class CheckoutController extends Controller
         }
 
         $isSelectedCheckout = true;
+        
+        // ========== TAMBAHAN: Ambil alamat user ==========
+        $addresses = Address::where('user_id', Auth::id())
+            ->orderBy('is_default', 'desc')
+            ->get();
+        
+        $defaultAddress = Address::where('user_id', Auth::id())
+            ->where('is_default', true)
+            ->first();
 
-        return view('checkout.index', compact('cart', 'total', 'isSelectedCheckout'));
+        return view('checkout.index', compact('cart', 'total', 'isSelectedCheckout', 'addresses', 'defaultAddress'));
     }
 
     public function processSelectedCheckout(Request $request)

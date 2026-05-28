@@ -36,6 +36,44 @@
                 >
                     @csrf
 
+                    <!-- ========== TAMBAHAN: PILIH ALAMAT TERSIMPAN ========== -->
+                    @if(isset($addresses) && $addresses->count() > 0)
+                    <div class="mb-4">
+                        <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
+                            Pilih Alamat Tersimpan
+                        </label>
+                        <select id="selectAddress" class="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                            <option value="">-- Pilih Alamat --</option>
+                            @foreach($addresses as $addr)
+                                <option value="{{ $addr->id }}" 
+                                        data-name="{{ $addr->recipient_name }}"
+                                        data-phone="{{ $addr->phone }}"
+                                        data-address="{{ $addr->address }}"
+                                        {{ $addr->is_default ? 'selected' : '' }}>
+                                    {{ $addr->label }} - {{ $addr->recipient_name }} ({{ $addr->phone }})
+                                    @if($addr->is_default) [Utama] @endif
+                                </option>
+                            @endforeach
+                        </select>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            Pilih alamat yang sudah tersimpan, atau isi manual di bawah
+                        </p>
+                    </div>
+                    @endif
+
+                    <!-- ========== TAMBAHAN: NAMA PENERIMA ========== -->
+                    <div class="mb-4">
+                        <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
+                            Nama Penerima
+                        </label>
+                        <input type="text" name="recipient_name" id="recipient_name" 
+                               value="{{ old('recipient_name', isset($defaultAddress) ? $defaultAddress->recipient_name : '') }}"
+                               class="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            * Nama lengkap penerima paket
+                        </p>
+                    </div>
+
                     <!-- Alamat -->
                     <div class="mb-4">
                         <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
@@ -48,7 +86,7 @@
                             required
                             rows="3"
                             class="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500 @error('shipping_address') border-red-500 @enderror"
-                        >{{ old('shipping_address') }}</textarea>
+                        >{{ old('shipping_address', isset($defaultAddress) ? $defaultAddress->address : '') }}</textarea>
 
                         @error('shipping_address')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -65,7 +103,7 @@
                             type="tel"
                             name="phone"
                             id="phone"
-                            value="{{ old('phone') }}"
+                            value="{{ old('phone', isset($defaultAddress) ? $defaultAddress->phone : '') }}"
                             required
                             placeholder="Contoh: 081234567890"
                             oninput="this.value = this.value.replace(/[^0-9]/g, '')"
@@ -232,6 +270,23 @@
 </div>
 
 <script>
+    // ========== TAMBAHAN: AUTO FILL DARI ALAMAT TERSIMPAN ==========
+    const addressSelect = document.getElementById('selectAddress');
+    const recipientNameInput = document.getElementById('recipient_name');
+    const phoneInput = document.getElementById('phone');
+    const addressInput = document.getElementById('shipping_address');
+
+    if (addressSelect) {
+        addressSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            if (selectedOption.value) {
+                recipientNameInput.value = selectedOption.dataset.name || '';
+                phoneInput.value = selectedOption.dataset.phone || '';
+                addressInput.value = selectedOption.dataset.address || '';
+            }
+        });
+    }
+
     // PAYMENT INFO - TANPA COD
     const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
     const paymentInfo = document.getElementById('paymentInfo');
@@ -259,10 +314,10 @@
     });
 
     // VALIDASI NOMOR TELEPON
-    const phoneInput = document.getElementById('phone');
+    const phoneInputField = document.getElementById('phone');
     const form = document.getElementById('checkoutForm');
 
-    phoneInput.addEventListener('input', function() {
+    phoneInputField.addEventListener('input', function() {
 
         this.value = this.value.replace(/[^0-9]/g, '');
 
@@ -270,7 +325,7 @@
 
     form.addEventListener('submit', function(e) {
 
-        const phone = phoneInput.value;
+        const phone = phoneInputField.value;
 
         if (phone.length > 0 && (phone.length < 10 || phone.length > 15)) {
 
