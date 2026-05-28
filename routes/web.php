@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -56,6 +57,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/orders/{order}', [UserController::class, 'orderDetail'])->name('orders.detail');
 
     Route::post('/orders/{order}/rating', [UserController::class, 'submitRating'])->name('orders.rating');
+    
+    // ========== PROFILE ROUTES (TAMBAHAN) ==========
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profile/update-address', [ProfileController::class, 'updateAddress'])->name('profile.update.address');
+    Route::put('/profile/update-profile', [ProfileController::class, 'updateProfile'])->name('profile.update.profile');
+    Route::put('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update.password');
 });
 
 // Admin routes

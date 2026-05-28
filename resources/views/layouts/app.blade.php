@@ -103,10 +103,17 @@
                                 <i class="fas fa-chevron-down text-xs"></i>
                             </button>
                             <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl hidden z-50 border border-gray-200 dark:border-gray-700">
+                                <!-- Menu untuk user biasa (bukan admin) - TAMBAHAN -->
+                                @if(!auth()->user()->isAdmin())
+                                    <a href="{{ route('profile.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <i class="fas fa-user-cog mr-2"></i> Pengaturan Akun
+                                    </a>
+                                    <div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+                                @endif
                                 <form method="POST" action="{{ secure_url('/logout') }}">
                                     @csrf
                                     <button type="submit" class="block w-full text-left px-4 py-2 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm">
-                                         <i class="fas fa-sign-out-alt"></i> Logout
+                                         <i class="fas fa-sign-out-alt mr-2"></i> Logout
                                     </button>
                                 </form>
                             </div>
@@ -155,6 +162,11 @@
                             @endif
                         </a>
                         <a href="{{ route('orders.history') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Pesanan</a>
+                        
+                        <!-- Menu Pengaturan Akun untuk User Biasa di Mobile Menu - TAMBAHAN -->
+                        <a href="{{ route('profile.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">
+                            <i class="fas fa-user-cog mr-2"></i> Pengaturan Akun
+                        </a>
                         
                         <!-- Dark Mode Toggle di Mobile Menu dengan Teks -->
                         <button id="theme-toggle-mobile" class="w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
