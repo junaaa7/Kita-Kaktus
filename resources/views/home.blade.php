@@ -6,12 +6,12 @@
 <!-- Hero Section - Responsive -->
 <section class="relative overflow-hidden rounded-3xl mb-8 md:mb-16 h-[400px] md:h-[500px] lg:h-[600px] py-10 md:py-20 flex items-center">
     <div class="absolute inset-0">
-        <img src="{{ asset('images/promosi/hero new 1.webp') }}" alt="Hero Background" class="w-full h-full object-cover object-center">
+        <img src="{{ asset('images/promosi/hero new 1.webp') }}" alt="Hero Background" class="w-full h-full object-cover object-center" fetchpriority="high" loading="eager" decoding="sync">
         <div class="absolute inset-0 bg-gradient-to-r from-green-900/80 to-green-800/60"></div>
     </div>
     
     <div class="absolute top-10 md:top-20 left-5 md:left-10 animate-float-slow">
-        <i class="fas fa-cactus text-2xl md:text-4xl text-white/30"></i>
+        <i aria-hidden="true" class="fas fa-cactus text-2xl md:text-4xl text-white/30"></i>
     </div>
     
     <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 text-center text-white">
@@ -37,21 +37,21 @@
     
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 px-4 sm:px-0">
         <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500" data-aos="zoom-in" data-aos-delay="100">
-            <img src="{{ asset('images/promosi/kebun kaktus.webp') }}" alt="Kebun Kaktus" class="w-full h-56 sm:h-64 object-cover group-hover:scale-110 transition duration-500">
+            <img src="{{ asset('images/promosi/kebun kaktus.webp') }}" alt="Kebun Kaktus" class="w-full h-56 sm:h-64 object-cover group-hover:scale-110 transition duration-500" loading="lazy" decoding="async">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
                 <p class="text-white font-semibold text-sm md:text-base">Kebun Kaktus Indah</p>
             </div>
         </div>
         
         <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500" data-aos="zoom-in" data-aos-delay="200">
-            <img src="{{ asset('images/promosi/dasboard (3).webp') }}" alt="Toko Kaktus" class="w-full h-56 sm:h-64 object-cover group-hover:scale-110 transition duration-500">
+            <img src="{{ asset('images/promosi/dasboard (3).webp') }}" alt="Toko Kaktus" class="w-full h-56 sm:h-64 object-cover group-hover:scale-110 transition duration-500" loading="lazy" decoding="async">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
                 <p class="text-white font-semibold text-sm md:text-base">Toko Kaktus Modern</p>
             </div>
         </div>
         
         <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500" data-aos="zoom-in" data-aos-delay="300">
-            <img src="{{ asset('images/promosi/dasboard (2).webp') }}" alt="Koleksi Kaktus" class="w-full h-56 sm:h-64 object-cover group-hover:scale-110 transition duration-500">
+            <img src="{{ asset('images/promosi/dasboard (2).webp') }}" alt="Koleksi Kaktus" class="w-full h-56 sm:h-64 object-cover group-hover:scale-110 transition duration-500" loading="lazy" decoding="async">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
                 <p class="text-white font-semibold text-sm md:text-base">Koleksi Lengkap Kaktus</p>
             </div>
@@ -67,9 +67,9 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 px-4 sm:px-0">
         <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
             <div class="relative h-40 sm:h-48 overflow-hidden">
-                <img src="{{ asset('images/promosi/pengiriman.webp') }}" alt="Pengiriman" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <img src="{{ asset('images/promosi/pengiriman.webp') }}" alt="Pengiriman" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy" decoding="async">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                <div class="absolute bottom-3 md:bottom-4 left-3 md:left-4 text-white"><i class="fas fa-truck text-2xl md:text-3xl"></i></div>
+                <div class="absolute bottom-3 md:bottom-4 left-3 md:left-4 text-white"><i aria-hidden="true" class="fas fa-truck text-2xl md:text-3xl"></i></div>
             </div>
             <div class="p-4 md:p-6 text-center">
                 <h3 class="font-bold text-lg md:text-xl text-gray-800 dark:text-white mb-1 md:mb-2">Gratis Ongkir</h3>
@@ -79,9 +79,9 @@
         
         <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
             <div class="relative h-40 sm:h-48 overflow-hidden">
-                <img src="{{asset('images/promosi/kaktus.webp') }}" alt="Kaktus Sehat" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <img src="{{asset('images/promosi/kaktus.webp') }}" alt="Kaktus Sehat" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy" decoding="async">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                <div class="absolute bottom-3 md:bottom-4 left-3 md:left-4 text-white"><i class="fas fa-seedling text-2xl md:text-3xl"></i></div>
+                <div class="absolute bottom-3 md:bottom-4 left-3 md:left-4 text-white"><i aria-hidden="true" class="fas fa-seedling text-2xl md:text-3xl"></i></div>
             </div>
             <div class="p-4 md:p-6 text-center">
                 <h3 class="font-bold text-lg md:text-xl text-gray-800 dark:text-white mb-1 md:mb-2">Kaktus Sehat</h3>
@@ -91,9 +91,9 @@
         
         <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="300">
             <div class="relative h-40 sm:h-48 overflow-hidden">
-                <img src="{{asset('images/promosi/pembayaran.webp') }}" alt="Pembayaran" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <img src="{{asset('images/promosi/pembayaran.webp') }}" alt="Pembayaran" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy" decoding="async">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                <div class="absolute bottom-3 md:bottom-4 left-3 md:left-4 text-white"><i class="fas fa-credit-card text-2xl md:text-3xl"></i></div>
+                <div class="absolute bottom-3 md:bottom-4 left-3 md:left-4 text-white"><i aria-hidden="true" class="fas fa-credit-card text-2xl md:text-3xl"></i></div>
             </div>
             <div class="p-4 md:p-6 text-center">
                 <h3 class="font-bold text-lg md:text-xl text-gray-800 dark:text-white mb-1 md:mb-2">Pembayaran Mudah</h3>
@@ -103,9 +103,9 @@
         
         <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="400">
             <div class="relative h-40 sm:h-48 overflow-hidden">
-                <img src="{{asset('images/promosi/layanan.webp') }}" alt="Layanan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <img src="{{asset('images/promosi/layanan.webp') }}" alt="Layanan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy" decoding="async">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                <div class="absolute bottom-3 md:bottom-4 left-3 md:left-4 text-white"><i class="fas fa-headset text-2xl md:text-3xl"></i></div>
+                <div class="absolute bottom-3 md:bottom-4 left-3 md:left-4 text-white"><i aria-hidden="true" class="fas fa-headset text-2xl md:text-3xl"></i></div>
             </div>
             <div class="p-4 md:p-6 text-center">
                 <h3 class="font-bold text-lg md:text-xl text-gray-800 dark:text-white mb-1 md:mb-2">Layanan 24/7</h3>
@@ -125,7 +125,7 @@
     <div class="flex flex-col md:flex-row items-center gap-6 md:gap-8">
         <div class="md:w-1/2 w-full" data-aos="zoom-in">
             <div class="relative rounded-xl overflow-hidden group">
-                <img src="{{ asset('images/promosi/logo new.webp') }}" alt="Kebun Kaktus" class="w-full h-64 sm:h-80 object-cover group-hover:scale-110 transition duration-500">
+                <img src="{{ asset('images/promosi/logo new.webp') }}" alt="Kebun Kaktus" class="w-full h-64 sm:h-80 object-cover group-hover:scale-110 transition duration-500" loading="lazy" decoding="async">
                 <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition duration-300"></div>
             </div>
         </div>

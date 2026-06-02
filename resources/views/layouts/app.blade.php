@@ -2,14 +2,16 @@
 <html lang="id" class="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Kita Kaktus')</title>
     
     <!-- Font Awesome -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <!-- AOS CSS for scroll animation -->
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <!-- Vite CSS & JS -->
@@ -40,8 +42,8 @@
                 </div>
                 
                 <!-- Mobile Menu Button -->
-                <button id="mobileMenuButton" class="md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
-                    <i class="fas fa-bars text-xl"></i>
+                <button id="mobileMenuButton" type="button" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobileMenu" class="md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
+                    <i aria-hidden="true" class="fas fa-bars text-xl"></i>
                 </button>
                 
                 <!-- Desktop Menu -->
@@ -50,26 +52,26 @@
                         @if(auth()->user()->isAdmin())
                             <!-- Admin Dropdown -->
                             <div class="relative">
-                                <button id="adminMenuBtn" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-sm">
-                                    <i class="fas fa-cog"></i> Menu Admin
+                                <button id="adminMenuBtn" type="button" aria-label="Buka menu admin" aria-expanded="false" aria-controls="adminMenu" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-sm">
+                                    <i aria-hidden="true" class="fas fa-cog"></i> Menu Admin
                                 </button>
                                 <div id="adminMenu" class="absolute left-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-xl hidden z-50 border border-gray-200 dark:border-gray-700">
-                                    <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><i class="fas fa-chart-line mr-2"></i> Dashboard</a>
-                                    <a href="{{ route('admin.products.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><i class="fas fa-box mr-2"></i> Kelola Produk</a>
-                                    <a href="{{ route('admin.categories.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><i class="fas fa-tags mr-2"></i> Kelola Kategori</a>
-                                    <a href="{{ route('admin.users.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><i class="fas fa-users mr-2"></i> Kelola User</a>
-                                    <a href="{{ route('admin.orders.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><i class="fas fa-shopping-cart mr-2"></i> Kelola Pesanan</a>
-                                    <a href="{{ route('admin.ratings.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><i class="fas fa-star mr-2"></i> Kelola Rating</a>
+                                    <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><i aria-hidden="true" class="fas fa-chart-line mr-2"></i> Dashboard</a>
+                                    <a href="{{ route('admin.products.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><i aria-hidden="true" class="fas fa-box mr-2"></i> Kelola Produk</a>
+                                    <a href="{{ route('admin.categories.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><i aria-hidden="true" class="fas fa-tags mr-2"></i> Kelola Kategori</a>
+                                    <a href="{{ route('admin.users.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><i aria-hidden="true" class="fas fa-users mr-2"></i> Kelola User</a>
+                                    <a href="{{ route('admin.orders.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><i aria-hidden="true" class="fas fa-shopping-cart mr-2"></i> Kelola Pesanan</a>
+                                    <a href="{{ route('admin.ratings.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><i aria-hidden="true" class="fas fa-star mr-2"></i> Kelola Rating</a>
                                 </div>
                             </div>
                         @else
                             <!-- Menu User -->
                             <a href="{{ route('home') }}" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 text-sm">Home</a>
                             <a href="{{ route('collection.index') }}" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 text-sm">
-                                <i class="fas fa-store"></i> Koleksi
+                                <i aria-hidden="true" class="fas fa-store"></i> Koleksi
                             </a>
                             <a href="{{ route('cart.index') }}" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 relative">
-                                <i class="fas fa-shopping-cart text-lg"></i>
+                                <i aria-hidden="true" class="fas fa-shopping-cart text-lg"></i>
                                 @php
                                     $cartCount = 0;
                                     if(auth()->check()) {
@@ -83,37 +85,37 @@
                                 @endif
                             </a>
                             <a href="{{ route('orders.history') }}" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 text-sm">
-                                <i class="fas fa-history"></i> Pesanan
+                                <i aria-hidden="true" class="fas fa-history"></i> Pesanan
                             </a>
                         @endif
                         
                         <!-- Dark Mode Toggle Button -->
-                        <button id="theme-toggle" class="theme-toggle p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600">
-                            <i id="theme-toggle-icon" class="fas fa-moon"></i>
+                        <button id="theme-toggle" type="button" aria-label="Ganti dark mode" class="theme-toggle p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600">
+                            <i aria-hidden="true" id="theme-toggle-icon" class="fas fa-moon"></i>
                         </button>
                         
                         <!-- User Profile Dropdown -->
                         <div class="relative">
-                            <button id="profileBtn" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 flex items-center space-x-2 text-sm">
-                                <i class="fas fa-user-circle text-xl"></i>
+                            <button id="profileBtn" type="button" aria-label="Buka menu profil" aria-expanded="false" aria-controls="profileMenu" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 flex items-center space-x-2 text-sm">
+                                <i aria-hidden="true" class="fas fa-user-circle text-xl"></i>
                                 <span class="hidden lg:inline">{{ auth()->user()->name }}</span>
                                 @if(auth()->user()->isAdmin())
                                     <span class="text-xs bg-yellow-500 text-white px-2 py-0.5 rounded-full">Admin</span>
                                 @endif
-                                <i class="fas fa-chevron-down text-xs"></i>
+                                <i aria-hidden="true" class="fas fa-chevron-down text-xs"></i>
                             </button>
                             <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl hidden z-50 border border-gray-200 dark:border-gray-700">
                                 <!-- Menu untuk user biasa (bukan admin) - TAMBAHAN -->
                                 @if(!auth()->user()->isAdmin())
                                     <a href="{{ route('profile.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                        <i class="fas fa-user-cog mr-2"></i> Pengaturan Akun
+                                        <i aria-hidden="true" class="fas fa-user-cog mr-2"></i> Pengaturan Akun
                                     </a>
                                     <div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
                                 @endif
                                 <form method="POST" action="{{ secure_url('/logout') }}">
                                     @csrf
-                                    <button type="submit" class="block w-full text-left px-4 py-2 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm">
-                                         <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                                    <button type="submit" aria-label="Logout" class="block w-full text-left px-4 py-2 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm">
+                                         <i aria-hidden="true" class="fas fa-sign-out-alt mr-2"></i> Logout
                                     </button>
                                 </form>
                             </div>
@@ -122,12 +124,12 @@
                         <!-- Menu untuk Guest -->
                         <a href="{{ route('home') }}" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 text-sm">Home</a>
                         <a href="{{ route('collection.index') }}" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 text-sm">
-                            <i class="fas fa-store"></i> Koleksi
+                            <i aria-hidden="true" class="fas fa-store"></i> Koleksi
                         </a>
                         
                         <!-- Dark Mode Toggle Button for Guest -->
-                        <button id="theme-toggle-guest" class="theme-toggle p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600">
-                            <i id="theme-toggle-icon-guest" class="fas fa-moon"></i>
+                        <button id="theme-toggle-guest" type="button" aria-label="Ganti dark mode" class="theme-toggle p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600">
+                            <i aria-hidden="true" id="theme-toggle-icon-guest" class="fas fa-moon"></i>
                         </button>
                         
                         <a href="{{ route('login') }}" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 text-sm">Login</a>
@@ -148,8 +150,8 @@
                         <a href="{{ route('admin.ratings.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola Rating</a>
                         
                         <!-- Dark Mode Toggle di Mobile Menu dengan Teks -->
-                        <button id="theme-toggle-mobile" class="w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
-                            <i id="theme-toggle-icon-mobile" class="fas fa-moon"></i>
+                        <button id="theme-toggle-mobile" type="button" aria-label="Ganti dark mode" class="w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
+                            <i aria-hidden="true" id="theme-toggle-icon-mobile" class="fas fa-moon"></i>
                             <span id="theme-toggle-text-mobile">Dark Mode</span>
                         </button>
                     @else
@@ -165,12 +167,12 @@
                         
                         <!-- Menu Pengaturan Akun untuk User Biasa di Mobile Menu - TAMBAHAN -->
                         <a href="{{ route('profile.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">
-                            <i class="fas fa-user-cog mr-2"></i> Pengaturan Akun
+                            <i aria-hidden="true" class="fas fa-user-cog mr-2"></i> Pengaturan Akun
                         </a>
                         
                         <!-- Dark Mode Toggle di Mobile Menu dengan Teks -->
-                        <button id="theme-toggle-mobile" class="w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
-                            <i id="theme-toggle-icon-mobile" class="fas fa-moon"></i>
+                        <button id="theme-toggle-mobile" type="button" aria-label="Ganti dark mode" class="w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
+                            <i aria-hidden="true" id="theme-toggle-icon-mobile" class="fas fa-moon"></i>
                             <span id="theme-toggle-text-mobile">Dark Mode</span>
                         </button>
                     @endif
@@ -181,7 +183,7 @@
                         <span class="text-gray-700 dark:text-gray-300">{{ auth()->user()->name }}</span>
                         <form method="POST" action="{{ secure_url('/logout') }}">
                             @csrf
-                            <button type="submit" class="text-red-600 text-sm">Logout</button>
+                            <button type="submit" aria-label="Logout" class="text-red-600 text-sm">Logout</button>
                         </form>
                     </div>
                 @else
@@ -189,8 +191,8 @@
                     <a href="{{ route('collection.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Koleksi</a>
                     
                     <!-- Dark Mode Toggle di Mobile Menu untuk Guest dengan Teks -->
-                    <button id="theme-toggle-mobile-guest" class="w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
-                        <i id="theme-toggle-icon-mobile-guest" class="fas fa-moon"></i>
+                    <button id="theme-toggle-mobile-guest" type="button" aria-label="Ganti dark mode" class="w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
+                        <i aria-hidden="true" id="theme-toggle-icon-mobile-guest" class="fas fa-moon"></i>
                         <span id="theme-toggle-text-mobile-guest">Dark Mode</span>
                     </button>
                     
@@ -206,12 +208,12 @@
     @if(session('success'))
         <div id="flash-success" class="fixed top-20 right-4 left-4 md:left-auto z-50 flex items-center w-full md:max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
             <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
-                <i class="fas fa-check-circle"></i>
+                <i aria-hidden="true" class="fas fa-check-circle"></i>
             </div>
             <div class="ms-3 text-sm font-normal">{{ session('success') }}</div>
-            <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" onclick="this.closest('#flash-success').remove()">
+            <button type="button" aria-label="Tutup notifikasi" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" onclick="this.closest('#flash-success').remove()">
                 <span class="sr-only">Close</span>
-                <i class="fas fa-times"></i>
+                <i aria-hidden="true" class="fas fa-times"></i>
             </button>
         </div>
     @endif
@@ -219,12 +221,12 @@
     @if(session('error'))
         <div id="flash-error" class="fixed top-20 right-4 left-4 md:left-auto z-50 flex items-center w-full md:max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
             <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
-                <i class="fas fa-exclamation-circle"></i>
+                <i aria-hidden="true" class="fas fa-exclamation-circle"></i>
             </div>
             <div class="ms-3 text-sm font-normal">{{ session('error') }}</div>
-            <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" onclick="this.closest('#flash-error').remove()">
+            <button type="button" aria-label="Tutup notifikasi" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" onclick="this.closest('#flash-error').remove()">
                 <span class="sr-only">Close</span>
-                <i class="fas fa-times"></i>
+                <i aria-hidden="true" class="fas fa-times"></i>
             </button>
         </div>
     @endif
@@ -262,6 +264,7 @@
         if (mobileMenuBtn && mobileMenu) {
             mobileMenuBtn.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
+                mobileMenuBtn.setAttribute('aria-expanded', mobileMenu.classList.contains('hidden') ? 'false' : 'true');
             });
         }
         
@@ -293,6 +296,7 @@
             adminMenuBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 adminMenu.classList.toggle('hidden');
+                adminMenuBtn.setAttribute('aria-expanded', adminMenu.classList.contains('hidden') ? 'false' : 'true');
             });
         }
         
@@ -303,6 +307,7 @@
             profileBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 profileMenu.classList.toggle('hidden');
+                profileBtn.setAttribute('aria-expanded', profileMenu.classList.contains('hidden') ? 'false' : 'true');
             });
         }
         
@@ -310,9 +315,11 @@
         document.addEventListener('click', (e) => {
             if (adminMenuBtn && !adminMenuBtn.contains(e.target) && !adminMenu?.contains(e.target)) {
                 adminMenu?.classList.add('hidden');
+                adminMenuBtn?.setAttribute('aria-expanded', 'false');
             }
             if (profileBtn && !profileBtn.contains(e.target) && !profileMenu?.contains(e.target)) {
                 profileMenu?.classList.add('hidden');
+                profileBtn?.setAttribute('aria-expanded', 'false');
             }
         });
         
