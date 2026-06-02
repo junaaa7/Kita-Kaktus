@@ -75,7 +75,12 @@
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1 duration-300">
             <div class="h-48 sm:h-56 overflow-hidden">
                 @if($product->image)
-                    <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover hover:scale-110 transition duration-300">
+                    <img src="{{ asset($product->image) }}"
+                        alt="{{ $product->name }}"
+                        loading="lazy"
+                        decoding="async"
+                        fetchpriority="low"
+                        class="w-full h-full object-cover hover:scale-110 transition duration-300">
                 @else
                     <div class="w-full h-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center">
                         <i class="fas fa-cactus text-5xl sm:text-6xl text-gray-500 dark:text-gray-400"></i>
