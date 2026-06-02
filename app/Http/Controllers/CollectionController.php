@@ -28,6 +28,7 @@ class CollectionController extends Controller
         
         // Sort
         $sort = $request->get('sort', 'latest');
+
         switch ($sort) {
             case 'price_asc':
                 $query->orderBy('price', 'asc');
@@ -44,10 +45,10 @@ class CollectionController extends Controller
             default:
                 $query->latest();
         }
-        
-        $products = $query->paginate(12);
+
+        $products = $query->paginate(12)->withQueryString();
         $categories = Category::all();
-        
+
         return view('collection.index', compact('products', 'categories'));
     }
 }
