@@ -107,55 +107,82 @@ class ProductController extends Controller
             mkdir($destinationPath, 0755, true);
         }
 
-        $extension = strtolower($image->getClientOriginalExtension());
-        $fileName = time() . '_' . Str::random(10) . '.' . $extension;
+        $fileName = time() . '_' . Str::random(10) . '.webp';
         $fullPath = $destinationPath . '/' . $fileName;
 
         try {
-            if (extension_loaded('gd')) {
-                $imgInfo = getimagesize($image->getRealPath());
-
-                if ($imgInfo !== false) {
-                    switch ($imgInfo[2]) {
-                        case IMAGETYPE_JPEG:
-                            $src = imagecreatefromjpeg($image->getRealPath());
-                            if ($src) {
-                                imagejpeg($src, $fullPath, 75);
-                                imagedestroy($src);
-                                return 'uploads/products/' . $fileName;
-                            }
-                            break;
-
-                        case IMAGETYPE_PNG:
-                            $src = imagecreatefrompng($image->getRealPath());
-                            if ($src) {
-                                imagealphablending($src, true);
-                                imagesavealpha($src, true);
-                                imagepng($src, $fullPath, 8);
-                                imagedestroy($src);
-                                return 'uploads/products/' . $fileName;
-                            }
-                            break;
-
-                        case IMAGETYPE_WEBP:
-                            $src = imagecreatefromwebp($image->getRealPath());
-                            if ($src) {
-                                imagewebp($src, $fullPath, 80);
-                                imagedestroy($src);
-                                return 'uploads/products/' . $fileName;
-                            }
-                            break;
-                    }
-                }
+            if (!extension_loaded('gd')) {
+                $image->move($destinationPath, $fileName);
+                return 'uploads/products/' . $fileName;
             }
 
-            $image->move($destinationPath, $fileName);
+            $imgInfo = getimagesize($image->getRealPath());
+
+            if ($imgInfo === false) {
+                $image->move($destinationPath, $fileName);
+                return 'uploads/products/' . $fileName;
+            }
+
+            switch ($imgInfo[2]) {
+                case IMAGETYPE_JPEG:
+                    $src = imagecreatefromjpeg($image->getRealPath());
+                    break;
+                case IMAGETYPE_PNG:
+                    $src = imagecreatefrompng($image->getRealPath());
+                    break;
+                case IMAGETYPE_WEBP:
+                    $src = imagecreatefromwebp($image->getRealPath());
+                    break;
+                default:
+                    $image->move($destinationPath, $fileName);
+                    return 'uploads/products/' . $fileName;
+            }
+
+            if (!$src) {
+                $image->move($destinationPath, $fileName);
+                return 'uploads/products/' . $fileName;
+            }
+
+            $width = imagesx($src);
+            $height = imagesy($src);
+
+            $maxSize = 900;
+
+            if ($width > $height) {
+                $newWidth = min($width, $maxSize);
+                $newHeight = intval($height * ($newWidth / $width));
+            } else {
+                $newHeight = min($height, $maxSize);
+                $newWidth = intval($width * ($newHeight / $height));
+            }
+
+            $resized = imagecreatetruecolor($newWidth, $newHeight);
+
+            imagealphablending($resized, false);
+            imagesavealpha($resized, true);
+
+            imagecopyresampled(
+                $resized,
+                $src,
+                0,
+                0,
+                0,
+                0,
+                $newWidth,
+                $newHeight,
+                $width,
+                $height
+            );
+
+            imagewebp($resized, $fullPath, 75);
+
+            imagedestroy($src);
+            imagedestroy($resized);
 
             return 'uploads/products/' . $fileName;
 
         } catch (\Exception $e) {
             $image->move($destinationPath, $fileName);
-
             return 'uploads/products/' . $fileName;
         }
     }
