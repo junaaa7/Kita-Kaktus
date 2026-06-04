@@ -12,10 +12,19 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Models\Product;
 
 // Public routes
 Route::get('/', [UserController::class, 'home'])->name('home');
 Route::get('/product/{product}', [UserController::class, 'productDetail'])->name('product.detail');
+
+// Sitemap route
+Route::get('/sitemap.xml', function () {
+    $products = Product::where('stock', '>', 0)->latest()->get();
+
+    return response()->view('sitemap', compact('products'))
+        ->header('Content-Type', 'text/xml');
+})->name('sitemap');
 
 // Collection routes
 Route::get('/koleksi', [CollectionController::class, 'index'])->name('collection.index');
