@@ -120,9 +120,38 @@
             </a>
         @endif
 
-        {{-- Page 1 sampai 3 --}}
-        @for ($page = 1; $page <= min(3, $products->lastPage()); $page++)
-            @if ($page == $products->currentPage())
+        @php
+            $current = $products->currentPage();
+            $last = $products->lastPage();
+
+            $start = max(1, $current - 1);
+            $end = min($last, $current + 1);
+
+            if ($current <= 3) {
+                $start = 1;
+                $end = min(3, $last);
+            }
+
+            if ($current >= $last - 2) {
+                $start = max(1, $last - 2);
+                $end = $last;
+            }
+        @endphp
+
+        {{-- Halaman pertama --}}
+        @if ($start > 1)
+            <a href="{{ $products->url(1) }}" class="px-3 py-2 text-sm rounded-md bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                1
+            </a>
+
+            @if ($start > 2)
+                <span class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">...</span>
+            @endif
+        @endif
+
+        {{-- Halaman aktif dan sekitar --}}
+        @for ($page = $start; $page <= $end; $page++)
+            @if ($page == $current)
                 <span class="px-3 py-2 text-sm rounded-md bg-blue-600 text-white">
                     {{ $page }}
                 </span>
@@ -133,27 +162,15 @@
             @endif
         @endfor
 
-        {{-- Titik-titik dan halaman terakhir --}}
-        @if ($products->lastPage() > 4)
-            <span class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">...</span>
+        {{-- Halaman terakhir --}}
+        @if ($end < $last)
+            @if ($end < $last - 1)
+                <span class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">...</span>
+            @endif
 
-            @if ($products->currentPage() == $products->lastPage())
-                <span class="px-3 py-2 text-sm rounded-md bg-blue-600 text-white">
-                    {{ $products->lastPage() }}
-                </span>
-            @else
-                <a href="{{ $products->url($products->lastPage()) }}" class="px-3 py-2 text-sm rounded-md bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    {{ $products->lastPage() }}
-                </a>
-            @endif
-        @elseif ($products->lastPage() == 4)
-            @if ($products->currentPage() == 4)
-                <span class="px-3 py-2 text-sm rounded-md bg-blue-600 text-white">4</span>
-            @else
-                <a href="{{ $products->url(4) }}" class="px-3 py-2 text-sm rounded-md bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    4
-                </a>
-            @endif
+            <a href="{{ $products->url($last) }}" class="px-3 py-2 text-sm rounded-md bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                {{ $last }}
+            </a>
         @endif
 
         {{-- Next --}}
