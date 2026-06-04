@@ -102,7 +102,71 @@
     </div>
 </div>
 
-<div class="mt-4">
-    {{ $products->links('pagination::tailwind') }}
+@if ($products->hasPages())
+<div class="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+    <div class="text-sm text-gray-700 dark:text-gray-300">
+        Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }} results
+    </div>
+
+    <div class="flex items-center space-x-1">
+        {{-- Previous --}}
+        @if ($products->onFirstPage())
+            <span class="px-3 py-2 text-sm rounded-md bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed">
+                <i class="fas fa-chevron-left"></i>
+            </span>
+        @else
+            <a href="{{ $products->previousPageUrl() }}" class="px-3 py-2 text-sm rounded-md bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+        @endif
+
+        {{-- Page 1 sampai 3 --}}
+        @for ($page = 1; $page <= min(3, $products->lastPage()); $page++)
+            @if ($page == $products->currentPage())
+                <span class="px-3 py-2 text-sm rounded-md bg-blue-600 text-white">
+                    {{ $page }}
+                </span>
+            @else
+                <a href="{{ $products->url($page) }}" class="px-3 py-2 text-sm rounded-md bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    {{ $page }}
+                </a>
+            @endif
+        @endfor
+
+        {{-- Titik-titik dan halaman terakhir --}}
+        @if ($products->lastPage() > 4)
+            <span class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">...</span>
+
+            @if ($products->currentPage() == $products->lastPage())
+                <span class="px-3 py-2 text-sm rounded-md bg-blue-600 text-white">
+                    {{ $products->lastPage() }}
+                </span>
+            @else
+                <a href="{{ $products->url($products->lastPage()) }}" class="px-3 py-2 text-sm rounded-md bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    {{ $products->lastPage() }}
+                </a>
+            @endif
+        @elseif ($products->lastPage() == 4)
+            @if ($products->currentPage() == 4)
+                <span class="px-3 py-2 text-sm rounded-md bg-blue-600 text-white">4</span>
+            @else
+                <a href="{{ $products->url(4) }}" class="px-3 py-2 text-sm rounded-md bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    4
+                </a>
+            @endif
+        @endif
+
+        {{-- Next --}}
+        @if ($products->hasMorePages())
+            <a href="{{ $products->nextPageUrl() }}" class="px-3 py-2 text-sm rounded-md bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        @else
+            <span class="px-3 py-2 text-sm rounded-md bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed">
+                <i class="fas fa-chevron-right"></i>
+            </span>
+        @endif
+    </div>
 </div>
+@endif
 @endsection
