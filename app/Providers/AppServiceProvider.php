@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +27,15 @@ class AppServiceProvider extends ServiceProvider
                 Request::HEADER_X_FORWARDED_PORT |
                 Request::HEADER_X_FORWARDED_PROTO
             );
+
+            DB::listen(function ($query) {
+                if ($query->time > 300) {
+                    Log::warning('Slow Query Production', [
+                        'time_ms' => $query->time,
+                        'sql' => $query->sql,
+                    ]);
+                }
+            });
         }
     }
 }
