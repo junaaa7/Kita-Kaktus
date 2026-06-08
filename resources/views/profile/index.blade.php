@@ -130,10 +130,14 @@
                         <div class="flex items-center gap-3">
                             <div class="flex-shrink-0">
                                 @if($user->avatar)
-                                    <img src="{{ asset('storage/' . $user->avatar) }}" alt="Avatar" class="w-12 h-12 rounded-full object-cover">
+                                    @if(Str::startsWith($user->avatar, ['http://', 'https://']))
+                                        <img src="{{ $user->avatar }}" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600">
+                                    @else
+                                        <img src="{{ asset('storage/' . $user->avatar) }}" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600">
+                                    @endif
                                 @else
-                                    <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-                                        <i class="fas fa-user text-xl text-green-600 dark:text-green-400"></i>
+                                    <div class="w-20 h-20 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center border-2 border-gray-300 dark:border-gray-600">
+                                        <i class="fas fa-user text-2xl text-green-600 dark:text-green-400"></i>
                                     </div>
                                 @endif
                             </div>
