@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Laravel\Facades\Image;
 
 class ProfileController extends Controller
 {
@@ -149,14 +148,7 @@ class ProfileController extends Controller
                 Storage::disk('public')->delete($user->avatar);
             }
 
-            $avatarPath = 'avatars/avatar_' . $user->id . '_' . time() . '.webp';
-
-            $image = Image::read($request->file('avatar'))
-                ->cover(500, 500)
-                ->toWebp(85);
-
-            Storage::disk('public')->put($avatarPath, (string) $image);
-
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
             $user->avatar = $avatarPath;
         }
 
