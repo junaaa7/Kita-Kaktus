@@ -251,28 +251,32 @@
         return 'Rp ' + number.toLocaleString('id-ID');
     }
 
+    function isDesktopView() {
+        return window.innerWidth >= 768;
+    }
+
     // ==================== UPDATE TOTAL ====================
     function updateSelectedTotal() {
         let total = 0;
         let anyChecked = false;
 
-        // Desktop checkboxes
-        document.querySelectorAll('.item-checkbox:checked').forEach(checkbox => {
-            anyChecked = true;
-            const row = checkbox.closest('tr');
-            const subtotalText = row.querySelector('.subtotal').innerText;
-            const subtotal = parseInt(subtotalText.replace(/[^0-9]/g, ''));
-            total += subtotal;
-        });
-
-        // Mobile checkboxes
-        document.querySelectorAll('.item-checkbox-mobile:checked').forEach(checkbox => {
-            anyChecked = true;
-            const card = checkbox.closest('.cart-item-card');
-            const subtotalText = card.querySelector('.subtotal-mobile').innerText;
-            const subtotal = parseInt(subtotalText.replace(/[^0-9]/g, ''));
-            total += subtotal;
-        });
+        if (isDesktopView()) {
+            document.querySelectorAll('.item-checkbox:checked').forEach(checkbox => {
+                anyChecked = true;
+                const row = checkbox.closest('tr');
+                const subtotalText = row.querySelector('.subtotal').innerText;
+                const subtotal = parseInt(subtotalText.replace(/[^0-9]/g, '')) || 0;
+                total += subtotal;
+            });
+        } else {
+            document.querySelectorAll('.item-checkbox-mobile:checked').forEach(checkbox => {
+                anyChecked = true;
+                const card = checkbox.closest('.cart-item-card');
+                const subtotalText = card.querySelector('.subtotal-mobile').innerText;
+                const subtotal = parseInt(subtotalText.replace(/[^0-9]/g, '')) || 0;
+                total += subtotal;
+            });
+        }
 
         if (selectedTotalSpan) selectedTotalSpan.innerText = formatRupiah(total);
         if (selectedTotalSpanMobile) selectedTotalSpanMobile.innerText = formatRupiah(total);
@@ -293,9 +297,14 @@
     // ==================== SELECT ALL (DESKTOP) ====================
     if (selectAllCheckbox) {
         selectAllCheckbox.addEventListener('change', function() {
-            document.querySelectorAll('.item-checkbox, .item-checkbox-mobile').forEach(checkbox => {
+            document.querySelectorAll('.item-checkbox').forEach(checkbox => {
                 checkbox.checked = selectAllCheckbox.checked;
             });
+
+            document.querySelectorAll('.item-checkbox-mobile').forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+
             updateSelectedTotal();
         });
     }
@@ -303,8 +312,11 @@
     // ==================== INDIVIDUAL CHECKBOX (DESKTOP) ====================
     document.querySelectorAll('.item-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function() {
-            const allChecked = Array.from(document.querySelectorAll('.item-checkbox, .item-checkbox-mobile')).every(cb => cb.checked);
-            if (selectAllCheckbox) selectAllCheckbox.checked = allChecked;
+            const totalDesktop = document.querySelectorAll('.item-checkbox').length;
+            const checkedDesktop = document.querySelectorAll('.item-checkbox:checked').length;
+
+            if (selectAllCheckbox) selectAllCheckbox.checked = totalDesktop > 0 && totalDesktop === checkedDesktop;
+
             updateSelectedTotal();
         });
     });
@@ -312,8 +324,11 @@
     // ==================== INDIVIDUAL CHECKBOX (MOBILE) ====================
     document.querySelectorAll('.item-checkbox-mobile').forEach(checkbox => {
         checkbox.addEventListener('change', function() {
-            const allChecked = Array.from(document.querySelectorAll('.item-checkbox, .item-checkbox-mobile')).every(cb => cb.checked);
-            if (selectAllCheckbox) selectAllCheckbox.checked = allChecked;
+            const totalMobile = document.querySelectorAll('.item-checkbox-mobile').length;
+            const checkedMobile = document.querySelectorAll('.item-checkbox-mobile:checked').length;
+
+            if (selectAllCheckbox) selectAllCheckbox.checked = totalMobile > 0 && totalMobile === checkedMobile;
+
             updateSelectedTotal();
         });
     });
@@ -399,7 +414,15 @@
                         if (row) row.querySelector('.quantity-input').value = newQty;
                         
                         updateSelectedTotal();
+                    } else {
+                        quantitySpan.innerText = currentQty;
+                        alert('Gagal update jumlah produk.');
                     }
+                })
+                .catch(error => {
+                    quantitySpan.innerText = currentQty;
+                    alert('Gagal update jumlah produk.');
+                    console.error(error);
                 });
             }
         });
@@ -435,14 +458,24 @@
                     if (row) row.querySelector('.quantity-input').value = newQty;
                     
                     updateSelectedTotal();
+                } else {
+                    quantitySpan.innerText = currentQty;
+                    alert('Gagal update jumlah produk.');
                 }
+            })
+            .catch(error => {
+                quantitySpan.innerText = currentQty;
+                alert('Gagal update jumlah produk.');
+                console.error(error);
             });
         });
     });
 
     // ==================== CHECKOUT SELECTED ====================
     function processCheckout() {
-        const selectedItems = [...document.querySelectorAll('.item-checkbox:checked'), ...document.querySelectorAll('.item-checkbox-mobile:checked')];
+        const selectedItems = isDesktopView()
+            ? [...document.querySelectorAll('.item-checkbox:checked')]
+            : [...document.querySelectorAll('.item-checkbox-mobile:checked')];
 
         if (selectedItems.length === 0) {
             alert('Pilih produk terlebih dahulu.');
@@ -483,6 +516,8 @@
             }
         });
     });
+
+    window.addEventListener('resize', updateSelectedTotal);
 
     // ==================== INITIALIZE ====================
     updateSelectedTotal();
