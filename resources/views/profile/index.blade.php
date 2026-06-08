@@ -123,7 +123,7 @@
                         Profil Saya
                     </h3>
                     
-                    <form action="{{ route('profile.update.profile') }}" method="POST" enctype="multipart/form-data" class="space-y-3">
+                    <form id="profileForm" action="{{ route('profile.update.profile') }}" method="POST" enctype="multipart/form-data" class="space-y-3">
                         @csrf
                         @method('PUT')
                         
@@ -131,20 +131,29 @@
                             <div class="flex-shrink-0">
                                 @if($user->avatar)
                                     @if(Str::startsWith($user->avatar, ['http://', 'https://']))
-                                        <img src="{{ $user->avatar }}" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600">
+                                        <img id="avatarPreview" src="{{ $user->avatar }}" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600">
                                     @else
-                                        <img src="{{ asset('storage/' . $user->avatar) }}" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600">
+                                        <img id="avatarPreview" src="{{ asset('storage/' . $user->avatar) }}" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600">
                                     @endif
                                 @else
-                                    <div class="w-20 h-20 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center border-2 border-gray-300 dark:border-gray-600">
+                                    <div id="avatarPlaceholder" class="w-20 h-20 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center border-2 border-gray-300 dark:border-gray-600">
                                         <i class="fas fa-user text-2xl text-green-600 dark:text-green-400"></i>
                                     </div>
+                                    <img id="avatarPreview" src="" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600 hidden">
                                 @endif
                             </div>
                             <div class="flex-1">
                                 <label class="block text-gray-700 dark:text-gray-300 text-xs font-bold mb-1">Foto Profil</label>
-                                <input type="file" name="avatar" accept="image/*" class="w-full text-sm">
-                                <p class="text-xs text-gray-500 mt-1">JPG, PNG. Max 2MB</p>
+
+                                <!-- Input asli yang dipilih customer -->
+                                <input type="file" id="avatarInput" accept="image/*" class="w-full text-sm">
+
+                                <!-- Input tersembunyi yang dikirim ke Laravel setelah menjadi WEBP 500x500 -->
+                                <input type="file" id="avatarWebpInput" name="avatar" class="hidden">
+
+                                <p id="avatarInfo" class="text-xs text-gray-500 mt-1">
+                                    JPG, PNG, WEBP. Otomatis menjadi 500×500 WEBP. Max 2MB
+                                </p>
                             </div>
                         </div>
                         
@@ -160,7 +169,7 @@
                                    class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
                         </div>
                         
-                        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition">
+                        <button type="submit" id="saveProfileBtn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition">
                             <i class="fas fa-save mr-1"></i> Simpan Profil
                         </button>
                     </form>
@@ -315,6 +324,180 @@
     
     function editAddress(id) {
         alert('Fitur edit alamat akan segera hadir');
+    }
+
+    // Resize avatar otomatis menjadi 500x500 WEBP sebelum upload
+    const profileForm = document.getElementById('profileForm');
+    const avatarInput = document.getElementById('avatarInput');
+    const avatarWebpInput = document.getElementById('avatarWebpInput');
+    const avatarPreview = document.getElementById('avatarPreview');
+    const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+    const avatarInfo = document.getElementById('avatarInfo');
+    const saveProfileBtn = document.getElementById('saveProfileBtn');
+
+    let avatarIsProcessing = false;
+    let avatarIsReady = false;
+
+    function setAvatarInfo(message, type = 'normal') {
+        if (!avatarInfo) return;
+
+        avatarInfo.innerText = message;
+        avatarInfo.classList.remove('text-gray-500', 'text-green-500', 'text-red-500', 'text-yellow-500');
+
+        if (type === 'success') {
+            avatarInfo.classList.add('text-green-500');
+        } else if (type === 'error') {
+            avatarInfo.classList.add('text-red-500');
+        } else if (type === 'warning') {
+            avatarInfo.classList.add('text-yellow-500');
+        } else {
+            avatarInfo.classList.add('text-gray-500');
+        }
+    }
+
+    function setProfileButtonLoading(isLoading) {
+        if (!saveProfileBtn) return;
+
+        if (isLoading) {
+            saveProfileBtn.disabled = true;
+            saveProfileBtn.classList.add('opacity-60', 'cursor-not-allowed');
+            saveProfileBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Memproses Foto...';
+        } else {
+            saveProfileBtn.disabled = false;
+            saveProfileBtn.classList.remove('opacity-60', 'cursor-not-allowed');
+            saveProfileBtn.innerHTML = '<i class="fas fa-save mr-1"></i> Simpan Profil';
+        }
+    }
+
+    if (avatarInput && avatarWebpInput) {
+        avatarInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+
+            avatarIsReady = false;
+            avatarWebpInput.value = '';
+
+            if (!file) {
+                setAvatarInfo('JPG, PNG, WEBP. Otomatis menjadi 500×500 WEBP. Max 2MB');
+                return;
+            }
+
+            if (!file.type.startsWith('image/')) {
+                alert('File harus berupa gambar.');
+                avatarInput.value = '';
+                avatarWebpInput.value = '';
+                setAvatarInfo('File harus berupa gambar.', 'error');
+                return;
+            }
+
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Ukuran gambar maksimal 2MB.');
+                avatarInput.value = '';
+                avatarWebpInput.value = '';
+                setAvatarInfo('Ukuran gambar maksimal 2MB.', 'error');
+                return;
+            }
+
+            avatarIsProcessing = true;
+            setProfileButtonLoading(true);
+            setAvatarInfo('Memproses foto menjadi 500×500 WEBP...', 'warning');
+
+            const img = new Image();
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                img.src = e.target.result;
+            };
+
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const size = 500;
+
+                canvas.width = size;
+                canvas.height = size;
+
+                const ctx = canvas.getContext('2d');
+
+                if (!ctx) {
+                    alert('Browser tidak mendukung pemrosesan gambar.');
+                    avatarIsProcessing = false;
+                    setProfileButtonLoading(false);
+                    setAvatarInfo('Browser tidak mendukung pemrosesan gambar.', 'error');
+                    return;
+                }
+
+                const minSide = Math.min(img.width, img.height);
+                const sx = (img.width - minSide) / 2;
+                const sy = (img.height - minSide) / 2;
+
+                ctx.drawImage(
+                    img,
+                    sx,
+                    sy,
+                    minSide,
+                    minSide,
+                    0,
+                    0,
+                    size,
+                    size
+                );
+
+                canvas.toBlob(function(blob) {
+                    if (!blob) {
+                        alert('Gagal memproses gambar menjadi WEBP.');
+                        avatarIsProcessing = false;
+                        setProfileButtonLoading(false);
+                        setAvatarInfo('Gagal memproses gambar menjadi WEBP.', 'error');
+                        return;
+                    }
+
+                    const webpFile = new File(
+                        [blob],
+                        'avatar_' + Date.now() + '.webp',
+                        { type: 'image/webp' }
+                    );
+
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(webpFile);
+                    avatarWebpInput.files = dataTransfer.files;
+
+                    if (avatarPreview) {
+                        avatarPreview.src = URL.createObjectURL(blob);
+                        avatarPreview.classList.remove('hidden');
+                    }
+
+                    if (avatarPlaceholder) {
+                        avatarPlaceholder.classList.add('hidden');
+                    }
+
+                    avatarIsProcessing = false;
+                    avatarIsReady = true;
+                    setProfileButtonLoading(false);
+                    setAvatarInfo('Foto siap diupload: 500×500 WEBP.', 'success');
+                }, 'image/webp', 0.85);
+            };
+
+            img.onerror = function() {
+                alert('Gagal membaca gambar. Coba gunakan file JPG, PNG, atau WEBP lain.');
+                avatarInput.value = '';
+                avatarWebpInput.value = '';
+                avatarIsProcessing = false;
+                setProfileButtonLoading(false);
+                setAvatarInfo('Gagal membaca gambar.', 'error');
+            };
+
+            reader.readAsDataURL(file);
+        });
+    }
+
+    if (profileForm) {
+        profileForm.addEventListener('submit', function(e) {
+            if (avatarInput && avatarInput.files.length > 0) {
+                if (avatarIsProcessing || !avatarIsReady || avatarWebpInput.files.length === 0) {
+                    e.preventDefault();
+                    alert('Foto sedang diproses menjadi WEBP 500×500. Tunggu sebentar lalu klik Simpan Profil lagi.');
+                }
+            }
+        });
     }
 </script>
 @endsection
