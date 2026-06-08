@@ -135,25 +135,23 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . Auth::id(),
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
         $user = Auth::user();
+
         $user->name = $request->name;
         $user->email = $request->email;
-        
+
         if ($request->hasFile('avatar')) {
-            $request->validate([
-                'avatar' => 'image|mimes:jpeg,png,jpg|max:2048'
-            ]);
-            
-            if ($user->avatar) {
+            if ($user->avatar && !str_starts_with($user->avatar, 'http')) {
                 Storage::disk('public')->delete($user->avatar);
             }
-            
+
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
             $user->avatar = $avatarPath;
         }
-        
+
         $user->save();
 
         return redirect()->route('profile.index')->with('success', 'Profil berhasil diupdate');

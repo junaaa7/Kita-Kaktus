@@ -101,7 +101,20 @@
                         <!-- User Profile Dropdown -->
                         <div class="relative">
                             <button id="profileBtn" type="button" aria-label="Buka menu profil" aria-expanded="false" aria-controls="profileMenu" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 flex items-center space-x-2 text-sm">
-                                <i aria-hidden="true" class="fas fa-user-circle text-xl"></i>
+                                @if(auth()->user()->avatar)
+                                    @if(Str::startsWith(auth()->user()->avatar, ['http://', 'https://']))
+                                        <img src="{{ auth()->user()->avatar }}" 
+                                            alt="{{ auth()->user()->name }}" 
+                                            class="w-7 h-7 rounded-full object-cover border border-gray-300 dark:border-gray-600">
+                                    @else
+                                        <img src="{{ asset('storage/' . auth()->user()->avatar) }}" 
+                                            alt="{{ auth()->user()->name }}" 
+                                            class="w-7 h-7 rounded-full object-cover border border-gray-300 dark:border-gray-600">
+                                    @endif
+                                @else
+                                    <i aria-hidden="true" class="fas fa-user-circle text-xl"></i>
+                                @endif
+
                                 <span class="hidden lg:inline">{{ auth()->user()->name }}</span>
                                 @if(auth()->user()->isAdmin())
                                     <span class="text-xs bg-yellow-500 text-white px-2 py-0.5 rounded-full">Admin</span>
