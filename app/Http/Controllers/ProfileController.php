@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
-    // Menampilkan halaman setting/profile
     public function index()
     {
         $user = Auth::user();
@@ -19,7 +18,6 @@ class ProfileController extends Controller
         return view('profile.index', compact('user', 'addresses'));
     }
 
-    // Menambah alamat baru
     public function addAddress(Request $request)
     {
         $request->validate([
@@ -31,7 +29,6 @@ class ProfileController extends Controller
             'postal_code' => 'nullable|string|max:10',
         ]);
 
-        // Jika ini alamat pertama atau user memilih sebagai default
         $isFirstAddress = Address::where('user_id', auth()->id())->count() == 0;
         $isDefault = $isFirstAddress || $request->has('is_default');
 
@@ -46,20 +43,17 @@ class ProfileController extends Controller
             'is_default' => $isDefault
         ]);
 
-        // Jika alamat ini dijadikan default, hapus default pada alamat lain
         if ($isDefault) {
             Address::where('user_id', auth()->id())
-                   ->where('id', '!=', $address->id)
-                   ->update(['is_default' => false]);
+                ->where('id', '!=', $address->id)
+                ->update(['is_default' => false]);
         }
 
         return redirect()->route('profile.index')->with('success', 'Alamat berhasil ditambahkan');
     }
 
-    // Update alamat
     public function updateAddress(Request $request, Address $address)
     {
-        // Pastikan alamat milik user yang login
         if ($address->user_id !== auth()->id()) {
             abort(403);
         }
@@ -82,7 +76,6 @@ class ProfileController extends Controller
             'postal_code' => $request->postal_code,
         ]);
 
-        // Jika dijadikan default
         if ($request->has('is_default') && !$address->is_default) {
             Address::where('user_id', auth()->id())->update(['is_default' => false]);
             $address->is_default = true;
@@ -92,18 +85,17 @@ class ProfileController extends Controller
         return redirect()->route('profile.index')->with('success', 'Alamat berhasil diupdate');
     }
 
-    // Hapus alamat
     public function deleteAddress(Address $address)
     {
         if ($address->user_id !== auth()->id()) {
             abort(403);
         }
 
-        // Cek jika ini alamat default dan masih ada alamat lain
         if ($address->is_default) {
             $anotherAddress = Address::where('user_id', auth()->id())
-                                     ->where('id', '!=', $address->id)
-                                     ->first();
+                ->where('id', '!=', $address->id)
+                ->first();
+
             if ($anotherAddress) {
                 $anotherAddress->is_default = true;
                 $anotherAddress->save();
@@ -115,7 +107,6 @@ class ProfileController extends Controller
         return redirect()->route('profile.index')->with('success', 'Alamat berhasil dihapus');
     }
 
-    // Set alamat sebagai default
     public function setDefaultAddress(Address $address)
     {
         if ($address->user_id !== auth()->id()) {
@@ -129,7 +120,6 @@ class ProfileController extends Controller
         return redirect()->route('profile.index')->with('success', 'Alamat utama berhasil diubah');
     }
 
-    // Update profil (nama, email, avatar)
     public function updateProfile(Request $request)
     {
         $request->validate([
@@ -145,11 +135,28 @@ class ProfileController extends Controller
 
         if ($request->hasFile('avatar')) {
             if ($user->avatar && !str_starts_with($user->avatar, 'http')) {
-                Storage::disk('public')->delete($user->avatar);
+                if (str_starts_with($user->avatar, 'uploads/')) {
+                    $oldPath = public_path($user->avatar);
+                    if (file_exists($oldPath)) {
+                        unlink($oldPath);
+                    }
+                } else {
+                    Storage::disk('public')->delete($user->avatar);
+                }
             }
 
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
-            $user->avatar = $avatarPath;
+            $avatarFolder = public_path('uploads/avatars');
+
+            if (!file_exists($avatarFolder)) {
+                mkdir($avatarFolder, 0755, true);
+            }
+
+            $file = $request->file('avatar');
+            $filename = uniqid('avatar_', true) . '.' . $file->getClientOriginalExtension();
+
+            $file->move($avatarFolder, $filename);
+
+            $user->avatar = 'uploads/avatars/' . $filename;
         }
 
         $user->save();
@@ -157,7 +164,6 @@ class ProfileController extends Controller
         return redirect()->route('profile.index')->with('success', 'Profil berhasil diupdate');
     }
 
-    // Update password
     public function updatePassword(Request $request)
     {
         $request->validate([

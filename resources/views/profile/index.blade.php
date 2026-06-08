@@ -132,6 +132,8 @@
                                 @if($user->avatar)
                                     @if(Str::startsWith($user->avatar, ['http://', 'https://']))
                                         <img id="avatarPreview" src="{{ $user->avatar }}" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600">
+                                    @elseif(Str::startsWith($user->avatar, 'uploads/'))
+                                        <img id="avatarPreview" src="{{ asset($user->avatar) }}" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600">
                                     @else
                                         <img id="avatarPreview" src="{{ asset('storage/' . $user->avatar) }}" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600">
                                     @endif
@@ -142,13 +144,11 @@
                                     <img id="avatarPreview" src="" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600 hidden">
                                 @endif
                             </div>
+
                             <div class="flex-1">
                                 <label class="block text-gray-700 dark:text-gray-300 text-xs font-bold mb-1">Foto Profil</label>
 
-                                <!-- Input asli yang dipilih customer -->
                                 <input type="file" id="avatarInput" accept="image/*" class="w-full text-sm">
-
-                                <!-- Input tersembunyi yang dikirim ke Laravel setelah menjadi WEBP 500x500 -->
                                 <input type="file" id="avatarWebpInput" name="avatar" class="hidden">
 
                                 <p id="avatarInfo" class="text-xs text-gray-500 mt-1">
@@ -304,7 +304,6 @@
 </div>
 
 <script>
-    // Toggle password visibility
     document.querySelectorAll('.toggle-password').forEach(button => {
         button.addEventListener('click', function() {
             const input = this.parentElement.querySelector('input');
@@ -326,7 +325,6 @@
         alert('Fitur edit alamat akan segera hadir');
     }
 
-    // Resize avatar otomatis menjadi 500x500 WEBP sebelum upload
     const profileForm = document.getElementById('profileForm');
     const avatarInput = document.getElementById('avatarInput');
     const avatarWebpInput = document.getElementById('avatarWebpInput');
@@ -429,17 +427,7 @@
                 const sx = (img.width - minSide) / 2;
                 const sy = (img.height - minSide) / 2;
 
-                ctx.drawImage(
-                    img,
-                    sx,
-                    sy,
-                    minSide,
-                    minSide,
-                    0,
-                    0,
-                    size,
-                    size
-                );
+                ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
 
                 canvas.toBlob(function(blob) {
                     if (!blob) {
