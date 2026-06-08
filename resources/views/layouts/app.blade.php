@@ -107,9 +107,9 @@
                                             alt="{{ auth()->user()->name }}" 
                                             class="w-7 h-7 rounded-full object-cover border border-gray-300 dark:border-gray-600">
                                     @else
-                                        <img src="{{ asset('storage/' . auth()->user()->avatar) }}" 
-                                            alt="{{ auth()->user()->name }}" 
-                                            class="w-7 h-7 rounded-full object-cover border border-gray-300 dark:border-gray-600">
+                                        <img src="{{ asset('storage/' . auth()->user()->avatar) }}"
+                                        alt="{{ auth()->user()->name }}"
+                                        class="w-10 h-10 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600"
                                     @endif
                                 @else
                                     <i aria-hidden="true" class="fas fa-user-circle text-xl"></i>
