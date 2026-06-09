@@ -16,7 +16,7 @@
             <div>
                 <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base"><strong>No. Pesanan:</strong> <span class="font-mono text-xs sm:text-sm">{{ $order->order_number }}</span></p>
                 <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1">
-                    <strong>Tanggal:</strong> {{ $order->created_at->timezone('Asia/Jakarta')->format('d F Y H:i') }} WIB
+                    <strong>Tanggal:</strong> {{ $order->created_at->timezone('Asia/Jakarta')->format('d/m/Y H:i') }} WIB
                 </p>
                 <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1"><strong>Customer:</strong> {{ $order->user->name }}</p>
                 <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1"><strong>Email:</strong> {{ $order->user->email }}</p>
