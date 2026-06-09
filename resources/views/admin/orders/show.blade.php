@@ -15,7 +15,9 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4">
             <div>
                 <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base"><strong>No. Pesanan:</strong> <span class="font-mono text-xs sm:text-sm">{{ $order->order_number }}</span></p>
-                <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1"><strong>Tanggal:</strong> {{ $order->created_at->format('d/m/Y H:i') }}</p>
+                <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1">
+                    <strong>Tanggal:</strong> {{ $order->created_at->timezone('Asia/Jakarta')->translatedFormat('d F Y H:i') }} WIB
+                </p>
                 <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1"><strong>Customer:</strong> {{ $order->user->name }}</p>
                 <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1"><strong>Email:</strong> {{ $order->user->email }}</p>
                 <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1"><strong>Metode Pembayaran:</strong> 
