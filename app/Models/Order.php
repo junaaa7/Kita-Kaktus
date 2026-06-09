@@ -16,6 +16,7 @@ class Order extends Model
         'status', 
         'shipping_address', 
         'phone',
+        'customer_timezone',
         'payment_method',
         'payment_status',
         'payment_proof',

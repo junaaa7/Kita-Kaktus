@@ -72,6 +72,7 @@ class CheckoutController extends Controller
             'shipping_address' => 'required|string|min:10',
             'phone' => 'required|digits_between:10,15',
             'payment_method' => 'required|in:bank_transfer,qris',
+            'customer_timezone' => 'nullable|string|max:100',
         ]);
 
         $cartItems = Cart::with('product')
@@ -167,6 +168,7 @@ class CheckoutController extends Controller
             'shipping_address' => 'required|string|min:10',
             'phone' => 'required|digits_between:10,15',
             'payment_method' => 'required|in:bank_transfer,qris',
+            'customer_timezone' => 'nullable|string|max:100',
         ]);
 
         $selectedItems = session('selected_checkout_items');
@@ -212,11 +214,18 @@ class CheckoutController extends Controller
                 return $item->product->price * $item->quantity;
             });
 
+            $customerTimezone = $request->customer_timezone ?? 'Asia/Jakarta';
+
+            if (!in_array($customerTimezone, timezone_identifiers_list())) {
+                $customerTimezone = 'Asia/Jakarta';
+            }
+
             $order = Order::create([
                 'order_number' => 'ORD-' . date('YmdHis') . '-' . Auth::id(),
                 'user_id' => Auth::id(),
                 'shipping_address' => $request->shipping_address,
                 'phone' => $request->phone,
+                'customer_timezone' => $customerTimezone,
                 'payment_method' => $request->payment_method,
                 'total_amount' => $total,
                 'status' => 'pending',

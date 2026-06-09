@@ -38,6 +38,8 @@
                 >
                     @csrf
 
+                    <input type="hidden" name="customer_timezone" id="customer_timezone" value="{{ old('customer_timezone', 'Asia/Jakarta') }}">
+
                     <!-- ========== PILIH ALAMAT TERSIMPAN ========== -->
                     @if(isset($addresses) && $addresses->count() > 0)
                     <div class="mb-4">
@@ -250,6 +252,13 @@
 </div>
 
 <script>
+    // ========== AUTO DETECT ZONA WAKTU CUSTOMER ==========
+    const timezoneInput = document.getElementById('customer_timezone');
+
+    if (timezoneInput) {
+        timezoneInput.value = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Asia/Jakarta';
+    }
+
     // ========== AUTO FILL DARI ALAMAT TERSIMPAN ==========
     const addressSelect = document.getElementById('selectAddress');
     const recipientNameInput = document.getElementById('recipient_name');
@@ -304,6 +313,10 @@
             if (phone.length > 0 && (phone.length < 10 || phone.length > 15)) {
                 e.preventDefault();
                 alert('Nomor telepon harus terdiri dari 10-15 digit angka!');
+            }
+
+            if (timezoneInput) {
+                timezoneInput.value = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Asia/Jakarta';
             }
         });
     }

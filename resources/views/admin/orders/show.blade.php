@@ -3,6 +3,23 @@
 @section('title', 'Detail Pesanan')
 
 @section('content')
+@php
+    $customerTimezone = $order->customer_timezone ?? 'Asia/Jakarta';
+
+    if (!in_array($customerTimezone, timezone_identifiers_list())) {
+        $customerTimezone = 'Asia/Jakarta';
+    }
+
+    $timezoneLabel = match ($customerTimezone) {
+        'Asia/Jakarta' => 'WIB',
+        'Asia/Pontianak' => 'WIB',
+        'Asia/Makassar' => 'WITA',
+        'Asia/Ujung_Pandang' => 'WITA',
+        'Asia/Jayapura' => 'WIT',
+        default => '',
+    };
+@endphp
+
 <div class="max-w-4xl mx-auto px-3 sm:px-0">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 sm:mb-6">
         <h1 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">Detail Pesanan</h1>
@@ -16,7 +33,7 @@
             <div>
                 <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base"><strong>No. Pesanan:</strong> <span class="font-mono text-xs sm:text-sm">{{ $order->order_number }}</span></p>
                 <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1">
-                    <strong>Tanggal:</strong> {{ $order->created_at->timezone('Asia/Jakarta')->format('d/m/Y H:i') }} WIB
+                    <strong>Tanggal:</strong> {{ $order->created_at->timezone($customerTimezone)->format('d/m/Y H:i') }} {{ $timezoneLabel }}
                 </p>
                 <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1"><strong>Customer:</strong> {{ $order->user->name }}</p>
                 <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1"><strong>Email:</strong> {{ $order->user->email }}</p>
