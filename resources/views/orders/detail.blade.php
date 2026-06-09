@@ -15,7 +15,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4">
             <div>
                 <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base"><strong class="text-gray-700 dark:text-gray-300">No. Pesanan:</strong> <span class="text-gray-800 dark:text-gray-200 font-mono text-xs sm:text-sm">{{ $order->order_number }}</span></p>
-                <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1"><strong class="text-gray-700 dark:text-gray-300">Tanggal:</strong> <span class="text-gray-800 dark:text-gray-200">{{ $order->created_at->timezone('Asia/Jakarta')->format('d/m/Y H:i') }}</span></p>
+                <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1"><strong class="text-gray-700 dark:text-gray-300">Tanggal:</strong> <span class="text-gray-800 dark:text-gray-200">{{ $order->created_at->timezone('Asia/Jakarta')->format('d/m/Y H:i') }} WIB </span></p>
                 <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1"><strong class="text-gray-700 dark:text-gray-300">Metode Pembayaran:</strong> 
                     <span class="text-gray-800 dark:text-gray-200">
                     @if($order->payment_method == 'bank_transfer') Transfer Bank
