@@ -85,6 +85,12 @@
                 </div>
             @endif
 
+            @if (session('success'))
+                <div class="p-3 rounded-xl bg-green-100 text-green-700 text-sm">
+                    {{ session('success') }}
+                </div>
+            @endif
+
             <div class="space-y-3 sm:space-y-4">
                 <div>
                     <div class="relative mt-1">
@@ -112,6 +118,13 @@
                         <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 pr-3 flex items-center">
                             <i id="eyeIcon" class="fas fa-eye text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-sm sm:text-base"></i>
                         </button>
+                    </div>
+
+                    <div class="flex justify-end mt-2">
+                        <a href="{{ route('password.request') }}"
+                           class="text-xs sm:text-sm font-medium text-green-600 hover:text-green-500 hover:underline">
+                            Lupa Password?
+                        </a>
                     </div>
                 </div>
             </div>
