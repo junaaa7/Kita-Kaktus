@@ -7,13 +7,14 @@
 
     <!-- Button Back Khusus Mobile -->
     <div class="md:hidden mb-4">
-        <a 
-            href="{{ route('collection.index') }}" 
+        <button 
+            type="button"
+            onclick="goBackToCollectionProduct()"
             class="inline-flex items-center gap-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
         >
             <i class="fas fa-arrow-left"></i>
             <span class="font-medium">Kembali</span>
-        </a>
+        </button>
     </div>
 
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
@@ -147,3 +148,19 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    function goBackToCollectionProduct() {
+        const lastCollectionProductUrl = sessionStorage.getItem('last_collection_product_url');
+
+        if (lastCollectionProductUrl) {
+            window.location.href = lastCollectionProductUrl;
+        } else if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            window.location.href = "{{ route('collection.index') }}";
+        }
+    }
+</script>
+@endpush

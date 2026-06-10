@@ -122,7 +122,11 @@
                     </a>
                 @endauth
                 
-                <a href="{{ route('product.detail', $product) }}" class="block text-center mt-2 text-green-600 dark:text-green-400 hover:text-green-700 text-xs sm:text-sm">
+                <a 
+                    href="{{ route('product.detail', $product) }}" 
+                    class="block text-center mt-2 text-green-600 dark:text-green-400 hover:text-green-700 text-xs sm:text-sm product-detail-link"
+                    data-product-id="{{ $product->id }}"
+                >
                     Lihat Detail →
                 </a>
             </div>
@@ -141,3 +145,37 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const detailLinks = document.querySelectorAll('.product-detail-link');
+
+        detailLinks.forEach(function (link) {
+            link.addEventListener('click', function () {
+                const productId = this.getAttribute('data-product-id');
+
+                if (productId) {
+                    const collectionUrl = window.location.href.split('#')[0] + '#product-' + productId;
+
+                    sessionStorage.setItem('last_collection_product_url', collectionUrl);
+                    sessionStorage.setItem('last_collection_scroll_y', window.scrollY);
+                }
+            });
+        });
+
+        if (window.location.hash && window.location.hash.startsWith('#product-')) {
+            const target = document.querySelector(window.location.hash);
+
+            if (target) {
+                setTimeout(function () {
+                    target.scrollIntoView({
+                        behavior: 'auto',
+                        block: 'center'
+                    });
+                }, 300);
+            }
+        }
+    });
+</script>
+@endpush
