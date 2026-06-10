@@ -154,7 +154,7 @@
                                    required
                                    value="{{ old('email') }}"
                                    class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-11 pr-4 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:border-green-600 focus:ring-green-600 focus:outline-none focus:ring-2 transition-all duration-200 text-sm"
-                                   placeholder="nama@email.com">
+                                   placeholder="Masukkan Email Anda">
                         </div>
 
                         @error('email')
@@ -187,7 +187,7 @@
                                    autocomplete="current-password"
                                    required
                                    class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-11 pr-11 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:border-green-600 focus:ring-green-600 focus:outline-none focus:ring-2 transition-all duration-200 text-sm"
-                                   placeholder="Masukkan password">
+                                   placeholder="Masukkan Password">
 
                             <button type="button"
                                     id="togglePassword"
