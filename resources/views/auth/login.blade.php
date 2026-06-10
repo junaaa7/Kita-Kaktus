@@ -126,6 +126,21 @@
                             Lupa Password?
                         </a>
                     </div>
+
+                    <div class="flex items-center justify-between mt-3">
+                        <label for="remember" class="flex items-center cursor-pointer">
+                            <input id="remember"
+                                   name="remember"
+                                   type="checkbox"
+                                   value="1"
+                                   {{ old('remember') ? 'checked' : '' }}
+                                   class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
+
+                            <span class="ml-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                                Ingat saya untuk login berikutnya
+                            </span>
+                        </label>
+                    </div>
                 </div>
             </div>
 
