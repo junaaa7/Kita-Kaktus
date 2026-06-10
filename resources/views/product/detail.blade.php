@@ -82,54 +82,52 @@
                 </div>
                 
                 <!-- TOMBOL CHECKOUT -->
-                <div id="area-beli-produk">
-                    @auth
-                        @if($product->stock > 0)
+                @auth
+                    @if($product->stock > 0)
 
-                            <div class="space-y-3">
-                                <form action="{{ route('cart.add', $product) }}" method="POST">
-                                    @csrf
+                        <div class="space-y-3">
+                            <form action="{{ route('cart.add', $product) }}" method="POST">
+                                @csrf
 
-                                    <button 
-                                        type="submit" 
-                                        class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg transition font-semibold text-lg"
-                                    >
-                                        <i class="fas fa-shopping-cart mr-2"></i>
-                                        Beli Sekarang (Checkout)
-                                    </button>
-                                </form>
+                                <button 
+                                    type="submit" 
+                                    class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg transition font-semibold text-lg"
+                                >
+                                    <i class="fas fa-shopping-cart mr-2"></i>
+                                    Beli Sekarang (Checkout)
+                                </button>
+                            </form>
 
-                                <div class="text-center text-sm text-gray-500 dark:text-gray-400">
-                                    <i class="fas fa-lock mr-1"></i>
-                                    Pembayaran aman dan terpercaya
-                                </div>
+                            <div class="text-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-lock mr-1"></i>
+                                Pembayaran aman dan terpercaya
                             </div>
-
-                        @else
-
-                            <button 
-                                disabled 
-                                class="w-full bg-gray-400 dark:bg-gray-600 text-white py-3 rounded-lg cursor-not-allowed"
-                            >
-                                Stok Habis
-                            </button>
-
-                        @endif
+                        </div>
 
                     @else
 
-                        <div class="space-y-3">
-                            <a 
-                                href="{{ route('login') }}" 
-                                class="block w-full bg-green-600 hover:bg-green-700 text-white text-center py-3 rounded-lg transition font-semibold text-lg"
-                            >
-                                <i class="fas fa-sign-in-alt mr-2"></i>
-                                Login untuk Membeli
-                            </a>
-                        </div>
+                        <button 
+                            disabled 
+                            class="w-full bg-gray-400 dark:bg-gray-600 text-white py-3 rounded-lg cursor-not-allowed"
+                        >
+                            Stok Habis
+                        </button>
 
-                    @endauth
-                </div>
+                    @endif
+
+                @else
+
+                    <div class="space-y-3">
+                        <a 
+                            href="{{ route('login') }}" 
+                            class="block w-full bg-green-600 hover:bg-green-700 text-white text-center py-3 rounded-lg transition font-semibold text-lg"
+                        >
+                            <i class="fas fa-sign-in-alt mr-2"></i>
+                            Login untuk Membeli
+                        </a>
+                    </div>
+
+                @endauth
             </div>
         </div>
     </div>
@@ -149,22 +147,3 @@
     </div>
 </div>
 @endsection
-
-@push('scripts')
-<script>
-    window.addEventListener('load', function () {
-        if (window.location.hash === '#area-beli-produk') {
-            const target = document.getElementById('area-beli-produk');
-
-            if (target) {
-                setTimeout(function () {
-                    target.scrollIntoView({
-                        behavior: 'auto',
-                        block: 'center'
-                    });
-                }, 300);
-            }
-        }
-    });
-</script>
-@endpush

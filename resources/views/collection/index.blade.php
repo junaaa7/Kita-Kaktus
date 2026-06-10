@@ -72,7 +72,7 @@
     <!-- Products Grid - Responsive -->
     <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
         @forelse($products as $product)
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1 duration-300">
+        <div id="product-{{ $product->id }}" class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1 duration-300 scroll-mt-24">
             <div class="h-48 sm:h-56 overflow-hidden">
                 @if($product->image)
                     <img src="{{ asset($product->image) }}"
@@ -104,6 +104,9 @@
                     @if($product->stock > 0)
                         <form action="{{ route('cart.add', $product) }}" method="POST">
                             @csrf
+                            <input type="hidden" name="from_collection" value="1">
+                            <input type="hidden" name="scroll_to_product" value="{{ $product->id }}">
+
                             <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 sm:py-2.5 rounded-lg transition font-semibold text-sm sm:text-base">
                                 <i class="fas fa-shopping-cart mr-1 sm:mr-2"></i> Beli Sekarang
                             </button>
