@@ -4,6 +4,18 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto">
+
+    <!-- Button Back Khusus Mobile -->
+    <div class="md:hidden mb-4">
+        <a 
+            href="{{ url()->previous() }}" 
+            class="inline-flex items-center gap-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+        >
+            <i class="fas fa-arrow-left"></i>
+            <span class="font-medium">Kembali</span>
+        </a>
+    </div>
+
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
         <div class="grid grid-cols-1 md:grid-cols-2">
             
@@ -74,7 +86,7 @@
                     @if($product->stock > 0)
 
                         <div class="space-y-3">
-                            <form action="{{ route('cart.add', $product) }}" method="POST">
+                            <form action="{{ route('cart.add', $product) }}" method="POST" class="add-to-cart-form">
                                 @csrf
 
                                 <button 
@@ -135,3 +147,25 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const scrollKey = 'product_detail_scroll_position';
+        const scrollPosition = sessionStorage.getItem(scrollKey);
+
+        if (scrollPosition !== null) {
+            window.scrollTo(0, parseInt(scrollPosition));
+            sessionStorage.removeItem(scrollKey);
+        }
+
+        const addToCartForms = document.querySelectorAll('.add-to-cart-form');
+
+        addToCartForms.forEach(function (form) {
+            form.addEventListener('submit', function () {
+                sessionStorage.setItem(scrollKey, window.scrollY);
+            });
+        });
+    });
+</script>
+@endpush
