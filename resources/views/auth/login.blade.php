@@ -226,7 +226,7 @@
                     <div class="relative flex items-center justify-center my-5">
                         <div class="absolute left-0 w-full border-t border-gray-300 dark:border-gray-600"></div>
                         <span class="relative px-4 bg-white dark:bg-gray-800 text-xs text-gray-500 dark:text-gray-400 font-semibold">
-                            ATAU MASUK DENGAN
+                            ATAU
                         </span>
                     </div>
 
@@ -237,7 +237,7 @@
                              alt="Google"
                              style="width: 18px !important; height: 18px !important; max-width: 18px !important;">
 
-                        <span>Google</span>
+                        <span>Masuk dengan Google</span>
                     </a>
 
                     <div class="text-center pt-3 relative z-10">
