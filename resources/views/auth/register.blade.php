@@ -4,321 +4,308 @@
 
 @section('content')
 <style>
-    /* Fix untuk auto-fill browser */
     input:-webkit-autofill,
     input:-webkit-autofill:hover,
     input:-webkit-autofill:focus,
     input:-webkit-autofill:active {
-        -webkit-background-clip: text;
-        transition: background-color 5000s ease-in-out 0s;
-        box-shadow: inset 0 0 20px 20px #ffffff !important;
+        transition: background-color 9999s ease-in-out 0s;
+        box-shadow: 0 0 0px 1000px #ffffff inset !important;
         -webkit-text-fill-color: #111827 !important;
+        caret-color: #111827 !important;
     }
 
-    /* Dark mode fix untuk auto-fill */
     .dark input:-webkit-autofill,
     .dark input:-webkit-autofill:hover,
     .dark input:-webkit-autofill:focus,
     .dark input:-webkit-autofill:active {
-        box-shadow: inset 0 0 20px 20px #374151 !important;
+        transition: background-color 9999s ease-in-out 0s;
+        box-shadow: 0 0 0px 1000px #1f2937 inset !important;
         -webkit-text-fill-color: #f9fafb !important;
+        caret-color: #f9fafb !important;
     }
 
-    /* Responsive adjustments */
-    @media (max-width: 640px) {
-        .responsive-card {
-            padding: 1.5rem !important;
+    @keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
         }
-        .responsive-title {
-            font-size: 1.5rem !important;
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
-        .responsive-logo {
-            padding: 0.5rem 1rem !important;
-            font-size: 0.875rem !important;
+    }
+
+    @keyframes shake {
+        0%, 100% {
+            transform: translateX(0);
         }
-        .responsive-input {
-            padding-top: 0.625rem !important;
-            padding-bottom: 0.625rem !important;
-            font-size: 0.875rem !important;
+
+        25% {
+            transform: translateX(-5px);
         }
-        .responsive-button {
-            padding-top: 0.625rem !important;
-            padding-bottom: 0.625rem !important;
+
+        75% {
+            transform: translateX(5px);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fade-in-up 0.6s ease-out;
+    }
+
+    .animate-shake {
+        animation: shake 0.3s ease-in-out;
+    }
+
+    .register-page-wrapper {
+        min-height: calc(100vh - 80px);
+    }
+
+    @media (max-width: 768px) {
+        .register-page-wrapper {
+            min-height: calc(100vh - 70px);
         }
     }
 </style>
 
-<div class="min-h-screen flex items-center justify-center py-8 sm:py-12 px-3 sm:px-4 lg:px-8 relative overflow-hidden">
+<div class="register-page-wrapper bg-gray-50 dark:bg-gray-900 flex items-center justify-center px-4 py-6 sm:px-6 lg:px-8">
+    <div class="w-full max-w-6xl bg-white dark:bg-gray-800 rounded-none md:rounded-3xl overflow-hidden shadow-2xl animate-fade-in-up grid grid-cols-1 lg:grid-cols-2">
 
-    <!-- Background -->
-    <div class="absolute inset-0 -z-10 overflow-hidden">
+        <!-- Left Branding Section -->
+        <div class="hidden lg:flex relative min-h-[620px] items-center overflow-hidden">
+            <img src="{{ asset('images/promosi/logo new.webp') }}"
+                 alt="Kita Kaktus"
+                 class="absolute inset-0 w-full h-full object-cover">
 
-        <!-- Background Image -->
-        <img src="{{ asset('images/promosi/logo new.webp') }}"
-             alt="Background Kita Kaktus"
-             class="w-full h-full object-cover scale-110 blur-sm">
+            <div class="absolute inset-0 bg-gradient-to-br from-green-950/80 via-green-900/65 to-black/75"></div>
 
-        <!-- Overlay -->
-        <div class="absolute inset-0 bg-black/65 dark:bg-black/75 backdrop-blur-[2px]"></div>
+            <div class="relative z-10 px-10 xl:px-14 text-white">
+                <div class="mb-10">
+                    <h1 class="text-2xl font-extrabold leading-tight">
+                        Kita Kaktus
+                    </h1>
+                    <p class="text-sm text-green-100">
+                        Cactus E-commerce
+                    </p>
+                </div>
 
-        <!-- Glow Effect -->
-        <div class="absolute top-10 left-10 w-48 sm:w-72 h-48 sm:h-72 bg-green-500/20 rounded-full blur-3xl"></div>
+                <div class="max-w-md">
+                    <h2 class="text-4xl xl:text-5xl font-extrabold leading-tight mb-5">
+                        Temukan Koleksi Kaktus Terbaik
+                    </h2>
 
-        <div class="absolute bottom-10 right-10 w-48 sm:w-72 h-48 sm:h-72 bg-yellow-500/20 rounded-full blur-3xl"></div>
-    </div>
-
-    <div class="w-full max-w-md space-y-6 sm:space-y-8 animate-fade-in-up px-2 sm:px-0">
-
-        <!-- Header -->
-        <div class="text-center">
-            <div class="animate-bounce-slow">
-                <div class="w-auto h-auto px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto shadow-lg">
-                    <span class="text-sm sm:text-xl font-bold text-white responsive-logo">Kita Kaktus</span>
+                    <p class="text-base xl:text-lg text-gray-100 leading-relaxed">
+                        Belanja berbagai pilihan kaktus cantik, unik, dan berkualitas untuk memperindah rumah, meja kerja, atau hadiah spesial.
+                    </p>
                 </div>
             </div>
-
-            <h2 class="mt-4 sm:mt-6 text-2xl sm:text-3xl font-extrabold text-white responsive-title">
-                Daftar Akun Baru
-            </h2>
-
-            <p class="mt-1 sm:mt-2 text-xs sm:text-sm text-gray-200">
-                Bergabunglah dengan Kita Kaktus
-            </p>
         </div>
 
-        <!-- Form -->
-        <form class="mt-6 sm:mt-8 space-y-4 sm:space-y-5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-5 sm:p-8 rounded-2xl shadow-2xl transform transition-all duration-500 hover:scale-[1.02] responsive-card"
-              method="POST"
-              action="{{ secure_url('/register') }}">
-
-            @csrf
-
-            <!-- Name -->
-            <div>
-                <div class="relative mt-1">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-user text-gray-400 dark:text-gray-300 text-sm sm:text-base"></i>
-                    </div>
-
-                    <input id="name"
-                           name="name"
-                           type="text"
-                           required
-                           value="{{ old('name') }}"
-                           class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-3 py-2.5 sm:py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200 text-sm sm:text-base responsive-input"
-                           placeholder="Nama Lengkap">
-                </div>
-
-                @error('name')
-                    <p class="mt-1 text-xs sm:text-sm text-red-600 dark:text-red-400 animate-shake">
-                        {{ $message }}
-                    </p>
-                @enderror
+        <!-- Right Register Section -->
+        <div class="relative flex items-center justify-center px-5 py-10 sm:px-10 lg:px-14 min-h-[620px] bg-white dark:bg-gray-800">
+            <div class="absolute top-8 right-8 hidden sm:block">
+                <div class="w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 blur-2xl"></div>
             </div>
 
-            <!-- Email -->
-            <div>
-                <div class="relative mt-1">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-envelope text-gray-400 dark:text-gray-300 text-sm sm:text-base"></i>
-                    </div>
-
-                    <input id="email"
-                           name="email"
-                           type="email"
-                           required
-                           value="{{ old('email') }}"
-                           class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-3 py-2.5 sm:py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200 text-sm sm:text-base responsive-input"
-                           placeholder="Alamat Email">
-                </div>
-
-                @error('email')
-                    <p class="mt-1 text-xs sm:text-sm text-red-600 dark:text-red-400 animate-shake">
-                        {{ $message }}
-                    </p>
-                @enderror
+            <div class="absolute bottom-8 left-8 hidden sm:block">
+                <div class="w-24 h-24 rounded-full bg-yellow-100 dark:bg-yellow-900/20 blur-2xl"></div>
             </div>
 
-            <!-- Password -->
-            <div>
-                <div class="relative mt-1">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-lock text-gray-400 dark:text-gray-300 text-sm sm:text-base"></i>
+            <div class="w-full max-w-md relative z-10">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
+                        Buat Akun Baru
+                    </h2>
+
+                    <p class="mt-2 text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                        Bergabunglah dan mulai belanja kaktus favorit Anda.
+                    </p>
+                </div>
+
+                <form method="POST"
+                      action="{{ secure_url('/register') }}"
+                      class="space-y-5">
+                    @csrf
+
+                    @if (session('error'))
+                        <div class="p-3 rounded-xl bg-red-100 text-red-700 text-sm">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    @if (session('success'))
+                        <div class="p-3 rounded-xl bg-green-100 text-green-700 text-sm">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    <!-- Name -->
+                    <div>
+                        <label for="name" class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
+                            Nama Lengkap
+                        </label>
+
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-user text-gray-400 text-sm"></i>
+                            </div>
+
+                            <input id="name"
+                                   name="name"
+                                   type="text"
+                                   autocomplete="name"
+                                   required
+                                   value="{{ old('name') }}"
+                                   class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-11 pr-4 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:border-green-600 focus:ring-green-600 focus:outline-none focus:ring-2 transition-all duration-200 text-sm"
+                                   placeholder="Masukkan Nama Lengkap">
+                        </div>
+
+                        @error('name')
+                            <p class="mt-1 text-xs sm:text-sm text-red-600 dark:text-red-400 animate-shake">
+                                {{ $message }}
+                            </p>
+                        @enderror
                     </div>
 
-                    <input id="password"
-                           name="password"
-                           type="password"
-                           required
-                           class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-10 py-2.5 sm:py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200 text-sm sm:text-base responsive-input"
-                           placeholder="Password">
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
+                            Email Address
+                        </label>
 
-                    <button type="button"
-                            id="togglePassword"
-                            class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                        <i id="eyeIcon"
-                           class="fas fa-eye text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-sm sm:text-base"></i>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-gray-400 text-sm"></i>
+                            </div>
+
+                            <input id="email"
+                                   name="email"
+                                   type="email"
+                                   autocomplete="email"
+                                   required
+                                   value="{{ old('email') }}"
+                                   class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-11 pr-4 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:border-green-600 focus:ring-green-600 focus:outline-none focus:ring-2 transition-all duration-200 text-sm"
+                                   placeholder="Masukkan Email Anda">
+                        </div>
+
+                        @error('email')
+                            <p class="mt-1 text-xs sm:text-sm text-red-600 dark:text-red-400 animate-shake">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label for="password" class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
+                            Password
+                        </label>
+
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-gray-400 text-sm"></i>
+                            </div>
+
+                            <input id="password"
+                                   name="password"
+                                   type="password"
+                                   autocomplete="new-password"
+                                   required
+                                   class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-11 pr-11 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:border-green-600 focus:ring-green-600 focus:outline-none focus:ring-2 transition-all duration-200 text-sm"
+                                   placeholder="Masukkan Password">
+
+                            <button type="button"
+                                    id="togglePassword"
+                                    class="absolute inset-y-0 right-0 pr-4 flex items-center">
+                                <i id="eyeIcon"
+                                   class="fas fa-eye text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-sm"></i>
+                            </button>
+                        </div>
+
+                        @error('password')
+                            <p class="mt-1 text-xs sm:text-sm text-red-600 dark:text-red-400 animate-shake">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div>
+                        <label for="password_confirmation" class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
+                            Konfirmasi Password
+                        </label>
+
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-check-circle text-gray-400 text-sm"></i>
+                            </div>
+
+                            <input id="password_confirmation"
+                                   name="password_confirmation"
+                                   type="password"
+                                   autocomplete="new-password"
+                                   required
+                                   class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-11 pr-11 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:border-green-600 focus:ring-green-600 focus:outline-none focus:ring-2 transition-all duration-200 text-sm"
+                                   placeholder="Konfirmasi Password">
+
+                            <button type="button"
+                                    id="toggleConfirmPassword"
+                                    class="absolute inset-y-0 right-0 pr-4 flex items-center">
+                                <i id="eyeIconConfirm"
+                                   class="fas fa-eye text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Button -->
+                    <button type="submit"
+                            class="group relative w-full flex items-center justify-center gap-2 py-3 px-4 border border-transparent text-sm font-bold rounded-lg text-white bg-green-800 hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 transform transition-all duration-300 hover:scale-[1.01] active:scale-95 shadow-lg">
+                        Daftar Sekarang
+                        <i class="fas fa-arrow-right text-sm group-hover:translate-x-1 transition-transform duration-200"></i>
                     </button>
-                </div>
 
-                @error('password')
-                    <p class="mt-1 text-xs sm:text-sm text-red-600 dark:text-red-400 animate-shake">
-                        {{ $message }}
-                    </p>
-                @enderror
-            </div>
+                    <!-- Divider -->
+                    <div class="relative flex items-center justify-center my-5">
+                        <div class="absolute left-0 w-full border-t border-gray-300 dark:border-gray-600"></div>
 
-            <!-- Confirm Password -->
-            <div>
-                <div class="relative mt-1">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-check-circle text-gray-400 dark:text-gray-300 text-sm sm:text-base"></i>
+                        <span class="relative px-4 bg-white dark:bg-gray-800 text-xs text-gray-500 dark:text-gray-400 font-semibold">
+                            ATAU
+                        </span>
                     </div>
 
-                    <input id="password_confirmation"
-                           name="password_confirmation"
-                           type="password"
-                           required
-                           class="block w-full rounded-xl border-gray-300 dark:border-gray-600 pl-10 pr-10 py-2.5 sm:py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-2 transition-all duration-200 text-sm sm:text-base responsive-input"
-                           placeholder="Konfirmasi Password">
+                    <!-- Google Register -->
+                    <a href="{{ route('google.register') }}"
+                       style="position: relative; z-index: 99999; cursor: pointer; display: flex;"
+                       class="w-full flex items-center justify-center gap-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition shadow-sm text-sm font-semibold">
 
-                    <button type="button"
-                            id="toggleConfirmPassword"
-                            class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                        <i id="eyeIconConfirm"
-                           class="fas fa-eye text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-sm sm:text-base"></i>
-                    </button>
-                </div>
-            </div>
+                        <img src="https://www.svgrepo.com/show/475656/google-color.svg"
+                             alt="Google"
+                             style="width: 18px !important; height: 18px !important; max-width: 18px !important;">
 
-            <!-- Button -->
-            <div class="mt-6 sm:mt-8">
-                <button type="submit"
-                        class="group relative w-full flex justify-center py-2.5 sm:py-3 px-4 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transform transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg responsive-button">
-
-                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                        <i class="fas fa-user-plus text-green-300 group-hover:text-green-200 transition-colors duration-200 text-sm sm:text-base"></i>
-                    </span>
-
-                    Daftar Sekarang
-                </button>
-            </div>
-
-            <!-- Divider -->
-            <div class="relative flex items-center justify-center my-4 sm:my-6">
-                <div class="absolute left-0 w-full border-t border-gray-300 dark:border-gray-600"></div>
-
-                <span class="relative px-3 sm:px-4 bg-white/90 dark:bg-gray-800/90 text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium">
-                    ATAU
-                </span>
-            </div>
-
-            <!-- Google Register -->
-            <a href="{{ route('google.login') }}"
-               class="mt-2 w-full flex items-center justify-center gap-2 sm:gap-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white py-2.5 sm:py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition shadow-sm text-sm sm:text-base">
-
-                <img src="https://www.svgrepo.com/show/475656/google-color.svg"
-                     alt="Google"
-                     style="width: 18px !important; height: 18px !important; max-width: 18px !important;">
-
-                <span class="font-medium text-xs sm:text-sm">
-                    Daftar dengan Google
-                </span>
-            </a>
-
-            <!-- Login -->
-            <div class="text-center mt-3 sm:mt-4 relative z-10">
-                <p class="text-xs sm:text-sm text-gray-300">
-                    Sudah punya akun?
-
-                    <a href="{{ route('login') }}"
-                       class="relative z-20 inline-flex items-center font-medium text-green-400 hover:text-green-300 transition-colors duration-200 hover:underline text-xs sm:text-sm">
-
-                        Login Sekarang
-
-                        <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                        <span>Daftar dengan Google</span>
                     </a>
+
+                    <!-- Login -->
+                    <div class="text-center pt-3 relative z-10">
+                        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                            Sudah punya akun?
+
+                            <a href="{{ route('login') }}"
+                               class="relative z-20 inline-flex items-center font-bold text-green-700 dark:text-green-500 hover:text-green-600 transition-colors duration-200 hover:underline text-xs sm:text-sm">
+                                Login Sekarang
+                            </a>
+                        </p>
+                    </div>
+                </form>
+
+                <p class="mt-10 text-center text-xs text-gray-500 dark:text-gray-400">
+                    Kita Kaktus © {{ date('Y') }}
                 </p>
             </div>
-
-        </form>
+        </div>
     </div>
 </div>
-
-<style>
-@keyframes fade-in-up {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes blob {
-    0% {
-        transform: translate(0px, 0px) scale(1);
-    }
-
-    33% {
-        transform: translate(30px, -50px) scale(1.1);
-    }
-
-    66% {
-        transform: translate(-20px, 20px) scale(0.9);
-    }
-
-    100% {
-        transform: translate(0px, 0px) scale(1);
-    }
-}
-
-@keyframes shake {
-    0%, 100% {
-        transform: translateX(0);
-    }
-
-    25% {
-        transform: translateX(-5px);
-    }
-
-    75% {
-        transform: translateX(5px);
-    }
-}
-
-.animate-fade-in-up {
-    animation: fade-in-up 0.6s ease-out;
-}
-
-.animate-bounce-slow {
-    animation: bounce 2s infinite;
-}
-
-.animate-blob {
-    animation: blob 7s infinite;
-}
-
-.animation-delay-2000 {
-    animation-delay: 2s;
-}
-
-.animation-delay-4000 {
-    animation-delay: 4s;
-}
-
-.animate-shake {
-    animation: shake 0.3s ease-in-out;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-</style>
 
 @push('scripts')
 <script>
