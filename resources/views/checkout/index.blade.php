@@ -72,10 +72,9 @@
                         </label>
                         <input type="text" name="recipient_name" id="recipient_name" 
                                value="{{ old('recipient_name', isset($defaultAddress) ? $defaultAddress->recipient_name : '') }}"
-                               placeholder="Masukkan nama lengkap penerima"
                                class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            * Nama lengkap penerima paket
+                            * Nama Lengkap Penerima Paket
                         </p>
                     </div>
 
@@ -90,10 +89,12 @@
                             id="shipping_address"
                             required
                             rows="3"
-                            placeholder="Jalan, RT/RW, Kelurahan, Kecamatan, Kota"
                             class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500 @error('shipping_address') border-red-500 @enderror"
                         >{{ old('shipping_address', isset($defaultAddress) ? $defaultAddress->address : '') }}</textarea>
 
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            * Alamat Lengkap Penerima Paket
+                        </p>
                         @error('shipping_address')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -102,7 +103,7 @@
                     <!-- Nomor Telepon -->
                     <div class="mb-4">
                         <label class="block text-gray-700 dark:text-gray-300 text-xs sm:text-sm font-bold mb-1">
-                            Nomor Telepon
+                            Nomor Telepon / WhatsApp
                         </label>
 
                         <input
@@ -111,7 +112,6 @@
                             id="phone"
                             value="{{ old('phone', isset($defaultAddress) ? $defaultAddress->phone : '') }}"
                             required
-                            placeholder="Contoh: 081234567890"
                             oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                             class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-green-500 @error('phone') border-red-500 @enderror"
                         >
