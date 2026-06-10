@@ -64,19 +64,13 @@
             <div class="absolute inset-0 bg-gradient-to-br from-green-950/80 via-green-900/65 to-black/75"></div>
 
             <div class="relative z-10 px-10 xl:px-14 text-white">
-                <div class="flex items-center gap-3 mb-10">
-                    <div class="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20">
-                        <i class="fas fa-seedling text-2xl text-green-200"></i>
-                    </div>
-
-                    <div>
-                        <h1 class="text-2xl font-extrabold leading-tight">
-                            Kita Kaktus
-                        </h1>
-                        <p class="text-sm text-green-100">
-                            Cactus E-commerce
-                        </p>
-                    </div>
+                <div class="mb-10">
+                    <h1 class="text-2xl font-extrabold leading-tight">
+                        Kita Kaktus
+                    </h1>
+                    <p class="text-sm text-green-100">
+                        Cactus E-commerce
+                    </p>
                 </div>
 
                 <div class="max-w-md">
@@ -88,27 +82,6 @@
                         Belanja berbagai pilihan kaktus cantik, unik, dan berkualitas untuk memperindah rumah, meja kerja, atau hadiah spesial.
                     </p>
                 </div>
-
-                <div class="mt-12 grid grid-cols-3 gap-4 max-w-md">
-                    <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 text-center">
-                        <i class="fas fa-leaf text-green-200 text-xl mb-2"></i>
-                        <p class="text-xs text-gray-100">Tanaman Pilihan</p>
-                    </div>
-
-                    <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 text-center">
-                        <i class="fas fa-box text-green-200 text-xl mb-2"></i>
-                        <p class="text-xs text-gray-100">Packing Aman</p>
-                    </div>
-
-                    <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 text-center">
-                        <i class="fas fa-truck text-green-200 text-xl mb-2"></i>
-                        <p class="text-xs text-gray-100">Siap Kirim</p>
-                    </div>
-                </div>
-
-                <p class="absolute bottom-8 left-10 xl:left-14 text-xs text-gray-200">
-                    © {{ date('Y') }} Kita Kaktus. All rights reserved.
-                </p>
             </div>
         </div>
 
@@ -124,10 +97,6 @@
 
             <div class="w-full max-w-md relative z-10">
                 <div class="text-center mb-8">
-                    <div class="w-14 h-14 mx-auto rounded-2xl bg-green-700 dark:bg-green-600 flex items-center justify-center shadow-lg mb-5">
-                        <i class="fas fa-seedling text-white text-2xl"></i>
-                    </div>
-
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
                         Selamat Datang
                     </h2>
