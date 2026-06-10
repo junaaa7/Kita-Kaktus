@@ -40,7 +40,8 @@ class CartController extends Controller
     public function add(Request $request, Product $product)
     {
         if ($product->stock <= 0) {
-            return redirect()->back()->with('error', 'Stok produk habis.');
+            return redirect()->to(url()->previous() . '#area-beli-produk')
+                ->with('error', 'Stok produk habis.');
         }
 
         $cartItem = Cart::where('user_id', auth()->id())
@@ -49,7 +50,8 @@ class CartController extends Controller
         
         if ($cartItem) {
             if ($cartItem->quantity >= $product->stock) {
-                return redirect()->back()->with('error', 'Jumlah produk di keranjang sudah mencapai batas stok.');
+                return redirect()->to(url()->previous() . '#area-beli-produk')
+                    ->with('error', 'Jumlah produk di keranjang sudah mencapai batas stok.');
             }
 
             $cartItem->increment('quantity');
@@ -61,7 +63,8 @@ class CartController extends Controller
             ]);
         }
         
-        return redirect()->back()->with('success', 'Produk ditambahkan ke keranjang');
+        return redirect()->to(url()->previous() . '#area-beli-produk')
+            ->with('success', 'Produk ditambahkan ke keranjang');
     }
 
     public function update(Request $request)
