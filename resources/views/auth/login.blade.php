@@ -8,29 +8,43 @@
     input:-webkit-autofill:hover,
     input:-webkit-autofill:focus,
     input:-webkit-autofill:active {
-        -webkit-background-clip: text;
-        transition: background-color 5000s ease-in-out 0s;
-        box-shadow: inset 0 0 20px 20px #ffffff !important;
+        transition: background-color 9999s ease-in-out 0s;
+        box-shadow: 0 0 0px 1000px #ffffff inset !important;
         -webkit-text-fill-color: #111827 !important;
+        caret-color: #111827 !important;
     }
 
     .dark input:-webkit-autofill,
     .dark input:-webkit-autofill:hover,
     .dark input:-webkit-autofill:focus,
     .dark input:-webkit-autofill:active {
-        box-shadow: inset 0 0 20px 20px #ffffff !important;
-        -webkit-text-fill-color: #111827 !important;
+        transition: background-color 9999s ease-in-out 0s;
+        box-shadow: 0 0 0px 1000px #1f2937 inset !important;
+        -webkit-text-fill-color: #f9fafb !important;
+        caret-color: #f9fafb !important;
     }
 
     @keyframes fade-in-up {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
+        from { 
+            opacity: 0; 
+            transform: translateY(30px); 
+        }
+        to { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
     }
 
     @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-5px); }
-        75% { transform: translateX(5px); }
+        0%, 100% { 
+            transform: translateX(0); 
+        }
+        25% { 
+            transform: translateX(-5px); 
+        }
+        75% { 
+            transform: translateX(5px); 
+        }
     }
 
     .animate-fade-in-up {
@@ -139,7 +153,7 @@
                                    autocomplete="email"
                                    required
                                    value="{{ old('email') }}"
-                                   class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-11 pr-4 py-3 bg-white dark:bg-white text-gray-900 placeholder-gray-400 focus:border-green-600 focus:ring-green-600 focus:outline-none focus:ring-2 transition-all duration-200 text-sm"
+                                   class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-11 pr-4 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:border-green-600 focus:ring-green-600 focus:outline-none focus:ring-2 transition-all duration-200 text-sm"
                                    placeholder="nama@email.com">
                         </div>
 
@@ -157,7 +171,7 @@
                             </label>
 
                             <a href="{{ route('password.request') }}"
-                               class="text-xs sm:text-sm font-semibold text-green-700 hover:text-green-600 hover:underline">
+                               class="text-xs sm:text-sm font-semibold text-green-700 dark:text-green-500 hover:text-green-600 hover:underline">
                                 Lupa Password?
                             </a>
                         </div>
@@ -172,13 +186,13 @@
                                    type="password"
                                    autocomplete="current-password"
                                    required
-                                   class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-11 pr-11 py-3 bg-white dark:bg-white text-gray-900 placeholder-gray-400 focus:border-green-600 focus:ring-green-600 focus:outline-none focus:ring-2 transition-all duration-200 text-sm"
+                                   class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 pl-11 pr-11 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:border-green-600 focus:ring-green-600 focus:outline-none focus:ring-2 transition-all duration-200 text-sm"
                                    placeholder="Masukkan password">
 
                             <button type="button"
                                     id="togglePassword"
                                     class="absolute inset-y-0 right-0 pr-4 flex items-center">
-                                <i id="eyeIcon" class="fas fa-eye text-gray-400 hover:text-gray-600 text-sm"></i>
+                                <i id="eyeIcon" class="fas fa-eye text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-sm"></i>
                             </button>
                         </div>
 
@@ -218,7 +232,7 @@
 
                     <a href="{{ route('google.login') }}"
                        style="position: relative; z-index: 99999; cursor: pointer; display: flex;"
-                       class="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-50 transition shadow-sm text-sm font-semibold">
+                       class="w-full flex items-center justify-center gap-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition shadow-sm text-sm font-semibold">
                         <img src="https://www.svgrepo.com/show/475656/google-color.svg"
                              alt="Google"
                              style="width: 18px !important; height: 18px !important; max-width: 18px !important;">
@@ -230,7 +244,7 @@
                         <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                             Belum punya akun?
                             <a href="{{ route('register') }}"
-                               class="relative z-20 inline-flex items-center font-bold text-green-700 hover:text-green-600 transition-colors duration-200 hover:underline text-xs sm:text-sm">
+                               class="relative z-20 inline-flex items-center font-bold text-green-700 dark:text-green-500 hover:text-green-600 transition-colors duration-200 hover:underline text-xs sm:text-sm">
                                 Daftar Sekarang
                             </a>
                         </p>
