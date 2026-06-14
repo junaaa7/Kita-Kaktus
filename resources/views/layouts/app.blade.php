@@ -312,17 +312,14 @@
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-2xl px-2 py-2 grid grid-cols-4 gap-1">
                 <a href="{{ route('home') }}" class="flex flex-col items-center justify-center rounded-xl py-2 {{ request()->routeIs('home') ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30' : 'text-gray-600 dark:text-gray-300' }}">
                     <i aria-hidden="true" class="fas fa-home text-xl mb-1"></i>
-                    <span class="text-xs font-medium">Home</span>
                 </a>
 
                 <a href="{{ route('collection.index') }}" class="flex flex-col items-center justify-center rounded-xl py-2 {{ request()->routeIs('collection.*') ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30' : 'text-gray-600 dark:text-gray-300' }}">
                     <i aria-hidden="true" class="fas fa-search text-xl mb-1"></i>
-                    <span class="text-xs font-medium">Koleksi</span>
                 </a>
 
                 <a href="{{ $isCustomer ? route('cart.index') : route('login') }}" class="relative flex flex-col items-center justify-center rounded-xl py-2 {{ request()->routeIs('cart.*') ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30' : 'text-gray-600 dark:text-gray-300' }}">
                     <i aria-hidden="true" class="fas fa-shopping-cart text-xl mb-1"></i>
-                    <span class="text-xs font-medium">Keranjang</span>
 
                     @if($cartCount > 0)
                         <span class="absolute top-1 right-5 bg-red-500 text-white text-[10px] rounded-full min-w-[18px] h-[18px] px-1 flex items-center justify-center">
@@ -333,7 +330,6 @@
 
                 <a href="{{ $isCustomer ? route('orders.history') : route('login') }}" class="flex flex-col items-center justify-center rounded-xl py-2 {{ request()->routeIs('orders.*') ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30' : 'text-gray-600 dark:text-gray-300' }}">
                     <i aria-hidden="true" class="fas fa-history text-xl mb-1"></i>
-                    <span class="text-xs font-medium">Pesanan</span>
                 </a>
             </div>
         </div>
