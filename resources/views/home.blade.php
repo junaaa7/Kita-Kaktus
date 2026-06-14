@@ -34,26 +34,36 @@
 <div class="mb-12 md:mb-16" data-aos="fade-up">
     <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white text-center mb-2 md:mb-4 px-4">Galeri Tempat Kita Kaktus</h2>
     <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 text-center mb-8 md:mb-12 max-w-2xl mx-auto px-4">Lihat langsung suasana kebun dan toko kami yang asri dan nyaman</p>
-    
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 px-4 sm:px-0">
-        <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500" data-aos="zoom-in" data-aos-delay="100">
-            <img src="{{ asset('images/promosi/kebun kaktus.webp') }}" alt="Kebun Kaktus" class="w-full h-56 sm:h-64 object-cover group-hover:scale-110 transition duration-500" loading="lazy" decoding="async">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
-                <p class="text-white font-semibold text-sm md:text-base">Kebun Kaktus Indah</p>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-0">
+        <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 h-64 sm:h-80 md:h-[420px]" data-aos="zoom-in" data-aos-delay="100">
+            <div class="gallery-slider relative w-full h-full">
+                <div class="gallery-slide gallery-slide-1 absolute inset-0">
+                    <img src="{{ asset('images/promosi/kebun kaktus.webp') }}" alt="Kebun Kaktus" class="w-full h-full object-cover transition duration-500" loading="lazy" decoding="async">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent flex items-end p-5 md:p-6">
+                        <p class="text-white font-semibold text-sm md:text-lg">Kebun Kaktus Indah</p>
+                    </div>
+                </div>
+
+                <div class="gallery-slide gallery-slide-2 absolute inset-0">
+                    <img src="{{ asset('images/promosi/dasboard (3).webp') }}" alt="Toko Kaktus" class="w-full h-full object-cover transition duration-500" loading="lazy" decoding="async">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent flex items-end p-5 md:p-6">
+                        <p class="text-white font-semibold text-sm md:text-lg">Toko Kaktus Modern</p>
+                    </div>
+                </div>
+
+                <div class="gallery-slide gallery-slide-3 absolute inset-0">
+                    <img src="{{ asset('images/promosi/dasboard (2).webp') }}" alt="Koleksi Kaktus" class="w-full h-full object-cover transition duration-500" loading="lazy" decoding="async">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent flex items-end p-5 md:p-6">
+                        <p class="text-white font-semibold text-sm md:text-lg">Koleksi Lengkap Kaktus</p>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500" data-aos="zoom-in" data-aos-delay="200">
-            <img src="{{ asset('images/promosi/dasboard (3).webp') }}" alt="Toko Kaktus" class="w-full h-56 sm:h-64 object-cover group-hover:scale-110 transition duration-500" loading="lazy" decoding="async">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
-                <p class="text-white font-semibold text-sm md:text-base">Toko Kaktus Modern</p>
-            </div>
-        </div>
-        
-        <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500" data-aos="zoom-in" data-aos-delay="300">
-            <img src="{{ asset('images/promosi/dasboard (2).webp') }}" alt="Koleksi Kaktus" class="w-full h-56 sm:h-64 object-cover group-hover:scale-110 transition duration-500" loading="lazy" decoding="async">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
-                <p class="text-white font-semibold text-sm md:text-base">Koleksi Lengkap Kaktus</p>
+
+            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
+                <span class="gallery-dot gallery-dot-1 w-2.5 h-2.5 rounded-full bg-white/80"></span>
+                <span class="gallery-dot gallery-dot-2 w-2.5 h-2.5 rounded-full bg-white/80"></span>
+                <span class="gallery-dot gallery-dot-3 w-2.5 h-2.5 rounded-full bg-white/80"></span>
             </div>
         </div>
     </div>
@@ -254,4 +264,85 @@
 .animate-bounce {
     animation: bounce 2s ease-in-out infinite;
 }
+.gallery-slide {
+    opacity: 0;
+    transform: scale(1.04);
+    animation: galleryFade 12s infinite;
+}
+
+.gallery-slide-1 {
+    animation-delay: 0s;
+}
+
+.gallery-slide-2 {
+    animation-delay: 4s;
+}
+
+.gallery-slide-3 {
+    animation-delay: 8s;
+}
+
+.gallery-dot {
+    opacity: 0.45;
+    animation: galleryDot 12s infinite;
+}
+
+.gallery-dot-1 {
+    animation-delay: 0s;
+}
+
+.gallery-dot-2 {
+    animation-delay: 4s;
+}
+
+.gallery-dot-3 {
+    animation-delay: 8s;
+}
+
+@keyframes galleryFade {
+    0% {
+        opacity: 0;
+        transform: scale(1.04);
+    }
+    8% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    30% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    40% {
+        opacity: 0;
+        transform: scale(1.04);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.04);
+    }
+}
+
+@keyframes galleryDot {
+    0%, 40%, 100% {
+        opacity: 0.45;
+        transform: scale(1);
+    }
+    8%, 30% {
+        opacity: 1;
+        transform: scale(1.25);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gallery-slide,
+    .gallery-dot {
+        animation: none;
+    }
+
+    .gallery-slide-1 {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 </style>
