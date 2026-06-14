@@ -57,7 +57,7 @@
                     </a>
                 </div>
 
-                <!-- Mobile Right Action untuk Guest & Customer -->
+                <!-- Mobile Right Action khusus Guest & Customer -->
                 @if($isGuestOrCustomer)
                     <div class="md:hidden flex items-center gap-2">
                         <!-- Switch Mode Mobile -->
@@ -102,10 +102,6 @@
                                         <i aria-hidden="true" class="fas fa-user-cog mr-2"></i> Pengaturan Akun
                                     </a>
 
-                                    <a href="{{ route('orders.history') }}" class="block px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                        <i aria-hidden="true" class="fas fa-history mr-2"></i> Riwayat Pesanan
-                                    </a>
-
                                     <form method="POST" action="{{ secure_url('/logout') }}">
                                         @csrf
                                         <button type="submit" aria-label="Logout" class="block w-full text-left px-4 py-3 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm">
@@ -125,7 +121,7 @@
                         </div>
                     </div>
                 @endif
-                
+
                 <!-- Mobile Menu Button khusus Admin -->
                 @if($isAdmin)
                     <button id="mobileMenuButton" type="button" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobileMenu" class="md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
@@ -335,9 +331,9 @@
                     @endif
                 </a>
 
-                <a href="{{ $isCustomer ? route('profile.index') : route('login') }}" class="flex flex-col items-center justify-center rounded-xl py-2 {{ request()->routeIs('profile.*') || request()->routeIs('login') || request()->routeIs('register') ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30' : 'text-gray-600 dark:text-gray-300' }}">
-                    <i aria-hidden="true" class="fas fa-user text-xl mb-1"></i>
-                    <span class="text-xs font-medium">Akun</span>
+                <a href="{{ $isCustomer ? route('orders.history') : route('login') }}" class="flex flex-col items-center justify-center rounded-xl py-2 {{ request()->routeIs('orders.*') ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30' : 'text-gray-600 dark:text-gray-300' }}">
+                    <i aria-hidden="true" class="fas fa-history text-xl mb-1"></i>
+                    <span class="text-xs font-medium">Pesanan</span>
                 </a>
             </div>
         </div>
