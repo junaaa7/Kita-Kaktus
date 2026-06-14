@@ -34,21 +34,104 @@
         }
     </style>
 </head>
+
+@php
+    $isAdmin = auth()->check() && auth()->user()->isAdmin();
+    $isCustomer = auth()->check() && !auth()->user()->isAdmin();
+    $isGuestOrCustomer = !auth()->check() || $isCustomer;
+
+    $cartCount = 0;
+    if ($isCustomer) {
+        $cartCount = \App\Models\Cart::where('user_id', auth()->id())->sum('quantity');
+    }
+@endphp
+
 <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900">
     <!-- Navbar -->
     <nav class="bg-white dark:bg-gray-800 shadow-lg border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-3 sm:px-4">
             <div class="flex justify-between items-center py-3 md:py-4">
                 <div class="flex items-center">
-                    <a href="{{ auth()->check() && auth()->user()->isAdmin() ? route('admin.dashboard') : route('home') }}" class="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
+                    <a href="{{ $isAdmin ? route('admin.dashboard') : route('home') }}" class="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
                         Kita Kaktus
                     </a>
                 </div>
+
+                <!-- Mobile Right Action untuk Guest & Customer -->
+                @if($isGuestOrCustomer)
+                    <div class="md:hidden flex items-center gap-2">
+                        <!-- Switch Mode Mobile -->
+                        <button type="button" aria-label="Ganti dark mode" class="theme-toggle w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">
+                            <i aria-hidden="true" data-theme-icon class="fas fa-moon text-lg"></i>
+                        </button>
+
+                        <!-- Pengaturan Akun Mobile -->
+                        <div class="relative">
+                            <button id="mobileAccountBtn" type="button" aria-label="Buka pengaturan akun" aria-expanded="false" aria-controls="mobileAccountMenu" class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center overflow-hidden">
+                                @auth
+                                    @if(auth()->user()->avatar)
+                                        @if(Str::startsWith(auth()->user()->avatar, ['http://', 'https://']))
+                                            <img src="{{ auth()->user()->avatar }}" 
+                                                alt="{{ auth()->user()->name }}" 
+                                                class="w-12 h-12 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600">
+                                        @elseif(Str::startsWith(auth()->user()->avatar, 'uploads/'))
+                                            <img src="{{ asset(auth()->user()->avatar) }}" 
+                                                alt="{{ auth()->user()->name }}" 
+                                                class="w-12 h-12 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600">
+                                        @else
+                                            <img src="{{ asset('storage/' . auth()->user()->avatar) }}" 
+                                                alt="{{ auth()->user()->name }}" 
+                                                class="w-12 h-12 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600">
+                                        @endif
+                                    @else
+                                        <i aria-hidden="true" class="fas fa-user-cog text-lg"></i>
+                                    @endif
+                                @else
+                                    <i aria-hidden="true" class="fas fa-user text-lg"></i>
+                                @endauth
+                            </button>
+
+                            <div id="mobileAccountMenu" class="absolute right-0 mt-2 w-52 bg-white dark:bg-gray-800 rounded-xl shadow-xl hidden z-50 border border-gray-200 dark:border-gray-700 overflow-hidden">
+                                @auth
+                                    <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                                        <p class="text-sm font-semibold text-gray-800 dark:text-white truncate">{{ auth()->user()->name }}</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ auth()->user()->email }}</p>
+                                    </div>
+
+                                    <a href="{{ route('profile.index') }}" class="block px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <i aria-hidden="true" class="fas fa-user-cog mr-2"></i> Pengaturan Akun
+                                    </a>
+
+                                    <a href="{{ route('orders.history') }}" class="block px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <i aria-hidden="true" class="fas fa-history mr-2"></i> Riwayat Pesanan
+                                    </a>
+
+                                    <form method="POST" action="{{ secure_url('/logout') }}">
+                                        @csrf
+                                        <button type="submit" aria-label="Logout" class="block w-full text-left px-4 py-3 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm">
+                                            <i aria-hidden="true" class="fas fa-sign-out-alt mr-2"></i> Logout
+                                        </button>
+                                    </form>
+                                @else
+                                    <a href="{{ route('login') }}" class="block px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <i aria-hidden="true" class="fas fa-sign-in-alt mr-2"></i> Login
+                                    </a>
+
+                                    <a href="{{ route('register') }}" class="block px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <i aria-hidden="true" class="fas fa-user-plus mr-2"></i> Register
+                                    </a>
+                                @endauth
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 
-                <!-- Mobile Menu Button -->
-                <button id="mobileMenuButton" type="button" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobileMenu" class="md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
-                    <i aria-hidden="true" class="fas fa-bars text-xl"></i>
-                </button>
+                <!-- Mobile Menu Button khusus Admin -->
+                @if($isAdmin)
+                    <button id="mobileMenuButton" type="button" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobileMenu" class="md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
+                        <i aria-hidden="true" class="fas fa-bars text-xl"></i>
+                    </button>
+                @endif
                 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-4 lg:space-x-6">
@@ -76,12 +159,6 @@
                             </a>
                             <a href="{{ route('cart.index') }}" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 relative">
                                 <i aria-hidden="true" class="fas fa-shopping-cart text-lg"></i>
-                                @php
-                                    $cartCount = 0;
-                                    if(auth()->check()) {
-                                        $cartCount = \App\Models\Cart::where('user_id', auth()->id())->sum('quantity');
-                                    }
-                                @endphp
                                 @if($cartCount > 0)
                                     <span class="absolute -top-2 -right-3 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5">
                                         {{ $cartCount }}
@@ -94,8 +171,8 @@
                         @endif
                         
                         <!-- Dark Mode Toggle Button -->
-                        <button id="theme-toggle" type="button" aria-label="Ganti dark mode" class="theme-toggle p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600">
-                            <i aria-hidden="true" id="theme-toggle-icon" class="fas fa-moon"></i>
+                        <button type="button" aria-label="Ganti dark mode" class="theme-toggle p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600">
+                            <i aria-hidden="true" data-theme-icon class="fas fa-moon"></i>
                         </button>
                         
                         <!-- User Profile Dropdown -->
@@ -126,7 +203,7 @@
                                 <i aria-hidden="true" class="fas fa-chevron-down text-xs"></i>
                             </button>
                             <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl hidden z-50 border border-gray-200 dark:border-gray-700">
-                                <!-- Menu untuk user biasa (bukan admin) - TAMBAHAN -->
+                                <!-- Menu untuk user biasa (bukan admin) -->
                                 @if(!auth()->user()->isAdmin())
                                     <a href="{{ route('profile.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
                                         <i aria-hidden="true" class="fas fa-user-cog mr-2"></i> Pengaturan Akun
@@ -149,8 +226,8 @@
                         </a>
                         
                         <!-- Dark Mode Toggle Button for Guest -->
-                        <button id="theme-toggle-guest" type="button" aria-label="Ganti dark mode" class="theme-toggle p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600">
-                            <i aria-hidden="true" id="theme-toggle-icon-guest" class="fas fa-moon"></i>
+                        <button type="button" aria-label="Ganti dark mode" class="theme-toggle p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600">
+                            <i aria-hidden="true" data-theme-icon class="fas fa-moon"></i>
                         </button>
                         
                         <a href="{{ route('login') }}" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 text-sm">Login</a>
@@ -159,44 +236,21 @@
                 </div>
             </div>
             
-            <!-- Mobile Menu (Hidden by default) - DENGAN TEKS DARK MODE -->
-            <div id="mobileMenu" class="hidden md:hidden pb-4 border-t border-gray-200 dark:border-gray-700">
-                @auth
-                    @if(auth()->user()->isAdmin())
-                        <a href="{{ route('admin.dashboard') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Dashboard</a>
-                        <a href="{{ route('admin.products.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola Produk</a>
-                        <a href="{{ route('admin.categories.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola Kategori</a>
-                        <a href="{{ route('admin.users.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola User</a>
-                        <a href="{{ route('admin.orders.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola Pesanan</a>
-                        <a href="{{ route('admin.ratings.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola Rating</a>
-                        
-                        <!-- Dark Mode Toggle di Mobile Menu dengan Teks -->
-                        <button id="theme-toggle-mobile" type="button" aria-label="Ganti dark mode" class="w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
-                            <i aria-hidden="true" id="theme-toggle-icon-mobile" class="fas fa-moon"></i>
-                            <span id="theme-toggle-text-mobile">Dark Mode</span>
-                        </button>
-                    @else
-                        <a href="{{ route('home') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Home</a>
-                        <a href="{{ route('collection.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Koleksi</a>
-                        <a href="{{ route('cart.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base relative">
-                            Keranjang
-                            @if($cartCount > 0)
-                                <span class="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">{{ $cartCount }}</span>
-                            @endif
-                        </a>
-                        <a href="{{ route('orders.history') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Pesanan</a>
-                        
-                        <!-- Menu Pengaturan Akun untuk User Biasa di Mobile Menu - TAMBAHAN -->
-                        <a href="{{ route('profile.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">
-                            <i aria-hidden="true" class="fas fa-user-cog mr-2"></i> Pengaturan Akun
-                        </a>
-                        
-                        <!-- Dark Mode Toggle di Mobile Menu dengan Teks -->
-                        <button id="theme-toggle-mobile" type="button" aria-label="Ganti dark mode" class="w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
-                            <i aria-hidden="true" id="theme-toggle-icon-mobile" class="fas fa-moon"></i>
-                            <span id="theme-toggle-text-mobile">Dark Mode</span>
-                        </button>
-                    @endif
+            <!-- Mobile Menu khusus Admin -->
+            @if($isAdmin)
+                <div id="mobileMenu" class="hidden md:hidden pb-4 border-t border-gray-200 dark:border-gray-700">
+                    <a href="{{ route('admin.dashboard') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Dashboard</a>
+                    <a href="{{ route('admin.products.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola Produk</a>
+                    <a href="{{ route('admin.categories.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola Kategori</a>
+                    <a href="{{ route('admin.users.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola User</a>
+                    <a href="{{ route('admin.orders.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola Pesanan</a>
+                    <a href="{{ route('admin.ratings.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola Rating</a>
+                    
+                    <!-- Dark Mode Toggle di Mobile Menu dengan Teks -->
+                    <button type="button" aria-label="Ganti dark mode" class="theme-toggle w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
+                        <i aria-hidden="true" data-theme-icon class="fas fa-moon"></i>
+                        <span data-theme-text>Dark Mode</span>
+                    </button>
                     
                     <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
                     
@@ -207,21 +261,8 @@
                             <button type="submit" aria-label="Logout" class="text-red-600 text-sm">Logout</button>
                         </form>
                     </div>
-                @else
-                    <a href="{{ route('home') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Home</a>
-                    <a href="{{ route('collection.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Koleksi</a>
-                    
-                    <!-- Dark Mode Toggle di Mobile Menu untuk Guest dengan Teks -->
-                    <button id="theme-toggle-mobile-guest" type="button" aria-label="Ganti dark mode" class="w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
-                        <i aria-hidden="true" id="theme-toggle-icon-mobile-guest" class="fas fa-moon"></i>
-                        <span id="theme-toggle-text-mobile-guest">Dark Mode</span>
-                    </button>
-                    
-                    <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-                    <a href="{{ route('login') }}" class="block py-3 px-2 text-center bg-yellow-500 text-white rounded-lg mb-2">Login</a>
-                    <a href="{{ route('register') }}" class="block py-3 px-2 text-center bg-green-600 text-white rounded-lg">Register</a>
-                @endauth
-            </div>
+                </div>
+            @endif
         </div>
     </nav>
 
@@ -253,13 +294,13 @@
     @endif
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 md:py-8">
+    <main class="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 md:py-8 {{ $isGuestOrCustomer ? 'pb-28 md:pb-8' : '' }}">
         @yield('content')
     </main>
 
     <!-- Footer -->
     @if (!request()->routeIs('login') && !request()->routeIs('register'))
-        <footer class="bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 mt-12 border-t border-gray-200 dark:border-gray-700">
+        <footer class="bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 mt-12 border-t border-gray-200 dark:border-gray-700 {{ $isGuestOrCustomer ? 'mb-24 md:mb-0' : '' }}">
             <div class="max-w-7xl mx-auto px-3 sm:px-4 py-6 md:py-8">
                 <div class="text-center text-sm">
                     <p>&copy; 2026 Kita Kaktus.</p>
@@ -267,6 +308,39 @@
                 </div>
             </div>
         </footer>
+    @endif
+
+    <!-- Bottom Navigation Mobile khusus Guest & Customer -->
+    @if($isGuestOrCustomer)
+        <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] max-w-md md:hidden">
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-2xl px-2 py-2 grid grid-cols-4 gap-1">
+                <a href="{{ route('home') }}" class="flex flex-col items-center justify-center rounded-xl py-2 {{ request()->routeIs('home') ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30' : 'text-gray-600 dark:text-gray-300' }}">
+                    <i aria-hidden="true" class="fas fa-home text-xl mb-1"></i>
+                    <span class="text-xs font-medium">Home</span>
+                </a>
+
+                <a href="{{ route('collection.index') }}" class="flex flex-col items-center justify-center rounded-xl py-2 {{ request()->routeIs('collection.*') ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30' : 'text-gray-600 dark:text-gray-300' }}">
+                    <i aria-hidden="true" class="fas fa-search text-xl mb-1"></i>
+                    <span class="text-xs font-medium">Koleksi</span>
+                </a>
+
+                <a href="{{ $isCustomer ? route('cart.index') : route('login') }}" class="relative flex flex-col items-center justify-center rounded-xl py-2 {{ request()->routeIs('cart.*') ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30' : 'text-gray-600 dark:text-gray-300' }}">
+                    <i aria-hidden="true" class="fas fa-shopping-cart text-xl mb-1"></i>
+                    <span class="text-xs font-medium">Keranjang</span>
+
+                    @if($cartCount > 0)
+                        <span class="absolute top-1 right-5 bg-red-500 text-white text-[10px] rounded-full min-w-[18px] h-[18px] px-1 flex items-center justify-center">
+                            {{ $cartCount }}
+                        </span>
+                    @endif
+                </a>
+
+                <a href="{{ $isCustomer ? route('profile.index') : route('login') }}" class="flex flex-col items-center justify-center rounded-xl py-2 {{ request()->routeIs('profile.*') || request()->routeIs('login') || request()->routeIs('register') ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30' : 'text-gray-600 dark:text-gray-300' }}">
+                    <i aria-hidden="true" class="fas fa-user text-xl mb-1"></i>
+                    <span class="text-xs font-medium">Akun</span>
+                </a>
+            </div>
+        </div>
     @endif
 
     <!-- AOS JS -->
@@ -281,13 +355,24 @@
             easing: 'ease-in-out'
         });
         
-        // Mobile menu toggle
+        // Mobile menu toggle khusus admin
         const mobileMenuBtn = document.getElementById('mobileMenuButton');
         const mobileMenu = document.getElementById('mobileMenu');
         if (mobileMenuBtn && mobileMenu) {
             mobileMenuBtn.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
                 mobileMenuBtn.setAttribute('aria-expanded', mobileMenu.classList.contains('hidden') ? 'false' : 'true');
+            });
+        }
+
+        // Mobile account dropdown untuk guest & customer
+        const mobileAccountBtn = document.getElementById('mobileAccountBtn');
+        const mobileAccountMenu = document.getElementById('mobileAccountMenu');
+        if (mobileAccountBtn && mobileAccountMenu) {
+            mobileAccountBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileAccountMenu.classList.toggle('hidden');
+                mobileAccountBtn.setAttribute('aria-expanded', mobileAccountMenu.classList.contains('hidden') ? 'false' : 'true');
             });
         }
         
@@ -315,7 +400,7 @@
         // Admin menu toggle
         const adminMenuBtn = document.getElementById('adminMenuBtn');
         const adminMenu = document.getElementById('adminMenu');
-        if (adminMenuBtn) {
+        if (adminMenuBtn && adminMenu) {
             adminMenuBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 adminMenu.classList.toggle('hidden');
@@ -326,7 +411,7 @@
         // Profile menu toggle
         const profileBtn = document.getElementById('profileBtn');
         const profileMenu = document.getElementById('profileMenu');
-        if (profileBtn) {
+        if (profileBtn && profileMenu) {
             profileBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 profileMenu.classList.toggle('hidden');
@@ -336,40 +421,48 @@
         
         // Close menus when clicking outside
         document.addEventListener('click', (e) => {
-            if (adminMenuBtn && !adminMenuBtn.contains(e.target) && !adminMenu?.contains(e.target)) {
-                adminMenu?.classList.add('hidden');
-                adminMenuBtn?.setAttribute('aria-expanded', 'false');
+            if (adminMenuBtn && adminMenu && !adminMenuBtn.contains(e.target) && !adminMenu.contains(e.target)) {
+                adminMenu.classList.add('hidden');
+                adminMenuBtn.setAttribute('aria-expanded', 'false');
             }
-            if (profileBtn && !profileBtn.contains(e.target) && !profileMenu?.contains(e.target)) {
-                profileMenu?.classList.add('hidden');
-                profileBtn?.setAttribute('aria-expanded', 'false');
+
+            if (profileBtn && profileMenu && !profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+                profileMenu.classList.add('hidden');
+                profileBtn.setAttribute('aria-expanded', 'false');
+            }
+
+            if (mobileAccountBtn && mobileAccountMenu && !mobileAccountBtn.contains(e.target) && !mobileAccountMenu.contains(e.target)) {
+                mobileAccountMenu.classList.add('hidden');
+                mobileAccountBtn.setAttribute('aria-expanded', 'false');
             }
         });
         
-        // ========== DARK MODE MANAGEMENT - DENGAN TEKS ==========
+        // Dark Mode Management
         const darkModeManager = {
             init() {
                 const savedTheme = localStorage.getItem('theme');
                 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                 
                 if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-                    this.enableDarkMode();
+                    this.enableDarkMode(false);
                 } else {
-                    this.disableDarkMode();
+                    this.disableDarkMode(false);
                 }
-                this.updateAllIconsAndText();
+
+                this.bindButtons();
+                this.updateIconsAndText();
             },
             
-            enableDarkMode() {
+            enableDarkMode(updateStorage = true) {
                 document.documentElement.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-                this.updateAllIconsAndText();
+                if (updateStorage) localStorage.setItem('theme', 'dark');
+                this.updateIconsAndText();
             },
             
-            disableDarkMode() {
+            disableDarkMode(updateStorage = true) {
                 document.documentElement.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-                this.updateAllIconsAndText();
+                if (updateStorage) localStorage.setItem('theme', 'light');
+                this.updateIconsAndText();
             },
             
             toggle() {
@@ -379,79 +472,37 @@
                     this.enableDarkMode();
                 }
             },
-            
-            updateAllIconsAndText() {
-                const isDark = document.documentElement.classList.contains('dark');
-                
-                // Update icons
-                const iconIds = ['theme-toggle-icon', 'theme-toggle-icon-guest', 'theme-toggle-icon-mobile', 'theme-toggle-icon-mobile-guest'];
-                iconIds.forEach(id => {
-                    const icon = document.getElementById(id);
-                    if (icon) {
-                        if (isDark) {
-                            icon.classList.remove('fa-moon');
-                            icon.classList.add('fa-sun');
-                        } else {
-                            icon.classList.remove('fa-sun');
-                            icon.classList.add('fa-moon');
-                        }
-                    }
-                });
-                
-                // Update text for mobile buttons
-                const mobileTextId = isDark ? 'Light Mode' : 'Dark Mode';
-                const mobileTextSpans = ['theme-toggle-text-mobile', 'theme-toggle-text-mobile-guest'];
-                mobileTextSpans.forEach(id => {
-                    const textSpan = document.getElementById(id);
-                    if (textSpan) {
-                        textSpan.textContent = mobileTextId;
-                    }
+
+            bindButtons() {
+                document.querySelectorAll('.theme-toggle').forEach((button) => {
+                    button.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.toggle();
+                    });
                 });
             },
             
-            fixButtons() {
-                // Desktop buttons
-                const desktopBtns = ['theme-toggle', 'theme-toggle-guest'];
-                desktopBtns.forEach(btnId => {
-                    const btn = document.getElementById(btnId);
-                    if (btn) {
-                        const newBtn = btn.cloneNode(true);
-                        btn.parentNode.replaceChild(newBtn, btn);
-                        newBtn.onclick = (e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            this.toggle();
-                            return false;
-                        };
+            updateIconsAndText() {
+                const isDark = document.documentElement.classList.contains('dark');
+                
+                document.querySelectorAll('[data-theme-icon]').forEach((icon) => {
+                    if (isDark) {
+                        icon.classList.remove('fa-moon');
+                        icon.classList.add('fa-sun');
+                    } else {
+                        icon.classList.remove('fa-sun');
+                        icon.classList.add('fa-moon');
                     }
                 });
-                
-                // Mobile buttons
-                const mobileBtns = ['theme-toggle-mobile', 'theme-toggle-mobile-guest'];
-                mobileBtns.forEach(btnId => {
-                    const btn = document.getElementById(btnId);
-                    if (btn) {
-                        const newBtn = btn.cloneNode(true);
-                        btn.parentNode.replaceChild(newBtn, btn);
-                        newBtn.onclick = (e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            this.toggle();
-                            return false;
-                        };
-                    }
+
+                document.querySelectorAll('[data-theme-text]').forEach((text) => {
+                    text.textContent = isDark ? 'Light Mode' : 'Dark Mode';
                 });
             }
         };
         
-        // Initialize dark mode
         darkModeManager.init();
-        darkModeManager.fixButtons();
-        
-        // Re-fix buttons periodically to ensure they work after navigation
-        setInterval(() => {
-            darkModeManager.fixButtons();
-        }, 500);
     </script>
     
     @stack('scripts')
