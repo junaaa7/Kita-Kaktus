@@ -3,6 +3,16 @@
 @section('title', 'Home - Kita Kaktus')
 
 @section('content')
+
+@php
+    // MENGAMBIL DATA ASLI DARI DATABASE
+    // Mengambil 4 produk terbaru dari tabel products
+    $featuredProducts = \App\Models\Product::latest()->take(4)->get();
+    
+    // Mengambil 3 rating terbaru dengan bintang >= 4 dari tabel ratings
+    $testimonials = \App\Models\Rating::with('user')->where('rating', '>=', 4)->latest()->take(3)->get();
+@endphp
+
 <section class="relative overflow-hidden rounded-3xl mb-8 md:mb-16 h-[400px] md:h-[500px] lg:h-[600px] py-10 md:py-20 flex items-center">
     <div class="absolute inset-0">
         <img src="{{ asset('images/promosi/hero new 1.webp') }}" alt="Hero Background" class="w-full h-full object-cover object-center" fetchpriority="high" loading="eager" decoding="sync">
@@ -96,83 +106,35 @@
     </div>
 
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 px-4 sm:px-0">
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
-            <div class="relative h-40 md:h-52 overflow-hidden bg-gray-100 dark:bg-gray-700">
-                <img src="{{ asset('images/promosi/dasboard (2).webp') }}" alt="Kaktus Gymnocalycium" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                <div class="absolute top-2 right-2 bg-red-500 text-xs font-bold px-2 py-1 rounded text-white shadow-sm">Hot</div>
-            </div>
-            <div class="p-4 flex-grow flex flex-col justify-between">
-                <div>
-                    <h3 class="font-bold text-gray-800 dark:text-white mb-1 text-sm md:text-base line-clamp-2">Kaktus Gymnocalycium Mini</h3>
-                    <div class="flex text-yellow-400 text-[10px] md:text-xs mb-2">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                        <span class="text-gray-500 dark:text-gray-400 ml-1">(4.8)</span>
-                    </div>
-                    <p class="text-green-600 dark:text-green-400 font-bold mb-3 text-sm md:text-base">Rp 35.000</p>
+        @forelse($featuredProducts as $product)
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
+                <div class="relative h-40 md:h-52 overflow-hidden bg-gray-100 dark:bg-gray-700">
+                    @php
+                        $imagePath = $product->image ?? 'images/default-product.jpg';
+                    @endphp
+                    <img src="{{ Str::startsWith($imagePath, ['http://', 'https://']) ? $imagePath : asset('storage/' . $imagePath) }}" 
+                         alt="{{ $product->name }}" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    
+                    @if($loop->first)
+                        <div class="absolute top-2 right-2 bg-red-500 text-xs font-bold px-2 py-1 rounded text-white shadow-sm">Hot</div>
+                    @endif
                 </div>
-                <a href="{{ route('collection.index') }}" class="block w-full py-2 text-center text-xs md:text-sm border-2 border-green-500 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-500 hover:text-white transition duration-300 font-semibold">
-                    <i class="fas fa-shopping-cart mr-1"></i> Beli
-                </a>
-            </div>
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
-            <div class="relative h-40 md:h-52 overflow-hidden bg-gray-100 dark:bg-gray-700">
-                <img src="{{ asset('images/promosi/kebun kaktus.webp') }}" alt="Kaktus Koboi" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-            </div>
-            <div class="p-4 flex-grow flex flex-col justify-between">
-                <div>
-                    <h3 class="font-bold text-gray-800 dark:text-white mb-1 text-sm md:text-base line-clamp-2">Kaktus Koboi (Cereus)</h3>
-                    <div class="flex text-yellow-400 text-[10px] md:text-xs mb-2">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        <span class="text-gray-500 dark:text-gray-400 ml-1">(5.0)</span>
+                <div class="p-4 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-gray-800 dark:text-white mb-1 text-sm md:text-base line-clamp-2">{{ $product->name }}</h3>
+                        <p class="text-green-600 dark:text-green-400 font-bold mb-3 text-sm md:text-base">Rp {{ number_format($product->price ?? 0, 0, ',', '.') }}</p>
                     </div>
-                    <p class="text-green-600 dark:text-green-400 font-bold mb-3 text-sm md:text-base">Rp 55.000</p>
+                    <a href="{{ route('collection.index') }}" class="block w-full py-2 text-center text-xs md:text-sm border-2 border-green-500 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-500 hover:text-white transition duration-300 font-semibold">
+                        <i class="fas fa-shopping-cart mr-1"></i> Beli
+                    </a>
                 </div>
-                <a href="{{ route('collection.index') }}" class="block w-full py-2 text-center text-xs md:text-sm border-2 border-green-500 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-500 hover:text-white transition duration-300 font-semibold">
-                    <i class="fas fa-shopping-cart mr-1"></i> Beli
-                </a>
             </div>
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
-            <div class="relative h-40 md:h-52 overflow-hidden bg-gray-100 dark:bg-gray-700">
-                <img src="{{ asset('images/promosi/dasboard (3).webp') }}" alt="Sukulen Haworthia" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+        @empty
+            <div class="col-span-2 lg:col-span-4 text-center py-8">
+                <p class="text-gray-500 dark:text-gray-400">Belum ada produk yang tersedia saat ini.</p>
             </div>
-            <div class="p-4 flex-grow flex flex-col justify-between">
-                <div>
-                    <h3 class="font-bold text-gray-800 dark:text-white mb-1 text-sm md:text-base line-clamp-2">Sukulen Haworthia Zebra</h3>
-                    <div class="flex text-yellow-400 text-[10px] md:text-xs mb-2">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-                        <span class="text-gray-500 dark:text-gray-400 ml-1">(4.0)</span>
-                    </div>
-                    <p class="text-green-600 dark:text-green-400 font-bold mb-3 text-sm md:text-base">Rp 25.000</p>
-                </div>
-                <a href="{{ route('collection.index') }}" class="block w-full py-2 text-center text-xs md:text-sm border-2 border-green-500 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-500 hover:text-white transition duration-300 font-semibold">
-                    <i class="fas fa-shopping-cart mr-1"></i> Beli
-                </a>
-            </div>
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
-            <div class="relative h-40 md:h-52 overflow-hidden bg-gray-100 dark:bg-gray-700">
-                <img src="{{ asset('images/promosi/hero new 1.webp') }}" alt="Paket Pemula" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                <div class="absolute top-2 right-2 bg-yellow-500 text-xs font-bold px-2 py-1 rounded text-white shadow-sm">Promo</div>
-            </div>
-            <div class="p-4 flex-grow flex flex-col justify-between">
-                <div>
-                    <h3 class="font-bold text-gray-800 dark:text-white mb-1 text-sm md:text-base line-clamp-2">Paket Kaktus Pemula (Isi 3)</h3>
-                    <div class="flex text-yellow-400 text-[10px] md:text-xs mb-2">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        <span class="text-gray-500 dark:text-gray-400 ml-1">(5.0)</span>
-                    </div>
-                    <p class="text-green-600 dark:text-green-400 font-bold mb-3 text-sm md:text-base">Rp 80.000 <span class="line-through text-gray-400 text-xs font-normal ml-1">Rp 100.000</span></p>
-                </div>
-                <a href="{{ route('collection.index') }}" class="block w-full py-2 text-center text-xs md:text-sm border-2 border-green-500 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-500 hover:text-white transition duration-300 font-semibold">
-                    <i class="fas fa-shopping-cart mr-1"></i> Beli
-                </a>
-            </div>
-        </div>
+        @endforelse
     </div>
     
     <div class="mt-6 text-center sm:hidden px-4">
@@ -256,47 +218,38 @@
     <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 text-center mb-8 md:mb-12 max-w-2xl mx-auto px-4">Pengalaman pelanggan yang sudah berbelanja di Kita Kaktus</p>
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 px-4 sm:px-0">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 relative mt-6 hover:-translate-y-2 transition-transform duration-300">
-            <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full border-4 border-white dark:border-gray-800 overflow-hidden bg-green-100">
-                <img src="https://ui-avatars.com/api/?name=Budi+Santoso&background=22c55e&color=fff" alt="User Budi" class="w-full h-full object-cover">
-            </div>
-            <div class="text-center mt-6">
-                <div class="text-yellow-400 text-xs mb-3">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        @forelse($testimonials as $rating)
+            @php
+                // Menentukan nama pelanggan
+                $userName = $rating->user ? $rating->user->name : 'Pelanggan Kita Kaktus';
+                
+                // Membuat warna acak untuk avatar
+                $bgColors = ['22c55e', '3b82f6', 'a855f7', 'eab308', 'f97316', 'ec4899'];
+                $randomBg = $bgColors[array_rand($bgColors)];
+            @endphp
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 relative mt-6 hover:-translate-y-2 transition-transform duration-300">
+                <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full border-4 border-white dark:border-gray-800 overflow-hidden bg-gray-100">
+                    <img src="https://ui-avatars.com/api/?name={{ urlencode($userName) }}&background={{ $randomBg }}&color=fff" alt="{{ $userName }}" class="w-full h-full object-cover">
                 </div>
-                <p class="text-gray-600 dark:text-gray-300 text-sm italic mb-4">"Kaktusnya sampai dengan selamat, packingnya super aman banget berlapis-lapis! Tanaman sehat dan akar bagus. Bakal order lagi buat nambah koleksi di meja kerja."</p>
-                <h4 class="font-bold text-gray-800 dark:text-white text-sm">Budi Santoso</h4>
-                <p class="text-xs text-gray-500">Pembeli Kaktus Gymno</p>
-            </div>
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 relative mt-6 hover:-translate-y-2 transition-transform duration-300" data-aos-delay="100">
-            <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full border-4 border-white dark:border-gray-800 overflow-hidden bg-blue-100">
-                <img src="https://ui-avatars.com/api/?name=Siti+Aisyah&background=3b82f6&color=fff" alt="User Siti" class="w-full h-full object-cover">
-            </div>
-            <div class="text-center mt-6">
-                <div class="text-yellow-400 text-xs mb-3">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                <div class="text-center mt-6">
+                    <div class="text-yellow-400 text-xs mb-3">
+                        @for($i = 1; $i <= 5; $i++)
+                            @if($i <= ($rating->rating ?? 5))
+                                <i class="fas fa-star"></i>
+                            @else
+                                <i class="far fa-star text-gray-300 dark:text-gray-600"></i>
+                            @endif
+                        @endfor
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm italic mb-4 line-clamp-4">"{{ $rating->review ?? $rating->comment ?? 'Sangat memuaskan berbelanja di sini.' }}"</p>
+                    <h4 class="font-bold text-gray-800 dark:text-white text-sm">{{ $userName }}</h4>
                 </div>
-                <p class="text-gray-600 dark:text-gray-300 text-sm italic mb-4">"Penjualnya ramah, nanya-nanya cara perawatan dijawab dengan detail. Sukulen Haworthia-nya cantik banget, cocok buat hiasan di ruang tamu. Terima kasih Kita Kaktus!"</p>
-                <h4 class="font-bold text-gray-800 dark:text-white text-sm">Siti Aisyah</h4>
-                <p class="text-xs text-gray-500">Pembeli Sukulen Haworthia</p>
             </div>
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 relative mt-6 hover:-translate-y-2 transition-transform duration-300" data-aos-delay="200">
-            <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full border-4 border-white dark:border-gray-800 overflow-hidden bg-purple-100">
-                <img src="https://ui-avatars.com/api/?name=Reza+F&background=a855f7&color=fff" alt="User Reza" class="w-full h-full object-cover">
+        @empty
+            <div class="col-span-1 md:col-span-3 text-center py-8">
+                <p class="text-gray-500 dark:text-gray-400">Belum ada ulasan dari pelanggan.</p>
             </div>
-            <div class="text-center mt-6">
-                <div class="text-yellow-400 text-xs mb-3">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                </div>
-                <p class="text-gray-600 dark:text-gray-300 text-sm italic mb-4">"Pengiriman lumayan cepat padahal beda provinsi. Beli paket pemula, semua hidup dan segar. Sangat direkomendasikan buat yang baru mau coba pelihara tanaman hias."</p>
-                <h4 class="font-bold text-gray-800 dark:text-white text-sm">Reza Fahlevi</h4>
-                <p class="text-xs text-gray-500">Pembeli Paket Pemula</p>
-            </div>
-        </div>
+        @endforelse
     </div>
 </div>
 
