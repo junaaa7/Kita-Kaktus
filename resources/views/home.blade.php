@@ -3,7 +3,6 @@
 @section('title', 'Home - Kita Kaktus')
 
 @section('content')
-<!-- Hero Section - Responsive -->
 <section class="relative overflow-hidden rounded-3xl mb-8 md:mb-16 h-[400px] md:h-[500px] lg:h-[600px] py-10 md:py-20 flex items-center">
     <div class="absolute inset-0">
         <img src="{{ asset('images/promosi/hero new 1.webp') }}" alt="Hero Background" class="w-full h-full object-cover object-center" fetchpriority="high" loading="eager" decoding="sync">
@@ -30,46 +29,6 @@
     </div>
 </section>
 
-<!-- Galeri Foto Tempat Kita Kaktus -->
-<div class="mb-12 md:mb-16" data-aos="fade-up">
-    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white text-center mb-2 md:mb-4 px-4">Galeri Tempat Kita Kaktus</h2>
-    <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 text-center mb-8 md:mb-12 max-w-2xl mx-auto px-4">Lihat langsung suasana kebun dan toko kami yang asri dan nyaman</p>
-
-    <div class="max-w-4xl mx-auto px-4 sm:px-0">
-        <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 h-64 sm:h-80 md:h-[420px]" data-aos="zoom-in" data-aos-delay="100">
-            <div class="gallery-slider relative w-full h-full">
-                <div class="gallery-slide gallery-slide-1 absolute inset-0">
-                    <img src="{{ asset('images/promosi/kebun kaktus.webp') }}" alt="Kebun Kaktus" class="w-full h-full object-cover transition duration-500" loading="lazy" decoding="async">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent flex items-end p-5 md:p-6">
-                        <p class="text-white font-semibold text-sm md:text-lg">Kebun Kaktus Indah</p>
-                    </div>
-                </div>
-
-                <div class="gallery-slide gallery-slide-2 absolute inset-0">
-                    <img src="{{ asset('images/promosi/dasboard (3).webp') }}" alt="Toko Kaktus" class="w-full h-full object-cover transition duration-500" loading="lazy" decoding="async">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent flex items-end p-5 md:p-6">
-                        <p class="text-white font-semibold text-sm md:text-lg">Toko Kaktus Modern</p>
-                    </div>
-                </div>
-
-                <div class="gallery-slide gallery-slide-3 absolute inset-0">
-                    <img src="{{ asset('images/promosi/dasboard (2).webp') }}" alt="Koleksi Kaktus" class="w-full h-full object-cover transition duration-500" loading="lazy" decoding="async">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent flex items-end p-5 md:p-6">
-                        <p class="text-white font-semibold text-sm md:text-lg">Koleksi Lengkap Kaktus</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
-                <span class="gallery-dot gallery-dot-1 w-2.5 h-2.5 rounded-full bg-white/80"></span>
-                <span class="gallery-dot gallery-dot-2 w-2.5 h-2.5 rounded-full bg-white/80"></span>
-                <span class="gallery-dot gallery-dot-3 w-2.5 h-2.5 rounded-full bg-white/80"></span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Promosi Section - Keunggulan Toko -->
 <div class="mb-12 md:mb-16" data-aos="fade-up">
     <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white text-center mb-2 md:mb-4 px-4">Kenapa Harus Kita Kaktus?</h2>
     <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 text-center mb-8 md:mb-12 max-w-2xl mx-auto px-4">Karena Kami menyediakan kaktus berkualitas dengan pelayanan terbaik</p>
@@ -125,7 +84,142 @@
     </div>
 </div>
 
-<!-- About Section -->
+<div class="mb-12 md:mb-20" data-aos="fade-up">
+    <div class="flex justify-between items-end mb-6 md:mb-8 px-4 sm:px-0">
+        <div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-2">Produk Terlaris</h2>
+            <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400">Pilihan favorit pelanggan Kita Kaktus</p>
+        </div>
+        <a href="{{ route('collection.index') }}" class="hidden sm:inline-flex items-center text-green-600 dark:text-green-400 font-medium hover:text-green-700 dark:hover:text-green-300 transition-colors">
+            Lihat Semua Koleksi <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 px-4 sm:px-0">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
+            <div class="relative h-40 md:h-52 overflow-hidden bg-gray-100 dark:bg-gray-700">
+                <img src="{{ asset('images/promosi/dasboard (2).webp') }}" alt="Kaktus Gymnocalycium" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <div class="absolute top-2 right-2 bg-red-500 text-xs font-bold px-2 py-1 rounded text-white shadow-sm">Hot</div>
+            </div>
+            <div class="p-4 flex-grow flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-gray-800 dark:text-white mb-1 text-sm md:text-base line-clamp-2">Kaktus Gymnocalycium Mini</h3>
+                    <div class="flex text-yellow-400 text-[10px] md:text-xs mb-2">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        <span class="text-gray-500 dark:text-gray-400 ml-1">(4.8)</span>
+                    </div>
+                    <p class="text-green-600 dark:text-green-400 font-bold mb-3 text-sm md:text-base">Rp 35.000</p>
+                </div>
+                <a href="{{ route('collection.index') }}" class="block w-full py-2 text-center text-xs md:text-sm border-2 border-green-500 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-500 hover:text-white transition duration-300 font-semibold">
+                    <i class="fas fa-shopping-cart mr-1"></i> Beli
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
+            <div class="relative h-40 md:h-52 overflow-hidden bg-gray-100 dark:bg-gray-700">
+                <img src="{{ asset('images/promosi/kebun kaktus.webp') }}" alt="Kaktus Koboi" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+            </div>
+            <div class="p-4 flex-grow flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-gray-800 dark:text-white mb-1 text-sm md:text-base line-clamp-2">Kaktus Koboi (Cereus)</h3>
+                    <div class="flex text-yellow-400 text-[10px] md:text-xs mb-2">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <span class="text-gray-500 dark:text-gray-400 ml-1">(5.0)</span>
+                    </div>
+                    <p class="text-green-600 dark:text-green-400 font-bold mb-3 text-sm md:text-base">Rp 55.000</p>
+                </div>
+                <a href="{{ route('collection.index') }}" class="block w-full py-2 text-center text-xs md:text-sm border-2 border-green-500 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-500 hover:text-white transition duration-300 font-semibold">
+                    <i class="fas fa-shopping-cart mr-1"></i> Beli
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
+            <div class="relative h-40 md:h-52 overflow-hidden bg-gray-100 dark:bg-gray-700">
+                <img src="{{ asset('images/promosi/dasboard (3).webp') }}" alt="Sukulen Haworthia" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+            </div>
+            <div class="p-4 flex-grow flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-gray-800 dark:text-white mb-1 text-sm md:text-base line-clamp-2">Sukulen Haworthia Zebra</h3>
+                    <div class="flex text-yellow-400 text-[10px] md:text-xs mb-2">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                        <span class="text-gray-500 dark:text-gray-400 ml-1">(4.0)</span>
+                    </div>
+                    <p class="text-green-600 dark:text-green-400 font-bold mb-3 text-sm md:text-base">Rp 25.000</p>
+                </div>
+                <a href="{{ route('collection.index') }}" class="block w-full py-2 text-center text-xs md:text-sm border-2 border-green-500 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-500 hover:text-white transition duration-300 font-semibold">
+                    <i class="fas fa-shopping-cart mr-1"></i> Beli
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
+            <div class="relative h-40 md:h-52 overflow-hidden bg-gray-100 dark:bg-gray-700">
+                <img src="{{ asset('images/promosi/hero new 1.webp') }}" alt="Paket Pemula" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <div class="absolute top-2 right-2 bg-yellow-500 text-xs font-bold px-2 py-1 rounded text-white shadow-sm">Promo</div>
+            </div>
+            <div class="p-4 flex-grow flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-gray-800 dark:text-white mb-1 text-sm md:text-base line-clamp-2">Paket Kaktus Pemula (Isi 3)</h3>
+                    <div class="flex text-yellow-400 text-[10px] md:text-xs mb-2">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <span class="text-gray-500 dark:text-gray-400 ml-1">(5.0)</span>
+                    </div>
+                    <p class="text-green-600 dark:text-green-400 font-bold mb-3 text-sm md:text-base">Rp 80.000 <span class="line-through text-gray-400 text-xs font-normal ml-1">Rp 100.000</span></p>
+                </div>
+                <a href="{{ route('collection.index') }}" class="block w-full py-2 text-center text-xs md:text-sm border-2 border-green-500 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-500 hover:text-white transition duration-300 font-semibold">
+                    <i class="fas fa-shopping-cart mr-1"></i> Beli
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-6 text-center sm:hidden px-4">
+        <a href="{{ route('collection.index') }}" class="inline-flex items-center justify-center w-full py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded-lg font-medium transition-colors">
+            Lihat Semua Koleksi
+        </a>
+    </div>
+</div>
+
+<div class="mb-12 md:mb-16" data-aos="fade-up">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white text-center mb-2 md:mb-4 px-4">Galeri Tempat Kita Kaktus</h2>
+    <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 text-center mb-8 md:mb-12 max-w-2xl mx-auto px-4">Lihat langsung suasana kebun dan toko kami yang asri dan nyaman</p>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-0">
+        <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 h-64 sm:h-80 md:h-[420px]" data-aos="zoom-in" data-aos-delay="100">
+            <div class="gallery-slider relative w-full h-full">
+                <div class="gallery-slide gallery-slide-1 absolute inset-0">
+                    <img src="{{ asset('images/promosi/kebun kaktus.webp') }}" alt="Kebun Kaktus" class="w-full h-full object-cover transition duration-500" loading="lazy" decoding="async">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent flex items-end p-5 md:p-6">
+                        <p class="text-white font-semibold text-sm md:text-lg">Kebun Kaktus Indah</p>
+                    </div>
+                </div>
+
+                <div class="gallery-slide gallery-slide-2 absolute inset-0">
+                    <img src="{{ asset('images/promosi/dasboard (3).webp') }}" alt="Toko Kaktus" class="w-full h-full object-cover transition duration-500" loading="lazy" decoding="async">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent flex items-end p-5 md:p-6">
+                        <p class="text-white font-semibold text-sm md:text-lg">Toko Kaktus Modern</p>
+                    </div>
+                </div>
+
+                <div class="gallery-slide gallery-slide-3 absolute inset-0">
+                    <img src="{{ asset('images/promosi/dasboard (2).webp') }}" alt="Koleksi Kaktus" class="w-full h-full object-cover transition duration-500" loading="lazy" decoding="async">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent flex items-end p-5 md:p-6">
+                        <p class="text-white font-semibold text-sm md:text-lg">Koleksi Lengkap Kaktus</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
+                <span class="gallery-dot gallery-dot-1 w-2.5 h-2.5 rounded-full bg-white/80"></span>
+                <span class="gallery-dot gallery-dot-2 w-2.5 h-2.5 rounded-full bg-white/80"></span>
+                <span class="gallery-dot gallery-dot-3 w-2.5 h-2.5 rounded-full bg-white/80"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 mb-12 mx-4 sm:mx-0" data-aos="fade-right">
     <div class="text-center mb-6 md:mb-8">
         <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-3 md:mb-4">Tentang Kita Kaktus</h2>
@@ -157,7 +251,55 @@
     </div>
 </div>
 
-<!-- Call to Action WhatsApp -->
+<div class="mb-12 md:mb-16" data-aos="fade-up">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white text-center mb-2 px-4">Apa Kata Mereka?</h2>
+    <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 text-center mb-8 md:mb-12 max-w-2xl mx-auto px-4">Pengalaman pelanggan yang sudah berbelanja di Kita Kaktus</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 px-4 sm:px-0">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 relative mt-6 hover:-translate-y-2 transition-transform duration-300">
+            <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full border-4 border-white dark:border-gray-800 overflow-hidden bg-green-100">
+                <img src="https://ui-avatars.com/api/?name=Budi+Santoso&background=22c55e&color=fff" alt="User Budi" class="w-full h-full object-cover">
+            </div>
+            <div class="text-center mt-6">
+                <div class="text-yellow-400 text-xs mb-3">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 text-sm italic mb-4">"Kaktusnya sampai dengan selamat, packingnya super aman banget berlapis-lapis! Tanaman sehat dan akar bagus. Bakal order lagi buat nambah koleksi di meja kerja."</p>
+                <h4 class="font-bold text-gray-800 dark:text-white text-sm">Budi Santoso</h4>
+                <p class="text-xs text-gray-500">Pembeli Kaktus Gymno</p>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 relative mt-6 hover:-translate-y-2 transition-transform duration-300" data-aos-delay="100">
+            <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full border-4 border-white dark:border-gray-800 overflow-hidden bg-blue-100">
+                <img src="https://ui-avatars.com/api/?name=Siti+Aisyah&background=3b82f6&color=fff" alt="User Siti" class="w-full h-full object-cover">
+            </div>
+            <div class="text-center mt-6">
+                <div class="text-yellow-400 text-xs mb-3">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 text-sm italic mb-4">"Penjualnya ramah, nanya-nanya cara perawatan dijawab dengan detail. Sukulen Haworthia-nya cantik banget, cocok buat hiasan di ruang tamu. Terima kasih Kita Kaktus!"</p>
+                <h4 class="font-bold text-gray-800 dark:text-white text-sm">Siti Aisyah</h4>
+                <p class="text-xs text-gray-500">Pembeli Sukulen Haworthia</p>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 relative mt-6 hover:-translate-y-2 transition-transform duration-300" data-aos-delay="200">
+            <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full border-4 border-white dark:border-gray-800 overflow-hidden bg-purple-100">
+                <img src="https://ui-avatars.com/api/?name=Reza+F&background=a855f7&color=fff" alt="User Reza" class="w-full h-full object-cover">
+            </div>
+            <div class="text-center mt-6">
+                <div class="text-yellow-400 text-xs mb-3">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 text-sm italic mb-4">"Pengiriman lumayan cepat padahal beda provinsi. Beli paket pemula, semua hidup dan segar. Sangat direkomendasikan buat yang baru mau coba pelihara tanaman hias."</p>
+                <h4 class="font-bold text-gray-800 dark:text-white text-sm">Reza Fahlevi</h4>
+                <p class="text-xs text-gray-500">Pembeli Paket Pemula</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="relative bg-gradient-to-r from-green-600 to-green-700 rounded-xl p-6 md:p-10 mb-12 text-center overflow-hidden mx-4 sm:mx-0" data-aos="flip-up">
     <div class="absolute inset-0 opacity-10">
         <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 1px); background-size: 40px 40px;"></div>
@@ -179,7 +321,6 @@
     </div>
 </div>
 
-<!-- Info Section untuk Guest -->
 @guest
 <div class="mt-8 bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 p-4 md:p-6 rounded-lg mx-4 sm:mx-0" data-aos="fade-up">
     <div class="flex items-start">
@@ -344,5 +485,4 @@
         transform: scale(1);
     }
 }
-
 </style>
