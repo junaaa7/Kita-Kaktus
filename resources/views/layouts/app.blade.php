@@ -306,10 +306,10 @@
                             <a href="https://www.instagram.com/kita_kaktus/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-pink-500 hover:to-purple-500 hover:text-white transition-all duration-300 shadow-sm">
                                 <i aria-hidden="true" class="fab fa-instagram text-lg"></i>
                             </a>
-                            <a href="https://www.tiktok.com/@kitakaktus" target="_blank" rel="noopener noreferrer" aria-label="TikTok Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-black hover:text-white transition-all duration-300 shadow-sm">
+                            <a href="https://www.tiktok.com/@kitakaktus" target="_blank" rel="noopener noreferrer" aria-label="TikTok Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gradient-to-tr hover:from-[#00f2fe] hover:via-black hover:to-[#fe0979] hover:text-white transition-all duration-300 shadow-sm">
                                 <i aria-hidden="true" class="fab fa-tiktok text-lg"></i>
                             </a>
-                            <a href="https://shopee.co.id/kita_kaktus?entryPoint=ShopBySearch&searchKeyword=kita%20kaktus" target="_blank" rel="noopener noreferrer" aria-label="Shopee Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-orange-500 hover:text-white transition-all duration-300 shadow-sm">
+                            <a href="https://shopee.co.id/kita_kaktus?entryPoint=ShopBySearch&searchKeyword=kita%20kaktus" target="_blank" rel="noopener noreferrer" aria-label="Shopee Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gradient-to-tr hover:from-[#ee4d2d] hover:to-[#ff7337] hover:text-white transition-all duration-300 shadow-sm">
                                 <i aria-hidden="true" class="fas fa-shopping-bag text-lg"></i>
                             </a>
                         </div>
