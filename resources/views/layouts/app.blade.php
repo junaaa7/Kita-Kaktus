@@ -290,23 +290,23 @@
                         <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Kunjungi Kebun Kami</h3>
                         <p class="text-sm leading-relaxed mb-3 flex items-start justify-center md:justify-start">
                             <i aria-hidden="true" class="fas fa-map-marker-alt text-green-500 mt-1 mr-3"></i>
-                            <span>
-                                Jl. Margonda Raya No. 100,<br>
-                                Kota Depok, Jawa Barat 16424
+                            <span class="text-left">
+                                Jl. H. Sanip No.56, Grogol,<br>
+                                Kec. Limo, Kota Depok, Jawa Barat 16514
                             </span>
                         </p>
-                        <a href="https://maps.google.com/?q=depok" target="_blank" rel="noopener noreferrer" class="inline-block text-sm font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition duration-300">
-                            Lihat di Google Maps &rarr;
+                        <a href="https://www.google.com/maps/search/?api=1&query=Jl.+H.+Sanip+No.56,+Grogol,+Kec.+Limo,+Kota+Depok,+Jawa+Barat+16514" target="_blank" rel="noopener noreferrer" class="inline-block text-sm font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition duration-300">
+                            Lihat di Google Maps →
                         </a>
                     </div>
 
                     <div>
                         <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Ikuti Kami</h3>
                         <div class="flex justify-center md:justify-start space-x-4">
-                            <a href="https://instagram.com/akun_kaktus_anda" target="_blank" rel="noopener noreferrer" aria-label="Instagram Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-pink-500 hover:to-purple-500 hover:text-white transition-all duration-300 shadow-sm">
+                            <a href="https://www.instagram.com/kita_kaktus/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-pink-500 hover:to-purple-500 hover:text-white transition-all duration-300 shadow-sm">
                                 <i aria-hidden="true" class="fab fa-instagram text-lg"></i>
                             </a>
-                            <a href="https://tiktok.com/@akun_kaktus_anda" target="_blank" rel="noopener noreferrer" aria-label="TikTok Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-black hover:text-white transition-all duration-300 shadow-sm">
+                            <a href="https://www.tiktok.com/@kitakaktus" target="_blank" rel="noopener noreferrer" aria-label="TikTok Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-black hover:text-white transition-all duration-300 shadow-sm">
                                 <i aria-hidden="true" class="fab fa-tiktok text-lg"></i>
                             </a>
                             <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-green-500 hover:text-white transition-all duration-300 shadow-sm">
@@ -318,7 +318,7 @@
                 </div>
 
                 <div class="border-t border-gray-200 dark:border-gray-700 mt-8 pt-6 text-center text-sm">
-                    <p>&copy; {{ date('Y') }} Kita Kaktus. Hak Cipta Dilindungi.</p>
+                    <p>© {{ date('Y') }} Kita Kaktus. Hak Cipta Dilindungi.</p>
                 </div>
             </div>
         </footer>
