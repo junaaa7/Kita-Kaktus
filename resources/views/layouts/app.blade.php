@@ -295,7 +295,7 @@
                                 Kec. Limo, Kota Depok, Jawa Barat 16514
                             </span>
                         </p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Jl.+H.+Sanip+No.56,+Grogol,+Kec.+Limo,+Kota+Depok,+Jawa+Barat+16514" target="_blank" rel="noopener noreferrer" class="inline-block text-sm font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition duration-300">
+                        <a href="https://maps.app.goo.gl/Nhj1AzWwKUe58w8e9" target="_blank" rel="noopener noreferrer" class="inline-block text-sm font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition duration-300">
                             Lihat di Google Maps →
                         </a>
                     </div>
