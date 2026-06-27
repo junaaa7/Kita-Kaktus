@@ -10,15 +10,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Kita Kaktus')</title>
     
-    <!-- Font Awesome -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
-    <!-- AOS CSS for scroll animation -->
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
-    <!-- Vite CSS & JS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     <style>
@@ -47,7 +44,6 @@
 @endphp
 
 <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900">
-    <!-- Navbar -->
     <nav class="bg-white dark:bg-gray-800 shadow-lg border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-3 sm:px-4">
             <div class="flex justify-between items-center py-3 md:py-4">
@@ -57,15 +53,12 @@
                     </a>
                 </div>
 
-                <!-- Mobile Right Action khusus Guest & Customer -->
                 @if($isGuestOrCustomer)
                     <div class="md:hidden flex items-center gap-2">
-                        <!-- Switch Mode Mobile -->
                         <button type="button" aria-label="Ganti dark mode" class="theme-toggle w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">
                             <i aria-hidden="true" data-theme-icon class="fas fa-moon text-lg"></i>
                         </button>
 
-                        <!-- Pengaturan Akun Mobile -->
                         <div class="relative">
                             <button id="mobileAccountBtn" type="button" aria-label="Buka pengaturan akun" aria-expanded="false" aria-controls="mobileAccountMenu" class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center overflow-hidden">
                                 @auth
@@ -122,18 +115,15 @@
                     </div>
                 @endif
 
-                <!-- Mobile Menu Button khusus Admin -->
                 @if($isAdmin)
                     <button id="mobileMenuButton" type="button" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobileMenu" class="md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
                         <i aria-hidden="true" class="fas fa-bars text-xl"></i>
                     </button>
                 @endif
                 
-                <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-4 lg:space-x-6">
                     @auth
                         @if(auth()->user()->isAdmin())
-                            <!-- Admin Dropdown -->
                             <div class="relative">
                                 <button id="adminMenuBtn" type="button" aria-label="Buka menu admin" aria-expanded="false" aria-controls="adminMenu" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-sm">
                                     <i aria-hidden="true" class="fas fa-cog"></i> Menu Admin
@@ -148,7 +138,6 @@
                                 </div>
                             </div>
                         @else
-                            <!-- Menu User -->
                             <a href="{{ route('home') }}" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 text-sm">Home</a>
                             <a href="{{ route('collection.index') }}" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 text-sm">
                                 <i aria-hidden="true" class="fas fa-store"></i> Koleksi
@@ -166,12 +155,10 @@
                             </a>
                         @endif
                         
-                        <!-- Dark Mode Toggle Button -->
                         <button type="button" aria-label="Ganti dark mode" class="theme-toggle p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600">
                             <i aria-hidden="true" data-theme-icon class="fas fa-moon"></i>
                         </button>
                         
-                        <!-- User Profile Dropdown -->
                         <div class="relative">
                             <button id="profileBtn" type="button" aria-label="Buka menu profil" aria-expanded="false" aria-controls="profileMenu" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 flex items-center space-x-2 text-sm">
                                 @if(auth()->user()->avatar)
@@ -199,7 +186,6 @@
                                 <i aria-hidden="true" class="fas fa-chevron-down text-xs"></i>
                             </button>
                             <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl hidden z-50 border border-gray-200 dark:border-gray-700">
-                                <!-- Menu untuk user biasa (bukan admin) -->
                                 @if(!auth()->user()->isAdmin())
                                     <a href="{{ route('profile.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
                                         <i aria-hidden="true" class="fas fa-user-cog mr-2"></i> Pengaturan Akun
@@ -215,13 +201,11 @@
                             </div>
                         </div>
                     @else
-                        <!-- Menu untuk Guest -->
                         <a href="{{ route('home') }}" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 text-sm">Home</a>
                         <a href="{{ route('collection.index') }}" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 text-sm">
                             <i aria-hidden="true" class="fas fa-store"></i> Koleksi
                         </a>
                         
-                        <!-- Dark Mode Toggle Button for Guest -->
                         <button type="button" aria-label="Ganti dark mode" class="theme-toggle p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600">
                             <i aria-hidden="true" data-theme-icon class="fas fa-moon"></i>
                         </button>
@@ -232,7 +216,6 @@
                 </div>
             </div>
             
-            <!-- Mobile Menu khusus Admin -->
             @if($isAdmin)
                 <div id="mobileMenu" class="hidden md:hidden pb-4 border-t border-gray-200 dark:border-gray-700">
                     <a href="{{ route('admin.dashboard') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Dashboard</a>
@@ -242,7 +225,6 @@
                     <a href="{{ route('admin.orders.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola Pesanan</a>
                     <a href="{{ route('admin.ratings.index') }}" class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-base">Kelola Rating</a>
                     
-                    <!-- Dark Mode Toggle di Mobile Menu dengan Teks -->
                     <button type="button" aria-label="Ganti dark mode" class="theme-toggle w-full mt-2 py-3 px-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center gap-2">
                         <i aria-hidden="true" data-theme-icon class="fas fa-moon"></i>
                         <span data-theme-text>Dark Mode</span>
@@ -262,7 +244,6 @@
         </div>
     </nav>
 
-    <!-- Flash Messages dengan Auto-Hide -->
     @if(session('success'))
         <div id="flash-success" class="fixed top-20 right-4 left-4 md:left-auto z-50 flex items-center w-full md:max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
             <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
@@ -289,24 +270,60 @@
         </div>
     @endif
 
-    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 md:py-8 {{ $isGuestOrCustomer ? 'pb-28 md:pb-8' : '' }}">
         @yield('content')
     </main>
 
-    <!-- Footer -->
     @if (!request()->routeIs('login') && !request()->routeIs('register'))
         <footer class="bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 mt-12 border-t border-gray-200 dark:border-gray-700 {{ $isGuestOrCustomer ? 'mb-24 md:mb-0' : '' }}">
-            <div class="max-w-7xl mx-auto px-3 sm:px-4 py-6 md:py-8">
-                <div class="text-center text-sm">
-                    <p>&copy; 2026 Kita Kaktus.</p>
-                    <p class="text-xs mt-1">Toko Kaktus Online Terpercaya</p>
+            <div class="max-w-7xl mx-auto px-4 py-8 md:py-12">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                    
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Kita Kaktus</h3>
+                        <p class="text-sm leading-relaxed mb-4">
+                            Toko kaktus online terpercaya yang menyediakan berbagai koleksi kaktus mini, sukulen, dan tanaman hias premium untuk mempercantik rumah Anda.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Kunjungi Kebun Kami</h3>
+                        <p class="text-sm leading-relaxed mb-3 flex items-start justify-center md:justify-start">
+                            <i aria-hidden="true" class="fas fa-map-marker-alt text-green-500 mt-1 mr-3"></i>
+                            <span>
+                                Jl. Margonda Raya No. 100,<br>
+                                Kota Depok, Jawa Barat 16424
+                            </span>
+                        </p>
+                        <a href="https://maps.google.com/?q=depok" target="_blank" rel="noopener noreferrer" class="inline-block text-sm font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition duration-300">
+                            Lihat di Google Maps &rarr;
+                        </a>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Ikuti Kami</h3>
+                        <div class="flex justify-center md:justify-start space-x-4">
+                            <a href="https://instagram.com/akun_kaktus_anda" target="_blank" rel="noopener noreferrer" aria-label="Instagram Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-pink-500 hover:to-purple-500 hover:text-white transition-all duration-300 shadow-sm">
+                                <i aria-hidden="true" class="fab fa-instagram text-lg"></i>
+                            </a>
+                            <a href="https://tiktok.com/@akun_kaktus_anda" target="_blank" rel="noopener noreferrer" aria-label="TikTok Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-black hover:text-white transition-all duration-300 shadow-sm">
+                                <i aria-hidden="true" class="fab fa-tiktok text-lg"></i>
+                            </a>
+                            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-green-500 hover:text-white transition-all duration-300 shadow-sm">
+                                <i aria-hidden="true" class="fab fa-whatsapp text-lg"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="border-t border-gray-200 dark:border-gray-700 mt-8 pt-6 text-center text-sm">
+                    <p>&copy; {{ date('Y') }} Kita Kaktus. Hak Cipta Dilindungi.</p>
                 </div>
             </div>
         </footer>
     @endif
 
-    <!-- Bottom Navigation Mobile khusus Guest & Customer -->
     @if($isGuestOrCustomer)
         <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] max-w-md md:hidden">
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-2xl px-2 py-2 grid grid-cols-4 gap-1">
@@ -335,7 +352,6 @@
         </div>
     @endif
 
-    <!-- AOS JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <script>
