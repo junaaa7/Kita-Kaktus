@@ -309,8 +309,8 @@
                             <a href="https://www.tiktok.com/@kitakaktus" target="_blank" rel="noopener noreferrer" aria-label="TikTok Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-black hover:text-white transition-all duration-300 shadow-sm">
                                 <i aria-hidden="true" class="fab fa-tiktok text-lg"></i>
                             </a>
-                            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-green-500 hover:text-white transition-all duration-300 shadow-sm">
-                                <i aria-hidden="true" class="fab fa-whatsapp text-lg"></i>
+                            <a href="https://shopee.co.id/kita_kaktus?entryPoint=ShopBySearch&searchKeyword=kita%20kaktus" target="_blank" rel="noopener noreferrer" aria-label="Shopee Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-orange-500 hover:text-white transition-all duration-300 shadow-sm">
+                                <i aria-hidden="true" class="fas fa-shopping-bag text-lg"></i>
                             </a>
                         </div>
                     </div>
