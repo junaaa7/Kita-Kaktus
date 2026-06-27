@@ -109,12 +109,29 @@
         @forelse($featuredProducts as $product)
             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
                 <div class="relative h-40 md:h-52 overflow-hidden bg-gray-100 dark:bg-gray-700">
+                    
                     @php
-                        $imagePath = $product->image ?? 'images/default-product.jpg';
+                        // 1. Menyesuaikan berbagai kemungkinan nama kolom di database
+                        $dbImage = $product->image ?? $product->gambar ?? $product->photo ?? $product->image_url ?? null;
+                        
+                        // 2. Logika pengecekan path (Sama seperti avatar di app.blade.php)
+                        if (empty($dbImage)) {
+                            $imgSrc = asset('images/promosi/dasboard (2).webp'); // Fallback jika kosong
+                        } elseif (Str::startsWith($dbImage, ['http://', 'https://'])) {
+                            $imgSrc = $dbImage;
+                        } elseif (Str::startsWith($dbImage, 'uploads/')) {
+                            $imgSrc = asset($dbImage);
+                        } elseif (Str::startsWith($dbImage, 'storage/')) {
+                            $imgSrc = asset($dbImage);
+                        } else {
+                            $imgSrc = asset('storage/' . $dbImage);
+                        }
                     @endphp
-                    <img src="{{ Str::startsWith($imagePath, ['http://', 'https://']) ? $imagePath : asset('storage/' . $imagePath) }}" 
-                         alt="{{ $product->name }}" 
-                         class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    
+                    <img src="{{ $imgSrc }}" 
+                         alt="{{ $product->name ?? 'Produk Kita Kaktus' }}" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+                         onerror="this.onerror=null; this.src='{{ asset('images/promosi/dasboard (2).webp') }}';">
                     
                     @if($loop->first)
                         <div class="absolute top-2 right-2 bg-red-500 text-xs font-bold px-2 py-1 rounded text-white shadow-sm">Hot</div>
@@ -122,7 +139,7 @@
                 </div>
                 <div class="p-4 flex-grow flex flex-col justify-between">
                     <div>
-                        <h3 class="font-bold text-gray-800 dark:text-white mb-1 text-sm md:text-base line-clamp-2">{{ $product->name }}</h3>
+                        <h3 class="font-bold text-gray-800 dark:text-white mb-1 text-sm md:text-base line-clamp-2">{{ $product->name ?? 'Nama Produk' }}</h3>
                         <p class="text-green-600 dark:text-green-400 font-bold mb-3 text-sm md:text-base">Rp {{ number_format($product->price ?? 0, 0, ',', '.') }}</p>
                     </div>
                     <a href="{{ route('collection.index') }}" class="block w-full py-2 text-center text-xs md:text-sm border-2 border-green-500 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-500 hover:text-white transition duration-300 font-semibold">
