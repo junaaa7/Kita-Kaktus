@@ -274,7 +274,8 @@
         @yield('content')
     </main>
 
-    @if (!request()->routeIs('login') && !request()->routeIs('register'))
+    {{-- KODE YANG DIUBAH MULAI DARI SINI --}}
+    @if (request()->routeIs('home'))
         <footer class="bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 mt-12 border-t border-gray-200 dark:border-gray-700 {{ $isGuestOrCustomer ? 'mb-24 md:mb-0' : '' }}">
             <div class="max-w-7xl mx-auto px-4 py-8 md:py-12">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
@@ -323,6 +324,7 @@
             </div>
         </footer>
     @endif
+    {{-- KODE YANG DIUBAH BERAKHIR DI SINI --}}
 
     @if($isGuestOrCustomer)
         <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] max-w-md md:hidden">
