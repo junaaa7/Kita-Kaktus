@@ -118,9 +118,14 @@
                                 <input type="hidden" name="from_collection" value="1">
                                 <input type="hidden" name="scroll_to_product" value="{{ $product->id }}">
 
-                                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 sm:py-2.5 rounded-lg transition font-semibold text-sm sm:text-base flex items-center justify-center shadow-sm">
-                                    <i class="fas fa-shopping-cart mr-2"></i> Beli Sekarang
-                                </button>
+                                <div class="flex gap-2">
+                                    <button type="submit" name="action" value="add_to_cart" title="Masukkan ke Keranjang" class="w-10 sm:w-11 shrink-0 bg-white dark:bg-gray-800 border border-green-600 dark:border-green-500 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-gray-700 py-2 sm:py-2.5 rounded-lg transition flex items-center justify-center shadow-sm">
+                                        <i class="fas fa-cart-plus"></i>
+                                    </button>
+                                    <button type="submit" name="action" value="buy_now" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 sm:py-2.5 rounded-lg transition font-semibold text-sm sm:text-base flex items-center justify-center shadow-sm">
+                                        Beli Sekarang
+                                    </button>
+                                </div>
                             </form>
                         @else
                             <button disabled class="w-full bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 py-2 sm:py-2.5 rounded-lg cursor-not-allowed text-sm sm:text-base flex items-center justify-center font-medium border border-gray-200 dark:border-gray-600">
