@@ -275,50 +275,56 @@
     </main>
 
     {{-- KODE YANG DIUBAH MULAI DARI SINI --}}
-    @if (request()->routeIs('home'))
+    {{-- Aturan dasar: Footer tampil di semua halaman KECUALI halaman login dan register --}}
+    @if (!request()->routeIs('login') && !request()->routeIs('register'))
         <footer class="bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 mt-12 border-t border-gray-200 dark:border-gray-700 {{ $isGuestOrCustomer ? 'mb-24 md:mb-0' : '' }}">
-            <div class="max-w-7xl mx-auto px-4 py-8 md:py-12">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-                    
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Kita Kaktus</h3>
-                        <p class="text-sm leading-relaxed mb-4">
-                            Toko kaktus online terpercaya yang menyediakan berbagai koleksi kaktus mini, sukulen, dan tanaman hias premium untuk mempercantik rumah Anda.
-                        </p>
-                    </div>
+            <div class="max-w-7xl mx-auto px-4 @if(request()->routeIs('home')) py-8 md:py-12 @else py-6 @endif">
+                
+                {{-- Bagian 3 Kolom Promosi HANYA Tampil di halaman 'home' --}}
+                @if (request()->routeIs('home'))
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                        
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Kita Kaktus</h3>
+                            <p class="text-sm leading-relaxed mb-4">
+                                Toko kaktus online terpercaya yang menyediakan berbagai koleksi kaktus mini, sukulen, dan tanaman hias premium untuk mempercantik rumah Anda.
+                            </p>
+                        </div>
 
-                    <div>
-                        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Kunjungi Kebun Kami</h3>
-                        <p class="text-sm leading-relaxed mb-3 flex items-start justify-center md:justify-start">
-                            <i aria-hidden="true" class="fas fa-map-marker-alt text-green-500 mt-1 mr-3"></i>
-                            <span class="text-left">
-                                Jl. H. Sanip No.56, Grogol,<br>
-                                Kec. Limo, Kota Depok, Jawa Barat 16514
-                            </span>
-                        </p>
-                        <a href="https://maps.app.goo.gl/Nhj1AzWwKUe58w8e9" target="_blank" rel="noopener noreferrer" class="inline-block text-sm font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition duration-300">
-                            Lihat di Google Maps →
-                        </a>
-                    </div>
-
-                    <div>
-                        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Ikuti Kami</h3>
-                        <div class="flex justify-center md:justify-start space-x-4">
-                            <a href="https://www.instagram.com/kita_kaktus/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-pink-500 hover:to-purple-500 hover:text-white transition-all duration-300 shadow-sm">
-                                <i aria-hidden="true" class="fab fa-instagram text-lg"></i>
-                            </a>
-                            <a href="https://www.tiktok.com/@kitakaktus" target="_blank" rel="noopener noreferrer" aria-label="TikTok Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gradient-to-tr hover:from-[#00f2fe] hover:via-black hover:to-[#fe0979] hover:text-white transition-all duration-300 shadow-sm">
-                                <i aria-hidden="true" class="fab fa-tiktok text-lg"></i>
-                            </a>
-                            <a href="https://shopee.co.id/kita_kaktus?entryPoint=ShopBySearch&searchKeyword=kita%20kaktus" target="_blank" rel="noopener noreferrer" aria-label="Shopee Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gradient-to-tr hover:from-[#ee4d2d] hover:to-[#ff7337] hover:text-white transition-all duration-300 shadow-sm">
-                                <i aria-hidden="true" class="fas fa-shopping-bag text-lg"></i>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Kunjungi Kebun Kami</h3>
+                            <p class="text-sm leading-relaxed mb-3 flex items-start justify-center md:justify-start">
+                                <i aria-hidden="true" class="fas fa-map-marker-alt text-green-500 mt-1 mr-3"></i>
+                                <span class="text-left">
+                                    Jl. H. Sanip No.56, Grogol,<br>
+                                    Kec. Limo, Kota Depok, Jawa Barat 16514
+                                </span>
+                            </p>
+                            <a href="https://maps.app.goo.gl/Nhj1AzWwKUe58w8e9" target="_blank" rel="noopener noreferrer" class="inline-block text-sm font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition duration-300">
+                                Lihat di Google Maps →
                             </a>
                         </div>
+
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Ikuti Kami</h3>
+                            <div class="flex justify-center md:justify-start space-x-4">
+                                <a href="https://www.instagram.com/kita_kaktus/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-pink-500 hover:to-purple-500 hover:text-white transition-all duration-300 shadow-sm">
+                                    <i aria-hidden="true" class="fab fa-instagram text-lg"></i>
+                                </a>
+                                <a href="https://www.tiktok.com/@kitakaktus" target="_blank" rel="noopener noreferrer" aria-label="TikTok Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gradient-to-tr hover:from-[#00f2fe] hover:via-black hover:to-[#fe0979] hover:text-white transition-all duration-300 shadow-sm">
+                                    <i aria-hidden="true" class="fab fa-tiktok text-lg"></i>
+                                </a>
+                                <a href="https://shopee.co.id/kita_kaktus?entryPoint=ShopBySearch&searchKeyword=kita%20kaktus" target="_blank" rel="noopener noreferrer" aria-label="Shopee Kita Kaktus" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gradient-to-tr hover:from-[#ee4d2d] hover:to-[#ff7337] hover:text-white transition-all duration-300 shadow-sm">
+                                    <i aria-hidden="true" class="fas fa-shopping-bag text-lg"></i>
+                                </a>
+                            </div>
+                        </div>
+
                     </div>
+                @endif
 
-                </div>
-
-                <div class="border-t border-gray-200 dark:border-gray-700 mt-8 pt-6 text-center text-sm">
+                {{-- Copyright Tampil di SEMUA Halaman. Jika di home akan ada garis batas (border-t) di atasnya --}}
+                <div class="text-center text-sm @if(request()->routeIs('home')) border-t border-gray-200 dark:border-gray-700 mt-8 pt-6 @endif">
                     <p>© {{ date('Y') }} Kita Kaktus. Hak Cipta Dilindungi.</p>
                 </div>
             </div>
