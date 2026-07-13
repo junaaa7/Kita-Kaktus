@@ -29,9 +29,26 @@
                         <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $rating->user->name }}</div>
                         <div class="text-xs text-gray-500 dark:text-gray-400">{{ $rating->user->email }}</div>
                     </td>
+                    
+                    {{-- KODE YANG DIUBAH MULAI DARI SINI (DESKTOP) --}}
                     <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900 dark:text-white">{{ $rating->product->name }}</div>
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10 mr-3">
+                                @if($rating->product->image)
+                                    <img class="h-10 w-10 rounded object-cover border border-gray-200 dark:border-gray-600" 
+                                         src="{{ asset('storage/' . $rating->product->image) }}" 
+                                         alt="{{ $rating->product->name }}">
+                                @else
+                                    <div class="h-10 w-10 rounded bg-gray-100 dark:bg-gray-700 flex items-center justify-center border border-gray-200 dark:border-gray-600">
+                                        <i class="fas fa-leaf text-gray-400"></i>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="text-sm text-gray-900 dark:text-white font-medium">{{ $rating->product->name }}</div>
+                        </div>
                     </td>
+                    {{-- KODE YANG DIUBAH BERAKHIR DI SINI (DESKTOP) --}}
+
                     <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
                         <div class="flex items-center">
                             @for($i = 1; $i <= 5; $i++)
@@ -89,20 +106,33 @@
                     <span class="ml-1 text-xs text-gray-600 dark:text-gray-400">({{ $rating->rating }})</span>
                 </div>
             </div>
-            <div class="mb-2">
-                <p class="text-xs text-gray-600 dark:text-gray-400"><strong>Produk:</strong> {{ $rating->product->name }}</p>
+            
+            {{-- KODE YANG DIUBAH MULAI DARI SINI (MOBILE) --}}
+            <div class="mb-3 mt-2 flex items-center gap-3 bg-gray-50 dark:bg-gray-750 p-2 rounded-lg border border-gray-100 dark:border-gray-700">
+                @if($rating->product->image)
+                    <img src="{{ asset('storage/' . $rating->product->image) }}" 
+                         alt="{{ $rating->product->name }}" 
+                         class="w-10 h-10 rounded object-cover border border-gray-200 dark:border-gray-600">
+                @else
+                    <div class="w-10 h-10 rounded bg-gray-200 dark:bg-gray-700 flex items-center justify-center border border-gray-200 dark:border-gray-600">
+                        <i class="fas fa-leaf text-gray-400 text-xs"></i>
+                    </div>
+                @endif
+                <p class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ $rating->product->name }}</p>
             </div>
+            {{-- KODE YANG DIUBAH BERAKHIR DI SINI (MOBILE) --}}
+
             @if($rating->review)
             <div class="mb-2">
-                <p class="text-xs text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 p-2 rounded-lg italic">
+                <p class="text-xs text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 p-3 rounded-lg italic">
                     "{{ $rating->review }}"
                 </p>
             </div>
             @endif
-            <div class="flex justify-between items-center mt-2 pt-2 border-t border-gray-100 dark:border-gray-700">
+            <div class="flex justify-between items-center mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
                 <span class="text-xs text-gray-500 dark:text-gray-400">{{ $rating->created_at->format('d/m/Y H:i') }}</span>
-                <a href="{{ route('admin.orders.show', $rating->order) }}" class="text-green-600 dark:text-green-400 text-xs">
-                    Lihat Order →
+                <a href="{{ route('admin.orders.show', $rating->order) }}" class="text-green-600 dark:text-green-400 font-medium text-xs flex items-center gap-1">
+                    Lihat Order <i class="fas fa-arrow-right text-[10px]"></i>
                 </a>
             </div>
         </div>
