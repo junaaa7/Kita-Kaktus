@@ -15,6 +15,9 @@ class CheckoutController extends Controller
 {
     public function index()
     {
+        // Bersihkan session direct checkout jika user membuka cart normal
+        session()->forget(['is_direct_checkout', 'direct_product_id']);
+
         $cartItems = Cart::with('product')
             ->where('user_id', Auth::id())
             ->get();
@@ -54,7 +57,6 @@ class CheckoutController extends Controller
 
         $isSelectedCheckout = false;
         
-        // ========== TAMBAHAN: Ambil alamat user ==========
         $addresses = Address::where('user_id', Auth::id())
             ->orderBy('is_default', 'desc')
             ->get();
@@ -87,12 +89,32 @@ class CheckoutController extends Controller
         return $this->createOrder($request, $cartItems, false);
     }
 
+    // ========== TAMBAHAN: FUNGSI UNTUK MENANGANI KLIK "BELI SEKARANG" ==========
+    public function direct(Request $request, Product $product)
+    {
+        if ($product->stock <= 0) {
+            return back()->with('error', 'Stok produk ' . $product->name . ' sudah habis.');
+        }
+
+        // Simpan produk ke session agar terpisah dari tabel keranjang
+        session([
+            'is_direct_checkout' => true,
+            'direct_product_id' => $product->id
+        ]);
+
+        // Lempar ke halaman selected checkout agar bisa menggunakan tampilan yang sama
+        return redirect()->route('checkout.selected.index');
+    }
+
     public function processSelected(Request $request)
     {
         $request->validate([
             'selected_items' => 'required|array',
             'selected_items.*' => 'required|integer',
         ]);
+
+        // Bersihkan session direct checkout jika user memilih barang dari keranjang
+        session()->forget(['is_direct_checkout', 'direct_product_id']);
 
         session([
             'selected_checkout_items' => $request->selected_items
@@ -103,6 +125,38 @@ class CheckoutController extends Controller
 
     public function indexSelected()
     {
+        // ========== TAMBAHAN: Logika jika ini adalah alur Direct Checkout ==========
+        if (session('is_direct_checkout')) {
+            $productId = session('direct_product_id');
+            $product = Product::find($productId);
+
+            if (!$product || $product->stock <= 0) {
+                session()->forget(['is_direct_checkout', 'direct_product_id']);
+                return redirect()->route('collection.index')->with('error', 'Produk tidak ditemukan atau sudah habis.');
+            }
+
+            // Susun data agar formatnya sama dengan keranjang
+            $cart = [
+                $product->id => [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'quantity' => 1, // Default kuantitas 1 untuk pembelian langsung
+                    'price' => $product->price,
+                    'image' => $product->image,
+                    'stock' => $product->stock,
+                ]
+            ];
+
+            $total = $product->price * 1;
+            $isSelectedCheckout = true; // Set true agar form submit menuju rute yang benar
+            
+            $addresses = Address::where('user_id', Auth::id())->orderBy('is_default', 'desc')->get();
+            $defaultAddress = Address::where('user_id', Auth::id())->where('is_default', true)->first();
+
+            return view('checkout.index', compact('cart', 'total', 'isSelectedCheckout', 'addresses', 'defaultAddress'));
+        }
+
+        // --- Logika Asli Checkout Terpilih dari Keranjang ---
         $selectedItems = session('selected_checkout_items');
 
         if (!$selectedItems) {
@@ -150,7 +204,6 @@ class CheckoutController extends Controller
 
         $isSelectedCheckout = true;
         
-        // ========== TAMBAHAN: Ambil alamat user ==========
         $addresses = Address::where('user_id', Auth::id())
             ->orderBy('is_default', 'desc')
             ->get();
@@ -171,6 +224,28 @@ class CheckoutController extends Controller
             'customer_timezone' => 'nullable|string|max:100',
         ]);
 
+        // ========== TAMBAHAN: Proses Pembuatan Pesanan untuk Direct Checkout ==========
+        if (session('is_direct_checkout')) {
+            $productId = session('direct_product_id');
+            $product = Product::find($productId);
+
+            if (!$product || $product->stock <= 0) {
+                return redirect()->route('collection.index')->with('error', 'Produk tidak ditemukan atau sudah habis.');
+            }
+
+            // Buat objek keranjang sementara agar fungsi createOrder bisa bekerja normal
+            $cartItem = new Cart();
+            $cartItem->product_id = $product->id;
+            $cartItem->quantity = 1;
+            $cartItem->setRelation('product', $product);
+
+            $cartItems = collect([$cartItem]);
+
+            // Panggil createOrder dan kirim true untuk flag isDirectCheckout
+            return $this->createOrder($request, $cartItems, true, true);
+        }
+
+        // --- Logika Asli Proses Checkout Terpilih dari Keranjang ---
         $selectedItems = session('selected_checkout_items');
 
         if (!$selectedItems) {
@@ -191,7 +266,8 @@ class CheckoutController extends Controller
         return $this->createOrder($request, $cartItems, true);
     }
 
-    private function createOrder(Request $request, $cartItems, $isSelectedCheckout = false)
+    // ========== TAMBAHAN: Tambah parameter $isDirectCheckout ke fungsi ini ==========
+    private function createOrder(Request $request, $cartItems, $isSelectedCheckout = false, $isDirectCheckout = false)
     {
         DB::beginTransaction();
 
@@ -245,7 +321,10 @@ class CheckoutController extends Controller
                 $product->decrement('stock', $item->quantity);
             }
 
-            if ($isSelectedCheckout) {
+            // ========== TAMBAHAN: Bersihkan session yang sesuai ==========
+            if ($isDirectCheckout) {
+                session()->forget(['is_direct_checkout', 'direct_product_id']);
+            } elseif ($isSelectedCheckout) {
                 Cart::where('user_id', Auth::id())
                     ->whereIn('product_id', $cartItems->pluck('product_id'))
                     ->delete();

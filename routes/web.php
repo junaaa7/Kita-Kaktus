@@ -64,6 +64,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+    
+    // ========== RUTE BARU: Direct Checkout ==========
+    Route::post('/checkout/direct/{product}', [CheckoutController::class, 'direct'])->name('checkout.direct');
+    
     Route::post('/checkout-selected', [CheckoutController::class, 'processSelected'])->name('checkout.selected');
     Route::get('/checkout-selected', [CheckoutController::class, 'indexSelected'])->name('checkout.selected.index');
     Route::post('/checkout-selected/process', [CheckoutController::class, 'processSelectedCheckout'])->name('checkout.selected.process');

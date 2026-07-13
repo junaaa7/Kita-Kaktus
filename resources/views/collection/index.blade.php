@@ -119,10 +119,11 @@
                                 <input type="hidden" name="scroll_to_product" value="{{ $product->id }}">
 
                                 <div class="flex gap-2">
-                                    <button type="submit" name="action" value="add_to_cart" title="Masukkan ke Keranjang" class="w-10 sm:w-11 shrink-0 bg-white dark:bg-gray-800 border border-green-600 dark:border-green-500 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-gray-700 py-2 sm:py-2.5 rounded-lg transition flex items-center justify-center shadow-sm">
+                                    <button type="submit" title="Masukkan ke Keranjang" class="w-10 sm:w-11 shrink-0 bg-white dark:bg-gray-800 border border-green-600 dark:border-green-500 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-gray-700 py-2 sm:py-2.5 rounded-lg transition flex items-center justify-center shadow-sm">
                                         <i class="fas fa-cart-plus"></i>
                                     </button>
-                                    <button type="submit" name="action" value="buy_now" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 sm:py-2.5 rounded-lg transition font-semibold text-sm sm:text-base flex items-center justify-center shadow-sm">
+                                    
+                                    <button type="submit" formaction="{{ route('checkout.direct', $product) }}" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 sm:py-2.5 rounded-lg transition font-semibold text-sm sm:text-base flex items-center justify-center shadow-sm">
                                         Beli Sekarang
                                     </button>
                                 </div>
