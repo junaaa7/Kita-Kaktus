@@ -41,7 +41,7 @@
 
 <div class="mb-12 md:mb-16" data-aos="fade-up">
     <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white text-center mb-2 md:mb-4 px-4">Kenapa Harus Kita Kaktus?</h2>
-    <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 text-center mb-8 md:mb-12 max-w-2xl mx-auto px-4">Karena Kami menyediakan kaktus berkualitas dengan pelayanan terbaik</p>
+    <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 text-center mb-8 md:mb-12 max-w-2xl mx-auto px-4">Karena kami menyediakan berbagai macam kaktus berkualitas dengan harga terbaik pengiriman aman, transaksi mudah dan pelayanan yang selalu mengutamakan kepuasan pelanggan.</p>
     
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 px-4 sm:px-0">
         <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
