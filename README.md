@@ -55,12 +55,3 @@
 - **Deployment:** Railway Engine
 
 ---
-
-## 💻 Panduan Jalankan Secara Lokal
-
-Jika Anda ingin menjalankan projek ini di komputer lokal:
-
-1. **Clone Repositori**
-   ```bash
-   git clone [https://github.com/username/kita-kaktus.git](https://github.com/username/kita-kaktus.git)
-   cd kita-kaktus
