@@ -5,11 +5,8 @@
 @section('content')
 
 @php
-    // MENGAMBIL DATA ASLI DARI DATABASE
-    // Mengambil 4 produk terbaru dari tabel products
     $featuredProducts = \App\Models\Product::latest()->take(4)->get();
     
-    // Mengambil 3 rating terbaru dengan bintang >= 4 dari tabel ratings
     $testimonials = \App\Models\Rating::with('user')->where('rating', '>=', 4)->latest()->take(3)->get();
 @endphp
 
